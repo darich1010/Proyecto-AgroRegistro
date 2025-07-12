@@ -1,0 +1,22 @@
+# Entornos virtuales
+myenv/
+venv/
+
+# Base de datos local
+db.sqlite3
+
+# Configuración sensible
+.env
+
+# Archivos de compilación de Python
+__pycache__/
+*.py[cod]
+*.sqlite3
+
+# Archivos de editor y sistema
+.vscode/
+*.swp
+*.log
+
+# Migraciones temporales
+*/migrations/__pycache__/
