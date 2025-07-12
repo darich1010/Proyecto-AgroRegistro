@@ -1,0 +1,244 @@
+[
+    {
+        "model": "api.agricultor",
+        "pk": 1,
+        "fields": {
+            "nombre": "Juan Pérez",
+            "telefono": "987654321",
+            "departamento": "Cusco",
+            "provincia": "Urubamba",
+            "distrito": "Yucay",
+            "user": 1
+        }
+    },
+    {
+        "model": "api.agricultor",
+        "pk": 2,
+        "fields": {
+            "nombre": "Ana Huamán",
+            "telefono": "912345678",
+            "departamento": "Ayacucho",
+            "provincia": "Huamanga",
+            "distrito": "Carmen Alto",
+            "user": 1
+        }
+    },
+    {
+        "model": "api.agricultor",
+        "pk": 3,
+        "fields": {
+            "nombre": "Luis Quispe",
+            "telefono": "923456789",
+            "departamento": "Puno",
+            "provincia": "San Román",
+            "distrito": "Juliaca",
+            "user": 1
+        }
+    },
+    {
+        "model": "api.agricultor",
+        "pk": 4,
+        "fields": {
+            "nombre": "Rosa Mamani",
+            "telefono": "934567890",
+            "departamento": "Arequipa",
+            "provincia": "Arequipa",
+            "distrito": "Cayma",
+            "user": 1
+        }
+    },
+    {
+        "model": "api.agricultor",
+        "pk": 5,
+        "fields": {
+            "nombre": "Carlos Apaza",
+            "telefono": "945678901",
+            "departamento": "Junín",
+            "provincia": "Huancayo",
+            "distrito": "El Tambo",
+            "user": 1
+        }
+    },
+    {
+        "model": "api.agricultor",
+        "pk": 6,
+        "fields": {
+            "nombre": "María Torres",
+            "telefono": "956789012",
+            "departamento": "La Libertad",
+            "provincia": "Trujillo",
+            "distrito": "Florencia de Mora",
+            "user": 1
+        }
+    },
+    {
+        "model": "api.agricultor",
+        "pk": 7,
+        "fields": {
+            "nombre": "Pedro Gutiérrez",
+            "telefono": "967890123",
+            "departamento": "Lambayeque",
+            "provincia": "Chiclayo",
+            "distrito": "José Leonardo Ortiz",
+            "user": 1
+        }
+    },
+    {
+        "model": "api.agricultor",
+        "pk": 8,
+        "fields": {
+            "nombre": "Lucía Ccama",
+            "telefono": "978901234",
+            "departamento": "Cusco",
+            "provincia": "Calca",
+            "distrito": "Pisac",
+            "user": 1
+        }
+    },
+    {
+        "model": "api.agricultor",
+        "pk": 9,
+        "fields": {
+            "nombre": "Hernán Flores",
+            "telefono": "989012345",
+            "departamento": "Huancavelica",
+            "provincia": "Tayacaja",
+            "distrito": "Pampas",
+            "user": 1
+        }
+    },
+    {
+        "model": "api.agricultor",
+        "pk": 10,
+        "fields": {
+            "nombre": "Patricia Quispe",
+            "telefono": "900123456",
+            "departamento": "Pasco",
+            "provincia": "Daniel Alcides Carrión",
+            "distrito": "Yanahuanca",
+            "user": 1
+        }
+    },    
+    {
+        "model": "api.agricultor",
+        "pk": 11,
+        "fields": {
+            "nombre": "Fernando Churata",
+            "telefono": "911234567",
+            "departamento": "Tacna",
+            "provincia": "Tacna",
+            "distrito": "Alto de la Alianza",
+            "user": 1
+        }
+    },
+    {
+        "model": "api.agricultor",
+        "pk": 12,
+        "fields": {
+            "nombre": "Yolanda Ramos",
+            "telefono": "922345678",
+            "departamento": "Moquegua",
+            "provincia": "Mariscal Nieto",
+            "distrito": "Samegua",
+            "user": 1
+        }
+    },
+    {
+        "model": "api.agricultor",
+        "pk": 13,
+        "fields": {
+            "nombre": "Gustavo Poma",
+            "telefono": "933456789",
+            "departamento": "Apurímac",
+            "provincia": "Abancay",
+            "distrito": "Tamburco",
+            "user": 1
+        }
+    },
+    {
+        "model": "api.agricultor",
+        "pk": 14,
+        "fields": {
+            "nombre": "Carmen Huarcaya",
+            "telefono": "944567890",
+            "departamento": "Amazonas",
+            "provincia": "Chachapoyas",
+            "distrito": "Molinopampa",
+            "user": 1
+        }
+    },
+    {
+        "model": "api.agricultor",
+        "pk": 15,
+        "fields": {
+            "nombre": "Roberto Chinchay",
+            "telefono": "955678901",
+            "departamento": "Piura",
+            "provincia": "Piura",
+            "distrito": "Castilla",
+            "user": 1
+        }
+    },
+    {
+        "model": "api.agricultor",
+        "pk": 16,
+        "fields": {
+            "nombre": "Diana Paredes",
+            "telefono": "966789012",
+            "departamento": "Ica",
+            "provincia": "Ica",
+            "distrito": "Pueblo Nuevo",
+            "user": 1
+        }
+    },
+    {
+        "model": "api.agricultor",
+        "pk": 17,
+        "fields": {
+            "nombre": "Óscar Valverde",
+            "telefono": "977890123",
+            "departamento": "San Martín",
+            "provincia": "Moyobamba",
+            "distrito": "Calzada",
+            "user": 1
+        }
+    },
+    {
+        "model": "api.agricultor",
+        "pk": 18,
+        "fields": {
+            "nombre": "Nelly Quenta",
+            "telefono": "988901234",
+            "departamento": "Madre de Dios",
+            "provincia": "Tambopata",
+            "distrito": "Las Piedras",
+            "user": 1
+        }
+    },
+    {
+        "model": "api.agricultor",
+        "pk": 19,
+        "fields": {
+            "nombre": "Kevin Huayhua",
+            "telefono": "999012345",
+            "departamento": "Ucayali",
+            "provincia": "Coronel Portillo",
+            "distrito": "Manantay",
+            "user": 1
+        }
+    },
+    {
+        "model": "api.agricultor",
+        "pk": 20,
+        "fields": {
+            "nombre": "Gladys Ccanto",
+            "telefono": "910123456",
+            "departamento": "Loreto",
+            "provincia": "Maynas",
+            "distrito": "Punchana",
+            "user": 1
+        }
+    }
+]
+
+

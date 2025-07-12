@@ -1,0 +1,222 @@
+[
+  {
+    "model": "api.oferta",
+    "pk": 1,
+    "fields": {
+      "agricultor": 1,
+      "producto": 1,
+      "descripcion": "Papaya fresca cosecha de verano",
+      "precio": 2.50,
+      "stock": 50
+    }
+  },
+  {
+    "model": "api.oferta",
+    "pk": 2,
+    "fields": {
+      "agricultor": 2,
+      "producto": 5,
+      "descripcion": "Zanahoria orgánica recién cosechada",
+      "precio": 1.80,
+      "stock": 80
+    }
+  },
+  {
+    "model": "api.oferta",
+    "pk": 3,
+    "fields": {
+      "agricultor": 3,
+      "producto": 8,
+      "descripcion": "Camote dulce ideal para postres",
+      "precio": 3.20,
+      "stock": 60
+    }
+  },
+  {
+    "model": "api.oferta",
+    "pk": 4,
+    "fields": {
+      "agricultor": 4,
+      "producto": 12,
+      "descripcion": "Manzana roja jugosa",
+      "precio": 2.00,
+      "stock": 100
+    }
+  },
+  {
+    "model": "api.oferta",
+    "pk": 5,
+    "fields": {
+      "agricultor": 5,
+      "producto": 15,
+      "descripcion": "Palta Hass de exportación",
+      "precio": 4.50,
+      "stock": 40
+    }
+  },
+  {
+    "model": "api.oferta",
+    "pk": 6,
+    "fields": {
+      "agricultor": 6,
+      "producto": 18,
+      "descripcion": "Papa blanca para todo uso",
+      "precio": 1.30,
+      "stock": 75
+    }
+  },
+  {
+    "model": "api.oferta",
+    "pk": 7,
+    "fields": {
+      "agricultor": 7,
+      "producto": 21,
+      "descripcion": "Cebolla roja fresca y crocante",
+      "precio": 1.90,
+      "stock": 60
+    }
+  },
+  {
+    "model": "api.oferta",
+    "pk": 8,
+    "fields": {
+      "agricultor": 8,
+      "producto": 24,
+      "descripcion": "Lechuga romana recién cortada",
+      "precio": 1.00,
+      "stock": 30
+    }
+  },
+  {
+    "model": "api.oferta",
+    "pk": 9,
+    "fields": {
+      "agricultor": 9,
+      "producto": 27,
+      "descripcion": "Limón sutil 100% natural",
+      "precio": 3.00,
+      "stock": 90
+    }
+  },
+  {
+    "model": "api.oferta",
+    "pk": 10,
+    "fields": {
+      "agricultor": 10,
+      "producto": 30,
+      "descripcion": "Mango kent dulce y sabroso",
+      "precio": 5.00,
+      "stock": 55
+    }
+  },
+  {
+    "model": "api.oferta",
+    "pk": 11,
+    "fields": {
+      "agricultor": 11,
+      "producto": 33,
+      "descripcion": "Espinaca fresca libre de pesticidas",
+      "precio": 1.70,
+      "stock": 70
+    }
+  },
+  {
+    "model": "api.oferta",
+    "pk": 12,
+    "fields": {
+      "agricultor": 12,
+      "producto": 36,
+      "descripcion": "Betarraga grande lista para jugo",
+      "precio": 2.10,
+      "stock": 42
+    }
+  },
+  {
+    "model": "api.oferta",
+    "pk": 13,
+    "fields": {
+      "agricultor": 13,
+      "producto": 39,
+      "descripcion": "Naranja dulce para mesa o jugo",
+      "precio": 1.60,
+      "stock": 68
+    }
+  },
+  {
+    "model": "api.oferta",
+    "pk": 14,
+    "fields": {
+      "agricultor": 14,
+      "producto": 42,
+      "descripcion": "Plátano de seda maduro",
+      "precio": 2.30,
+      "stock": 50
+    }
+  },
+  {
+    "model": "api.oferta",
+    "pk": 15,
+    "fields": {
+      "agricultor": 15,
+      "producto": 45,
+      "descripcion": "Ajo fresco para cocina",
+      "precio": 1.90,
+      "stock": 25
+    }
+  },
+  {
+    "model": "api.oferta",
+    "pk": 16,
+    "fields": {
+      "agricultor": 16,
+      "producto": 48,
+      "descripcion": "Rabanito crocante y natural",
+      "precio": 1.10,
+      "stock": 33
+    }
+  },
+  {
+    "model": "api.oferta",
+    "pk": 17,
+    "fields": {
+      "agricultor": 17,
+      "producto": 51,
+      "descripcion": "Apio tierno y jugoso",
+      "precio": 1.60,
+      "stock": 28
+    }
+  },
+  {
+    "model": "api.oferta",
+    "pk": 18,
+    "fields": {
+      "agricultor": 18,
+      "producto": 54,
+      "descripcion": "Sandía grande y dulce",
+      "precio": 3.80,
+      "stock": 20
+    }
+  },
+  {
+    "model": "api.oferta",
+    "pk": 19,
+    "fields": {
+      "agricultor": 19,
+      "producto": 57,
+      "descripcion": "Melón verde aromático",
+      "precio": 4.20,
+      "stock": 35
+    }
+  },
+  {
+    "model": "api.oferta",
+    "pk": 20,
+    "fields": {
+      "agricultor": 20,
+      "producto": 60,
+      "descripcion": "Choclo blanco recién desgranado",
+      "precio": 2.80,
+      "stock": 65
+    }
+  }
+]
