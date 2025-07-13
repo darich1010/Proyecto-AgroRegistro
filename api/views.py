@@ -3,14 +3,16 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from django.contrib.auth.models import User
-from .models import Agricultor, Categoria, Producto, Oferta
+
+from .models import Agricultor, Categoria, Producto, Oferta, Cliente  # ✅ Incluye Cliente
 from .serializers import (
     UserSerializer,
     RegisterSerializer,
     AgricultorSerializer,
     CategoriaSerializer,
     ProductoSerializer,
-    OfertaSerializer
+    OfertaSerializer,
+    ClienteSerializer  # ✅ Incluye Cliente
 )
 
 # Registro de usuario (POST /api/register/)
@@ -49,4 +51,10 @@ class ProductoViewSet(viewsets.ModelViewSet):
 class OfertaViewSet(viewsets.ModelViewSet):
     queryset = Oferta.objects.all()
     serializer_class = OfertaSerializer
+    permission_classes = [IsAuthenticated]
+
+# Cliente CRUD
+class ClienteViewSet(viewsets.ModelViewSet):
+    queryset = Cliente.objects.all()
+    serializer_class = ClienteSerializer
     permission_classes = [IsAuthenticated]

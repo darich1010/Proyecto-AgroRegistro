@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
-from .models import Agricultor, Categoria, Producto, Oferta
+from .models import Agricultor, Categoria, Producto, Oferta, Cliente
 
 # Serializador de usuario
 class UserSerializer(serializers.ModelSerializer):
@@ -54,3 +54,12 @@ class OfertaSerializer(serializers.ModelSerializer):
     class Meta:
         model = Oferta
         fields = '__all__'
+
+
+class ClienteSerializer(serializers.ModelSerializer):
+    user = UserSerializer(read_only=True)
+
+    class Meta:
+        model = Cliente
+        fields = '__all__'
+
