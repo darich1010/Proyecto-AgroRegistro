@@ -1,5 +1,11 @@
 from django.contrib import admin
-from .models import Agricultor, Categoria, Producto, Oferta
+from .models import Agricultor, Categoria, Producto, Oferta, Cliente
+
+@admin.register(Cliente)
+class ClienteAdmin(admin.ModelAdmin):
+    list_display = ('id', 'user', 'nombre', 'telefono', 'direccion')
+    search_fields = ('nombre', 'user__username')
+
 
 @admin.register(Agricultor)
 class AgricultorAdmin(admin.ModelAdmin):

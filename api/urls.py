@@ -10,7 +10,8 @@ from .views import (
     AgricultorViewSet,
     CategoriaViewSet,
     ProductoViewSet,
-    OfertaViewSet
+    OfertaViewSet,
+    ClienteViewSet  # 👈 Importar el nuevo ViewSet
 )
 
 router = DefaultRouter()
@@ -18,6 +19,7 @@ router.register(r'agricultores', AgricultorViewSet)
 router.register(r'categorias', CategoriaViewSet)
 router.register(r'productos', ProductoViewSet)
 router.register(r'ofertas', OfertaViewSet)
+router.register(r'clientes', ClienteViewSet)  # 👈 Nueva ruta
 
 urlpatterns = [
     path('', include(router.urls)),
