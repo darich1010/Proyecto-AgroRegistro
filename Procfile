@@ -1,0 +1,1 @@
+web: gunicorn AgroRegistro.wsgi
