@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import ProductosList from './components/ProductosList';
-import ProductoForm from './components/ProductoForm';
 
 function App() {
   const [token, setToken] = useState('');
@@ -36,8 +35,7 @@ function App() {
   return (
     <div>
       <h1>AgroRegistro</h1>
-      <ProductoForm token={token} onProductoCreado={fetchProductos} />
-      <ProductosList productos={productos} />
+      <ProductosList token={token} productos={productos} fetchProductos={fetchProductos} />
     </div>
   );
 }
