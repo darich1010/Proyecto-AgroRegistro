@@ -24,42 +24,56 @@ class RegisterSerializer(serializers.ModelSerializer):
         )
         return user
 
-# Agricultor
-class AgricultorSerializer(serializers.ModelSerializer):
-    user = UserSerializer(read_only=True)
-
-    class Meta:
-        model = Agricultor
-        fields = '__all__'
-
 # Categoría
 class CategoriaSerializer(serializers.ModelSerializer):
     class Meta:
         model = Categoria
         fields = '__all__'
 
+# Agricultor
+class AgricultorSerializer(serializers.ModelSerializer):
+    user = UserSerializer(read_only=True)
+    user_id = serializers.PrimaryKeyRelatedField(
+        queryset=User.objects.all(), source='user', write_only=True
+    )
+
+    class Meta:
+        model = Agricultor
+        fields = ['id', 'user', 'user_id', 'telefono', 'direccion']
+
 # Producto
 class ProductoSerializer(serializers.ModelSerializer):
     categoria = CategoriaSerializer(read_only=True)
+    categoria_id = serializers.PrimaryKeyRelatedField(
+        queryset=Categoria.objects.all(), source='categoria', write_only=True
+    )
 
     class Meta:
         model = Producto
-        fields = '__all__'
+        fields = ['id', 'nombre', 'categoria', 'categoria_id']
 
 # Oferta
 class OfertaSerializer(serializers.ModelSerializer):
     agricultor = AgricultorSerializer(read_only=True)
+    agricultor_id = serializers.PrimaryKeyRelatedField(
+        queryset=Agricultor.objects.all(), source='agricultor', write_only=True
+    )
     producto = ProductoSerializer(read_only=True)
+    producto_id = serializers.PrimaryKeyRelatedField(
+        queryset=Producto.objects.all(), source='producto', write_only=True
+    )
 
     class Meta:
         model = Oferta
-        fields = '__all__'
+        fields = ['id', 'agricultor', 'agricultor_id', 'producto', 'producto_id', 'precio', 'disponibilidad']
 
-
+# Cliente
 class ClienteSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=True)
+    user_id = serializers.PrimaryKeyRelatedField(
+        queryset=User.objects.all(), source='user', write_only=True
+    )
 
     class Meta:
         model = Cliente
-        fields = '__all__'
-
+        fields = ['id', 'user', 'user_id', 'telefono', 'direccion']
