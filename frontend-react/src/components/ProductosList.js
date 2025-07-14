@@ -1,3 +1,4 @@
+// frontend-react/src/components/ProductosList.js
 import React, { useEffect, useState } from 'react';
 import ProductoForm from './ProductoForm';
 
@@ -8,6 +9,7 @@ const ProductosList = () => {
   const [error, setError] = useState('');
   const [productoEditar, setProductoEditar] = useState(null);
 
+  // 1. Autenticación
   useEffect(() => {
     const login = async () => {
       try {
@@ -30,6 +32,7 @@ const ProductosList = () => {
     login();
   }, []);
 
+  // 2. Obtener productos
   const fetchProductos = async () => {
     try {
       const response = await fetch('https://web-production-2486a.up.railway.app/api/productos/', {
@@ -47,10 +50,12 @@ const ProductosList = () => {
     }
   };
 
+  // 3. Cargar productos cuando el token esté disponible
   useEffect(() => {
     if (token) fetchProductos();
   }, [token]);
 
+  // 4. Render
   if (loading) return <p>Cargando productos...</p>;
   if (error) return <p style={{ color: 'red' }}>{error}</p>;
 
@@ -69,7 +74,11 @@ const ProductosList = () => {
 
       <ProductoForm
         token={token}
-        onProductoCreado={fetchProductos}
+        onProductoCreado={() => {
+          if (typeof fetchProductos === 'function') {
+            fetchProductos();
+          }
+        }}
         productoEditar={productoEditar}
         setProductoEditar={setProductoEditar}
       />
