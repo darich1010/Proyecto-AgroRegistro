@@ -29,7 +29,7 @@ INSTALLED_APPS = [
 ]
 
 # Middleware
-MIDDLEWARE = [
+MIDDLEWARE = [       
     'corsheaders.middleware.CorsMiddleware',  # debe ir primero
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -105,5 +105,6 @@ REST_FRAMEWORK = {
     ),
 }
 
-# CORS (para aceptar peticiones externas como SoapUI, Postman o frontend)
 CORS_ALLOW_ALL_ORIGINS = True
+CSRF_TRUSTED_ORIGINS = ['https://agroregistro-frontend.vercel.app']
+
