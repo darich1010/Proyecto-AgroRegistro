@@ -1,3 +1,5 @@
 Integrantes:
--Cervantes Apaza Diego Aristides
+
+-Cervantes Apaza Diego Aristides.
+
 -Cornejo Hurtado Dario Rafael
