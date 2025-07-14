@@ -1,3 +1,4 @@
+// frontend-react/src/components/ProductosList.js
 import React, { useEffect, useState } from 'react';
 import ProductoForm from './ProductoForm';
 
@@ -14,7 +15,7 @@ const ProductosList = () => {
         const response = await fetch('https://web-production-2486a.up.railway.app/api/token/', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ username: 'dario2', password: '1234' })
+          body: JSON.stringify({ username: 'testnuevo', password: '1234' })
         });
 
         if (!response.ok) throw new Error('Error al autenticar');
@@ -51,12 +52,26 @@ const ProductosList = () => {
     if (token) fetchProductos();
   }, [token]);
 
+  const handleEliminar = async (id) => {
+    if (!window.confirm('¿Estás seguro de eliminar este producto?')) return;
+
+    const response = await fetch(`https://web-production-2486a.up.railway.app/api/productos/${id}/`, {
+      method: 'DELETE',
+      headers: { Authorization: `Bearer ${token}` }
+    });
+
+    if (response.ok) {
+      fetchProductos(); // refrescar lista
+    } else {
+      alert('Error al eliminar el producto');
+    }
+  };
+
   if (loading) return <p>Cargando productos...</p>;
   if (error) return <p style={{ color: 'red' }}>{error}</p>;
 
   return (
     <div>
-      {/* ✅ Solo un formulario, arriba */}
       <ProductoForm
         token={token}
         onProductoCreado={fetchProductos}
@@ -71,6 +86,8 @@ const ProductosList = () => {
             {producto.nombre} - Categoría: {producto.categoria?.nombre || 'Sin categoría'}
             {' '}
             <button onClick={() => setProductoEditar(producto)}>Editar</button>
+            {' '}
+            <button onClick={() => handleEliminar(producto.id)}>Eliminar</button>
           </li>
         ))}
       </ul>
