@@ -1,7 +1,7 @@
 // frontend-react/src/components/ProductoForm.js
 import React, { useState, useEffect } from 'react';
 
-const ProductoForm = ({ token, onProductoCreado, productoEditar, setProductoEditar }) => {
+const ProductoForm = ({ token, onProductoCreado = () => {}, productoEditar, setProductoEditar }) => {
   const [nombre, setNombre] = useState('');
   const [categorias, setCategorias] = useState([]);
   const [categoriaId, setCategoriaId] = useState('');
