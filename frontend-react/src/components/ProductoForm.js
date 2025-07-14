@@ -1,7 +1,7 @@
 // frontend-react/src/components/ProductoForm.js
 import React, { useState, useEffect } from 'react';
 
-const ProductoForm = ({ token, onProductoCreado }) => {
+const ProductoForm = ({ token, onProductoCreado, productoEditar, setProductoEditar }) => {
   const [nombre, setNombre] = useState('');
   const [categorias, setCategorias] = useState([]);
   const [categoriaId, setCategoriaId] = useState('');
@@ -9,9 +9,7 @@ const ProductoForm = ({ token, onProductoCreado }) => {
   useEffect(() => {
     const fetchCategorias = async () => {
       const response = await fetch('https://web-production-2486a.up.railway.app/api/categorias/', {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
+        headers: { Authorization: `Bearer ${token}` }
       });
       const data = await response.json();
       setCategorias(data);
@@ -20,29 +18,48 @@ const ProductoForm = ({ token, onProductoCreado }) => {
     if (token) fetchCategorias();
   }, [token]);
 
+  useEffect(() => {
+    if (productoEditar) {
+      setNombre(productoEditar.nombre);
+      setCategoriaId(productoEditar.categoria.id);
+    } else {
+      setNombre('');
+      setCategoriaId('');
+    }
+  }, [productoEditar]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const response = await fetch('https://web-production-2486a.up.railway.app/api/productos/', {
-      method: 'POST',
+    const url = productoEditar
+      ? `https://web-production-2486a.up.railway.app/api/productos/${productoEditar.id}/`
+      : 'https://web-production-2486a.up.railway.app/api/productos/';
+    const method = productoEditar ? 'PUT' : 'POST';
+
+    const response = await fetch(url, {
+      method,
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`
       },
-      body: JSON.stringify({ nombre, categoria_id: parseInt(categoriaId) })
+      body: JSON.stringify({
+        nombre,
+        categoria_id: parseInt(categoriaId)
+      })
     });
 
     if (response.ok) {
       setNombre('');
       setCategoriaId('');
-      onProductoCreado(); // refresca lista
+      setProductoEditar(null);
+      onProductoCreado(); // Refresca la lista
     } else {
-      alert('Error al crear producto');
+      alert('Error al guardar el producto');
     }
   };
 
   return (
     <form onSubmit={handleSubmit}>
-      <h3>Crear Nuevo Producto</h3>
+      <h3>{productoEditar ? 'Editar Producto' : 'Crear Nuevo Producto'}</h3>
       <input
         type="text"
         placeholder="Nombre del producto"
@@ -56,7 +73,10 @@ const ProductoForm = ({ token, onProductoCreado }) => {
           <option key={cat.id} value={cat.id}>{cat.nombre}</option>
         ))}
       </select>
-      <button type="submit">Crear</button>
+      <button type="submit">{productoEditar ? 'Guardar Cambios' : 'Crear'}</button>
+      {productoEditar && (
+        <button type="button" onClick={() => setProductoEditar(null)}>Cancelar</button>
+      )}
     </form>
   );
 };
