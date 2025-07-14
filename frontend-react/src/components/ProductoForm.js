@@ -28,7 +28,7 @@ const ProductoForm = ({ token, onProductoCreado }) => {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`
       },
-      body: JSON.stringify({ nombre, categoria: categoriaId })
+      body: JSON.stringify({ nombre, categoria_id: parseInt(categoriaId) })
     });
 
     if (response.ok) {
