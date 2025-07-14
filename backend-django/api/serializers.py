@@ -24,12 +24,6 @@ class RegisterSerializer(serializers.ModelSerializer):
         )
         return user
 
-# Categoría
-class CategoriaSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Categoria
-        fields = '__all__'
-
 # Agricultor
 class AgricultorSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=True)
@@ -39,7 +33,13 @@ class AgricultorSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Agricultor
-        fields = ['id', 'user', 'user_id', 'telefono', 'direccion']
+        fields = ['id', 'user', 'user_id', 'direccion', 'telefono']
+
+# Categoría
+class CategoriaSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Categoria
+        fields = '__all__'
 
 # Producto
 class ProductoSerializer(serializers.ModelSerializer):
@@ -65,7 +65,7 @@ class OfertaSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Oferta
-        fields = ['id', 'agricultor', 'agricultor_id', 'producto', 'producto_id', 'precio', 'disponibilidad']
+        fields = ['id', 'agricultor', 'agricultor_id', 'producto', 'producto_id', 'precio', 'stock', 'fecha']
 
 # Cliente
 class ClienteSerializer(serializers.ModelSerializer):
@@ -76,4 +76,4 @@ class ClienteSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Cliente
-        fields = ['id', 'user', 'user_id', 'telefono', 'direccion']
+        fields = ['id', 'user', 'user_id', 'direccion', 'telefono']
