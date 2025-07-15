@@ -8,6 +8,7 @@ const OfertaForm = ({ token, onOfertaGuardada, ofertaEditar, setOfertaEditar }) 
   const [productoId, setProductoId] = useState('');
   const [precio, setPrecio] = useState('');
   const [stock, setStock] = useState('');
+  const [descripcion, setDescripcion] = useState(''); // ✅ Nuevo
 
   useEffect(() => {
     const fetchAgricultores = async () => {
@@ -38,56 +39,58 @@ const OfertaForm = ({ token, onOfertaGuardada, ofertaEditar, setOfertaEditar }) 
       setProductoId(ofertaEditar.producto.id);
       setPrecio(ofertaEditar.precio);
       setStock(ofertaEditar.stock);
+      setDescripcion(ofertaEditar.descripcion || ''); // ✅ precarga
     } else {
       setAgricultorId('');
       setProductoId('');
       setPrecio('');
       setStock('');
+      setDescripcion(''); // ✅ limpiar
     }
   }, [ofertaEditar]);
 
-const handleSubmit = async (e) => {
-  e.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-  if (!agricultorId || !productoId || !precio || !stock) {
-    alert('Completa todos los campos antes de guardar la oferta.');
-    return;
-  }
+    if (!agricultorId || !productoId || !precio || !stock || !descripcion) {
+      alert('Completa todos los campos antes de guardar la oferta.');
+      return;
+    }
 
-  const url = ofertaEditar
-    ? `https://web-production-2486a.up.railway.app/api/ofertas/${ofertaEditar.id}/`
-    : 'https://web-production-2486a.up.railway.app/api/ofertas/';
-  const method = ofertaEditar ? 'PUT' : 'POST';
+    const url = ofertaEditar
+      ? `https://web-production-2486a.up.railway.app/api/ofertas/${ofertaEditar.id}/`
+      : 'https://web-production-2486a.up.railway.app/api/ofertas/';
+    const method = ofertaEditar ? 'PUT' : 'POST';
 
-  const response = await fetch(url, {
-    method,
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`
-    },
-    body: JSON.stringify({
-      agricultor_id: parseInt(agricultorId),
-      producto_id: parseInt(productoId),
-      precio: parseFloat(precio),
-      stock: parseInt(stock)
-    })
-  });
+    const response = await fetch(url, {
+      method,
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`
+      },
+      body: JSON.stringify({
+        agricultor_id: parseInt(agricultorId),
+        producto_id: parseInt(productoId),
+        precio: parseFloat(precio),
+        stock: parseInt(stock),
+        descripcion: descripcion.trim() // ✅ nuevo
+      })
+    });
 
-  if (response.ok) {
-  onOfertaGuardada();
-  setOfertaEditar(null);
-  setAgricultorId('');
-  setProductoId('');
-  setPrecio('');
-  setStock('');
-} else {
-  const errorData = await response.json();
-  console.error('Detalles del error:', JSON.stringify(errorData, null, 2));
-  alert('Error al guardar la oferta. Revisa consola para más detalles.');
-}
-
-};
-
+    if (response.ok) {
+      onOfertaGuardada();
+      setOfertaEditar(null);
+      setAgricultorId('');
+      setProductoId('');
+      setPrecio('');
+      setStock('');
+      setDescripcion(''); // ✅ limpiar
+    } else {
+      const errorData = await response.json();
+      console.error('Detalles del error:', JSON.stringify(errorData, null, 2));
+      alert('Error al guardar la oferta. Revisa consola para más detalles.');
+    }
+  };
 
   return (
     <form onSubmit={handleSubmit}>
@@ -106,6 +109,13 @@ const handleSubmit = async (e) => {
           <option key={p.id} value={p.id}>{p.nombre}</option>
         ))}
       </select>
+
+      <textarea
+        placeholder="Descripción de la oferta"
+        value={descripcion}
+        onChange={(e) => setDescripcion(e.target.value)}
+        required
+      />
 
       <input
         type="number"
