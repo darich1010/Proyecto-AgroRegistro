@@ -1,10 +1,11 @@
+// frontend-react/src/components/ClienteList.js
 import React, { useEffect, useState } from 'react';
 import ClienteForm from './ClienteForm';
 
 const ClienteList = ({ token }) => {
   const [clientes, setClientes] = useState([]);
   const [error, setError] = useState('');
-  const [loading, setLoading] = useState(true); // ✅ nuevo
+  const [loading, setLoading] = useState(true);
   const [clienteEditar, setClienteEditar] = useState(null);
 
   const fetchClientes = async () => {
@@ -19,7 +20,22 @@ const ClienteList = ({ token }) => {
     } catch (err) {
       setError('Error al cargar clientes: ' + err.message);
     } finally {
-      setLoading(false); // ✅ marca como terminado
+      setLoading(false);
+    }
+  };
+
+  const eliminarCliente = async (id) => {
+    if (!window.confirm('¿Estás seguro de eliminar este cliente?')) return;
+
+    const response = await fetch(`https://web-production-2486a.up.railway.app/api/clientes/${id}/`, {
+      method: 'DELETE',
+      headers: { Authorization: `Bearer ${token}` }
+    });
+
+    if (response.ok) {
+      fetchClientes();
+    } else {
+      alert('Error al eliminar cliente');
     }
   };
 
@@ -27,8 +43,8 @@ const ClienteList = ({ token }) => {
     if (token) fetchClientes();
   }, [token]);
 
-  if (!token) return null; // ✅ evita renderizar si no hay token
-  if (loading) return <p>Cargando clientes...</p>; // ✅ evita errores visuales
+  if (!token) return null;
+  if (loading) return <p>Cargando clientes...</p>;
 
   return (
     <div>
