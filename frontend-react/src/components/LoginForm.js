@@ -1,9 +1,13 @@
+// frontend-react/src/components/LoginForm.js
+
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom'; // ✅ necesario para redirigir
 
 const LoginForm = ({ onLoginSuccess }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const navigate = useNavigate(); // ✅ inicializamos
 
   const logout = () => {
     localStorage.removeItem('token');
@@ -60,6 +64,12 @@ const LoginForm = ({ onLoginSuccess }) => {
       localStorage.setItem('rol', rol);
 
       onLoginSuccess(accessToken, userData, rol);
+
+      // ✅ Redirección inmediata al dashboard según el rol
+      if (rol === 'cliente') navigate('/cliente/dashboard');
+      else if (rol === 'agricultor') navigate('/agricultor/dashboard');
+      else if (rol === 'admin') navigate('/admin/dashboard');
+
     } catch (err) {
       setError(err.message || 'Error al iniciar sesión');
     }
