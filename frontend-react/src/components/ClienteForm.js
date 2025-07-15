@@ -19,6 +19,7 @@ const ClienteForm = ({ token, onClienteGuardado, clienteEditar, setClienteEditar
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     const url = clienteEditar
       ? `https://web-production-2486a.up.railway.app/api/clientes/${clienteEditar.id}/`
       : 'https://web-production-2486a.up.railway.app/api/clientes/';
@@ -30,7 +31,12 @@ const ClienteForm = ({ token, onClienteGuardado, clienteEditar, setClienteEditar
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`
       },
-      body: JSON.stringify({ nombre, direccion, telefono })
+      body: JSON.stringify({
+        nombre,
+        direccion,
+        telefono,
+        user_id: 28 // 👈 Reemplaza este número con el ID de tu usuario actual si es otro
+      })
     });
 
     if (response.ok) {
