@@ -27,10 +27,24 @@ const RegistroAgricultor = () => {
       if (!userRes.ok) throw new Error('Error al registrar usuario');
       const newUser = await userRes.json();
 
-      // 2. Crear agricultor
-      const agriRes = await fetch('https://web-production-2486a.up.railway.app/api/agricultores/', {
+      // 2. Obtener token para autorizar creación del agricultor
+      const tokenRes = await fetch('https://web-production-2486a.up.railway.app/api/token/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password })
+      });
+
+      if (!tokenRes.ok) throw new Error('No se pudo obtener token');
+      const tokenData = await tokenRes.json();
+      const accessToken = tokenData.access;
+
+      // 3. Crear agricultor autenticado
+      const agriRes = await fetch('https://web-production-2486a.up.railway.app/api/agricultores/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${accessToken}`
+        },
         body: JSON.stringify({
           nombre,
           telefono,
