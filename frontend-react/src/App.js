@@ -47,8 +47,10 @@ function App() {
   };
 
   useEffect(() => {
-    if (token) fetchProductos();
-  }, [token]);
+  if (token && rol && user) {
+    fetchProductos();
+  }
+}, [token, rol, user]);
 
   const handleLoginSuccess = (accessToken, userData, userRol) => {
     setToken(accessToken);
