@@ -11,6 +11,29 @@ const CategoriaForm = ({ token, onCategoriaGuardada, categoriaEditar, setCategor
     }
   }, [categoriaEditar]);
 
+  // ✅ Lógica de cierre de sesión si el token ya no es válido
+  const logout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('rol');
+    localStorage.removeItem('user');
+    window.location.reload();
+  };
+
+  // ✅ Wrapper para usar fetch con verificación del 401
+  const authFetch = async (url, options = {}) => {
+    const res = await fetch(url, {
+      ...options,
+      headers: {
+        ...(options.headers || {}),
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (res.status === 401) logout();
+    return res;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -19,21 +42,21 @@ const CategoriaForm = ({ token, onCategoriaGuardada, categoriaEditar, setCategor
       : 'https://web-production-2486a.up.railway.app/api/categorias/';
     const method = categoriaEditar ? 'PUT' : 'POST';
 
-    const response = await fetch(url, {
-      method,
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`
-      },
-      body: JSON.stringify({ nombre })
-    });
+    try {
+      const response = await authFetch(url, {
+        method,
+        body: JSON.stringify({ nombre })
+      });
 
-    if (response.ok) {
-      onCategoriaGuardada();
-      setCategoriaEditar(null);
-      setNombre('');
-    } else {
-      alert('Error al guardar categoría');
+      if (response.ok) {
+        onCategoriaGuardada();
+        setCategoriaEditar(null);
+        setNombre('');
+      } else {
+        alert('Error al guardar categoría');
+      }
+    } catch (err) {
+      alert('Error de red o autenticación');
     }
   };
 

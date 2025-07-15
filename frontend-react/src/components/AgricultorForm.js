@@ -1,4 +1,3 @@
-// frontend-react/src/components/AgricultorForm.js
 import React, { useState, useEffect } from 'react';
 
 const AgricultorForm = ({ token, onAgricultorGuardado, agricultorEditar, setAgricultorEditar }) => {
@@ -25,6 +24,28 @@ const AgricultorForm = ({ token, onAgricultorGuardado, agricultorEditar, setAgri
     }
   }, [agricultorEditar]);
 
+  // ✅ Cierre de sesión automático si el token expiró
+  const logout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('rol');
+    localStorage.removeItem('user');
+    window.location.reload();
+  };
+
+  const authFetch = async (url, options = {}) => {
+    const res = await fetch(url, {
+      ...options,
+      headers: {
+        ...(options.headers || {}),
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`
+      }
+    });
+
+    if (res.status === 401) logout();
+    return res;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const url = agricultorEditar
@@ -32,12 +53,8 @@ const AgricultorForm = ({ token, onAgricultorGuardado, agricultorEditar, setAgri
       : 'https://web-production-2486a.up.railway.app/api/agricultores/';
     const method = agricultorEditar ? 'PUT' : 'POST';
 
-    const response = await fetch(url, {
+    const response = await authFetch(url, {
       method,
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`
-      },
       body: JSON.stringify({
         nombre,
         telefono,

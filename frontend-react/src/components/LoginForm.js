@@ -5,6 +5,13 @@ const LoginForm = ({ onLoginSuccess }) => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
+  const logout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('rol');
+    localStorage.removeItem('user');
+    window.location.reload();
+  };
+
   const handleLogin = async (e) => {
     e.preventDefault();
     setError('');
@@ -16,7 +23,10 @@ const LoginForm = ({ onLoginSuccess }) => {
         body: JSON.stringify({ username, password })
       });
 
-      if (!tokenRes.ok) throw new Error('Credenciales inválidas');
+      if (!tokenRes.ok) {
+        logout(); // ✅ Limpia si hay credenciales inválidas o token viejo
+        throw new Error('Credenciales inválidas');
+      }
 
       const tokenData = await tokenRes.json();
       const accessToken = tokenData.access;
@@ -27,7 +37,6 @@ const LoginForm = ({ onLoginSuccess }) => {
 
       const userData = await userRes.json();
 
-      // Determinar el rol
       const clienteRes = await fetch('https://web-production-2486a.up.railway.app/api/clientes/', {
         headers: { Authorization: `Bearer ${accessToken}` }
       });
@@ -40,15 +49,12 @@ const LoginForm = ({ onLoginSuccess }) => {
       const agricultores = await agricultorRes.json();
       const isAgricultor = agricultores.some(ag => ag.user === userData.id);
 
-      // Determinar el rol final
       const rol = isCliente ? 'cliente' : isAgricultor ? 'agricultor' : 'admin';
 
-      // Guardar sesión
       localStorage.setItem('token', accessToken);
       localStorage.setItem('user', JSON.stringify(userData));
       localStorage.setItem('rol', rol);
 
-      // ✅ Pasar rol junto con userData
       onLoginSuccess(accessToken, userData, rol);
 
     } catch (err) {
@@ -60,8 +66,20 @@ const LoginForm = ({ onLoginSuccess }) => {
     <form onSubmit={handleLogin}>
       <h2>Iniciar Sesión</h2>
       {error && <p style={{ color: 'red' }}>{error}</p>}
-      <input type="text" placeholder="Usuario" value={username} onChange={(e) => setUsername(e.target.value)} required />
-      <input type="password" placeholder="Contraseña" value={password} onChange={(e) => setPassword(e.target.value)} required />
+      <input
+        type="text"
+        placeholder="Usuario"
+        value={username}
+        onChange={(e) => setUsername(e.target.value)}
+        required
+      />
+      <input
+        type="password"
+        placeholder="Contraseña"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+        required
+      />
       <button type="submit">Ingresar</button>
     </form>
   );

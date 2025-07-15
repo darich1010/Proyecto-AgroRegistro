@@ -17,6 +17,29 @@ const ClienteForm = ({ token, onClienteGuardado, clienteEditar, setClienteEditar
     }
   }, [clienteEditar]);
 
+  // ✅ Función para cerrar sesión si token ya no es válido
+  const logout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('rol');
+    localStorage.removeItem('user');
+    window.location.reload();
+  };
+
+  // ✅ Wrapper para fetch con manejo de 401
+  const authFetch = async (url, options = {}) => {
+    const res = await fetch(url, {
+      ...options,
+      headers: {
+        ...(options.headers || {}),
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`
+      },
+    });
+
+    if (res.status === 401) logout();
+    return res;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -25,17 +48,13 @@ const ClienteForm = ({ token, onClienteGuardado, clienteEditar, setClienteEditar
       : 'https://web-production-2486a.up.railway.app/api/clientes/';
     const method = clienteEditar ? 'PUT' : 'POST';
 
-    const response = await fetch(url, {
+    const response = await authFetch(url, {
       method,
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`
-      },
       body: JSON.stringify({
         nombre,
         direccion,
         telefono,
-        user_id: 28 // 👈 Reemplaza este número con el ID de tu usuario actual si es otro
+        user_id: 28 // ✅ mantener como lo tenías hasta que lo automatices
       })
     });
 

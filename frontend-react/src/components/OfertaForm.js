@@ -1,4 +1,3 @@
-// frontend-react/src/components/OfertaForm.js
 import React, { useEffect, useState } from 'react';
 
 const OfertaForm = ({ token, onOfertaGuardada, ofertaEditar, setOfertaEditar }) => {
@@ -8,21 +7,38 @@ const OfertaForm = ({ token, onOfertaGuardada, ofertaEditar, setOfertaEditar }) 
   const [productoId, setProductoId] = useState('');
   const [precio, setPrecio] = useState('');
   const [stock, setStock] = useState('');
-  const [descripcion, setDescripcion] = useState(''); // ✅ Nuevo
+  const [descripcion, setDescripcion] = useState('');
+
+  const logout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('rol');
+    localStorage.removeItem('user');
+    window.location.reload();
+  };
+
+  const authFetch = async (url, options = {}) => {
+    const res = await fetch(url, {
+      ...options,
+      headers: {
+        ...(options.headers || {}),
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      }
+    });
+
+    if (res.status === 401) logout();
+    return res;
+  };
 
   useEffect(() => {
     const fetchAgricultores = async () => {
-      const res = await fetch('https://web-production-2486a.up.railway.app/api/agricultores/', {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+      const res = await authFetch('https://web-production-2486a.up.railway.app/api/agricultores/');
       const data = await res.json();
       setAgricultores(data);
     };
 
     const fetchProductos = async () => {
-      const res = await fetch('https://web-production-2486a.up.railway.app/api/productos/', {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+      const res = await authFetch('https://web-production-2486a.up.railway.app/api/productos/');
       const data = await res.json();
       setProductos(data);
     };
@@ -39,13 +55,13 @@ const OfertaForm = ({ token, onOfertaGuardada, ofertaEditar, setOfertaEditar }) 
       setProductoId(ofertaEditar.producto.id);
       setPrecio(ofertaEditar.precio);
       setStock(ofertaEditar.stock);
-      setDescripcion(ofertaEditar.descripcion || ''); // ✅ precarga
+      setDescripcion(ofertaEditar.descripcion || '');
     } else {
       setAgricultorId('');
       setProductoId('');
       setPrecio('');
       setStock('');
-      setDescripcion(''); // ✅ limpiar
+      setDescripcion('');
     }
   }, [ofertaEditar]);
 
@@ -62,18 +78,14 @@ const OfertaForm = ({ token, onOfertaGuardada, ofertaEditar, setOfertaEditar }) 
       : 'https://web-production-2486a.up.railway.app/api/ofertas/';
     const method = ofertaEditar ? 'PUT' : 'POST';
 
-    const response = await fetch(url, {
+    const response = await authFetch(url, {
       method,
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`
-      },
       body: JSON.stringify({
         agricultor_id: parseInt(agricultorId),
         producto_id: parseInt(productoId),
         precio: parseFloat(precio),
         stock: parseInt(stock),
-        descripcion: descripcion.trim() // ✅ nuevo
+        descripcion: descripcion.trim()
       })
     });
 
@@ -84,7 +96,7 @@ const OfertaForm = ({ token, onOfertaGuardada, ofertaEditar, setOfertaEditar }) 
       setProductoId('');
       setPrecio('');
       setStock('');
-      setDescripcion(''); // ✅ limpiar
+      setDescripcion('');
     } else {
       const errorData = await response.json();
       console.error('Detalles del error:', JSON.stringify(errorData, null, 2));

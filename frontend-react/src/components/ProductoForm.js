@@ -1,4 +1,3 @@
-// frontend-react/src/components/ProductoForm.js
 import React, { useState, useEffect } from 'react';
 
 const ProductoForm = ({ token, onProductoCreado = () => {}, productoEditar, setProductoEditar }) => {
@@ -7,18 +6,36 @@ const ProductoForm = ({ token, onProductoCreado = () => {}, productoEditar, setP
   const [categoriaId, setCategoriaId] = useState('');
   const [error, setError] = useState('');
 
+  const logout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('rol');
+    localStorage.removeItem('user');
+    window.location.reload();
+  };
+
+  const authFetch = async (url, options = {}) => {
+    const res = await fetch(url, {
+      ...options,
+      headers: {
+        ...(options.headers || {}),
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (res.status === 401) logout();
+    return res;
+  };
+
   useEffect(() => {
     const fetchCategorias = async () => {
       try {
-        const response = await fetch('https://web-production-2486a.up.railway.app/api/categorias/', {
-          headers: { Authorization: `Bearer ${token}` }
-        });
+        const response = await authFetch('https://web-production-2486a.up.railway.app/api/categorias/');
 
         if (!response.ok) throw new Error('No autorizado o error al obtener categorías');
 
         const data = await response.json();
 
-        // ✅ Validar que sea array
         if (Array.isArray(data)) {
           setCategorias(data);
         } else {
@@ -57,23 +74,19 @@ const ProductoForm = ({ token, onProductoCreado = () => {}, productoEditar, setP
     const method = productoEditar ? 'PUT' : 'POST';
 
     try {
-      const response = await fetch(url, {
+      const response = await authFetch(url, {
         method,
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`
-        },
         body: JSON.stringify({
           nombre,
           categoria_id: parseInt(categoriaId)
-        })
+        }),
       });
 
       if (response.ok) {
         setNombre('');
         setCategoriaId('');
         setProductoEditar(null);
-        onProductoCreado(); // Refresca lista
+        onProductoCreado();
       } else {
         throw new Error('Error al guardar producto');
       }
