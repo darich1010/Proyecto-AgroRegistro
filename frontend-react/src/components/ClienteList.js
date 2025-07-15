@@ -52,7 +52,7 @@ const ClienteList = ({ token }) => {
       <ul>
         {clientes.map((cliente) => (
           <li key={cliente.id}>
-            {cliente.nombre} - {cliente.direccion} - Tel: {cliente.telefono}
+            {cliente.nombre} - Dirección: {cliente.direccion} - Tel: {cliente.telefono}
             {' '}
             <button onClick={() => setClienteEditar(cliente)}>Editar</button>
             <button onClick={() => eliminarCliente(cliente.id)}>Eliminar</button>
