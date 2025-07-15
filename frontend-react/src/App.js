@@ -10,6 +10,8 @@ import Home from './components/Home';
 import ClienteDashboard from './components/ClienteDashboard';
 import AgricultorDashboard from './components/AgricultorDashboard';
 import AdminPanel from './components/AdminPanel';
+import RegistroCliente from './components/RegistroCliente'; // ✅ nuevo
+import RegistroAgricultor from './components/RegistroAgricultor'; // ✅ nuevo
 
 function App() {
   const [token, setToken] = useState('');
@@ -59,12 +61,19 @@ function App() {
   return (
     <Router>
       <Routes>
+        {/* PÁGINA PÚBLICA */}
         <Route path="/" element={<Home />} />
 
+        {/* LOGIN */}
         <Route path="/login-cliente" element={<LoginForm onLoginSuccess={handleLoginSuccess} rolEsperado="cliente" />} />
         <Route path="/login-agricultor" element={<LoginForm onLoginSuccess={handleLoginSuccess} rolEsperado="agricultor" />} />
         <Route path="/admin" element={<LoginForm onLoginSuccess={handleLoginSuccess} rolEsperado="admin" />} />
 
+        {/* REGISTRO */}
+        <Route path="/registro-cliente" element={<RegistroCliente />} />
+        <Route path="/registro-agricultor" element={<RegistroAgricultor />} />
+
+        {/* DASHBOARDS PROTEGIDOS */}
         <Route
           path="/cliente/dashboard"
           element={token && rol === 'cliente' ? <ClienteDashboard token={token} /> : <Navigate to="/login-cliente" />}
@@ -72,7 +81,13 @@ function App() {
 
         <Route
           path="/agricultor/dashboard"
-          element={token && rol === 'agricultor' ? <AgricultorDashboard token={token} productos={productos} fetchProductos={fetchProductos} /> : <Navigate to="/login-agricultor" />}
+          element={token && rol === 'agricultor' ? (
+            <AgricultorDashboard
+              token={token}
+              productos={productos}
+              fetchProductos={fetchProductos}
+            />
+          ) : <Navigate to="/login-agricultor" />}
         />
 
         <Route
@@ -91,4 +106,3 @@ function App() {
 }
 
 export default App;
-

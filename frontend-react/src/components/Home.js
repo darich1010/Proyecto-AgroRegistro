@@ -1,19 +1,26 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
+  const navigate = useNavigate();
+
   return (
     <div style={styles.container}>
       <h1>Bienvenido a PRODEC 🌱</h1>
       <p>
-        Plataforma diseñada para conectar agricultores y clientes de manera eficiente. 
-        Aquí podrás registrar tus productos, crear ofertas y gestionar tu información de forma segura.
+        Plataforma diseñada para conectar agricultores y clientes de manera eficiente. Aquí podrás registrar tus productos, crear ofertas y gestionar tu información de forma segura.
       </p>
 
-      <div style={styles.links}>
-        <Link to="/login-cliente" style={styles.button}>Soy Cliente</Link>
-        <Link to="/login-agricultor" style={styles.button}>Soy Agricultor</Link>
-        <Link to="/admin" style={styles.adminLink}>Acceso Interno</Link>
+      <div style={styles.buttons}>
+        <button onClick={() => navigate('/login-cliente')}>Soy Cliente</button>
+        <button onClick={() => navigate('/login-agricultor')}>Soy Agricultor</button>
+        <button onClick={() => navigate('/admin')}>Acceso Interno</button>
+        <p style={{ marginTop: '1rem' }}>
+          ¿No tienes cuenta?{' '}
+          <button onClick={() => navigate('/registro-cliente')} style={styles.linkButton}>Registrarse como Cliente</button>
+          {' '}|{' '}
+          <button onClick={() => navigate('/registro-agricultor')} style={styles.linkButton}>Registrarse como Agricultor</button>
+        </p>
       </div>
     </div>
   );
@@ -21,33 +28,22 @@ const Home = () => {
 
 const styles = {
   container: {
-    maxWidth: '600px',
-    margin: '2rem auto',
     textAlign: 'center',
-    padding: '2rem',
-    backgroundColor: '#f4f4f4',
-    borderRadius: '12px',
-    boxShadow: '0 0 10px rgba(0,0,0,0.1)'
+    padding: '2rem'
   },
-  links: {
-    marginTop: '2rem',
+  buttons: {
     display: 'flex',
     flexDirection: 'column',
-    gap: '1rem'
+    gap: '1rem',
+    marginTop: '2rem',
+    alignItems: 'center'
   },
-  button: {
-    backgroundColor: '#2d7a34',
-    color: '#fff',
-    padding: '0.75rem 1.5rem',
-    borderRadius: '8px',
-    textDecoration: 'none',
-    fontWeight: 'bold'
-  },
-  adminLink: {
-    marginTop: '1rem',
-    color: '#555',
+  linkButton: {
+    border: 'none',
+    background: 'none',
+    color: '#0066cc',
     textDecoration: 'underline',
-    fontSize: '0.9rem'
+    cursor: 'pointer'
   }
 };
 
