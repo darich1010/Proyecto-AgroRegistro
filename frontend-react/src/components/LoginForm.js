@@ -1,13 +1,12 @@
 // frontend-react/src/components/LoginForm.js
-
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // ✅ necesario para redirigir
+import { useNavigate } from 'react-router-dom'; // ✅ importante
 
 const LoginForm = ({ onLoginSuccess }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const navigate = useNavigate(); // ✅ inicializamos
+  const navigate = useNavigate(); // ✅ para redirigir
 
   const logout = () => {
     localStorage.removeItem('token');
@@ -28,7 +27,7 @@ const LoginForm = ({ onLoginSuccess }) => {
       });
 
       if (!tokenRes.ok) {
-        logout(); // 🔐 limpia si el token no es válido
+        logout();
         throw new Error('Credenciales inválidas');
       }
 
@@ -36,7 +35,7 @@ const LoginForm = ({ onLoginSuccess }) => {
       const accessToken = tokenData.access;
 
       if (!accessToken || accessToken.trim() === '') {
-        logout(); // ⚠️ protección adicional
+        logout();
         throw new Error('Token inválido');
       }
 
@@ -63,12 +62,12 @@ const LoginForm = ({ onLoginSuccess }) => {
       localStorage.setItem('user', JSON.stringify(userData));
       localStorage.setItem('rol', rol);
 
-      onLoginSuccess(accessToken, userData, rol);
-
-      // ✅ Redirección inmediata al dashboard según el rol
+      // ✅ redireccionamos directamente al dashboard correcto
       if (rol === 'cliente') navigate('/cliente/dashboard');
       else if (rol === 'agricultor') navigate('/agricultor/dashboard');
-      else if (rol === 'admin') navigate('/admin/dashboard');
+      else navigate('/admin/dashboard');
+
+      onLoginSuccess(accessToken, userData, rol);
 
     } catch (err) {
       setError(err.message || 'Error al iniciar sesión');
