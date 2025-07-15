@@ -54,7 +54,7 @@ const ClienteForm = ({ token, onClienteGuardado, clienteEditar, setClienteEditar
         nombre,
         direccion,
         telefono,
-        user_id: 28 // ✅ mantener como lo tenías hasta que lo automatices
+        user_id: JSON.parse(localStorage.getItem('user'))?.id
       })
     });
 

@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import LoginForm from './components/LoginForm';
 import ProductosList from './components/ProductosList';
 import AgricultorList from './components/AgricultorList';
 import ClienteList from './components/ClienteList';
 import OfertaList from './components/OfertaList';
 import CategoriaList from './components/CategoriaList';
-
+import Home from './components/Home';
+import ClienteDashboard from './components/ClienteDashboard';
+import AgricultorDashboard from './components/AgricultorDashboard';
+import AdminPanel from './components/AdminPanel';
 
 function App() {
   const [token, setToken] = useState('');
@@ -44,7 +48,6 @@ function App() {
     if (token) fetchProductos();
   }, [token]);
 
-  // ✅ Recibe rol directamente desde LoginForm
   const handleLoginSuccess = (accessToken, userData, userRol) => {
     setToken(accessToken);
     setUser(userData);
@@ -53,36 +56,39 @@ function App() {
 
   if (!isReady) return <p>Cargando...</p>;
 
-  if (!token || !rol || !user) {
-    return <LoginForm onLoginSuccess={handleLoginSuccess} />;
-  }
-
   return (
-    <div>
-      <h1>AgroRegistro</h1>
-      <p>Bienvenido, {user.username} ({rol})</p>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Home />} />
 
-      {rol === 'cliente' && <ClienteList token={token} />}
+        <Route path="/login-cliente" element={<LoginForm onLoginSuccess={handleLoginSuccess} rolEsperado="cliente" />} />
+        <Route path="/login-agricultor" element={<LoginForm onLoginSuccess={handleLoginSuccess} rolEsperado="agricultor" />} />
+        <Route path="/admin" element={<LoginForm onLoginSuccess={handleLoginSuccess} rolEsperado="admin" />} />
 
-      {rol === 'agricultor' && (
-        <>
-          <ProductosList token={token} productos={productos} fetchProductos={fetchProductos} />
-          <AgricultorList token={token} />
-        </>
-      )}
+        <Route
+          path="/cliente/dashboard"
+          element={token && rol === 'cliente' ? <ClienteDashboard token={token} /> : <Navigate to="/login-cliente" />}
+        />
 
-      {rol === 'admin' && (
-        <>
-          <ProductosList token={token} productos={productos} fetchProductos={fetchProductos} />
-          <AgricultorList token={token} />
-          <ClienteList token={token} />
-          <OfertaList token={token} />
-          <CategoriaList token={token} />
+        <Route
+          path="/agricultor/dashboard"
+          element={token && rol === 'agricultor' ? <AgricultorDashboard token={token} productos={productos} fetchProductos={fetchProductos} /> : <Navigate to="/login-agricultor" />}
+        />
 
-        </>
-      )}
-    </div>
+        <Route
+          path="/admin/dashboard"
+          element={token && rol === 'admin' ? (
+            <AdminPanel
+              token={token}
+              productos={productos}
+              fetchProductos={fetchProductos}
+            />
+          ) : <Navigate to="/admin" />}
+        />
+      </Routes>
+    </Router>
   );
 }
 
 export default App;
+

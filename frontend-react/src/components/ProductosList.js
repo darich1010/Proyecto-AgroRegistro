@@ -7,10 +7,10 @@ const ProductosList = ({ token, productos, fetchProductos }) => {
   const [productoEditar, setProductoEditar] = useState(null);
 
   useEffect(() => {
-    if (token) {
-      fetchProductos();
-    }
-  }, [token, fetchProductos]);
+   if (!token || typeof fetchProductos !== 'function') return;
+   fetchProductos();
+  }, [token]);
+
 
   const handleEliminar = async (id) => {
     if (!window.confirm('¿Estás seguro de eliminar este producto?')) return;
