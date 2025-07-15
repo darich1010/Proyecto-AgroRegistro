@@ -1,10 +1,8 @@
-// frontend-react/src/components/AgricultorList.js
 import React, { useEffect, useState } from 'react';
 import AgricultorForm from './AgricultorForm';
 
 const AgricultorList = ({ token }) => {
   const [agricultores, setAgricultores] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [agricultorEditar, setAgricultorEditar] = useState(null);
 
@@ -13,20 +11,21 @@ const AgricultorList = ({ token }) => {
       const response = await fetch('https://web-production-2486a.up.railway.app/api/agricultores/', {
         headers: { Authorization: `Bearer ${token}` }
       });
-
       if (!response.ok) throw new Error('Error al obtener agricultores');
-
       const data = await response.json();
       setAgricultores(data);
     } catch (err) {
       setError('Error al cargar agricultores: ' + err.message);
-    } finally {
-      setLoading(false);
     }
   };
 
+  useEffect(() => {
+    if (token) fetchAgricultores();
+  }, [token]);
+
   const eliminarAgricultor = async (id) => {
-    if (!window.confirm('¿Estás seguro de eliminar este agricultor?')) return;
+    const confirmar = window.confirm('¿Estás seguro de eliminar este agricultor?');
+    if (!confirmar) return;
 
     const response = await fetch(`https://web-production-2486a.up.railway.app/api/agricultores/${id}/`, {
       method: 'DELETE',
@@ -40,11 +39,6 @@ const AgricultorList = ({ token }) => {
     }
   };
 
-  useEffect(() => {
-    if (token) fetchAgricultores();
-  }, [token]);
-
-  if (loading) return <p>Cargando agricultores...</p>;
   if (error) return <p style={{ color: 'red' }}>{error}</p>;
 
   return (
@@ -53,7 +47,7 @@ const AgricultorList = ({ token }) => {
       <ul>
         {agricultores.map((agricultor) => (
           <li key={agricultor.id}>
-            {agricultor.nombre} - DNI: {agricultor.dni} - Tel: {agricultor.telefono}
+            {agricultor.nombre} - Departamento: {agricultor.departamento}, Provincia: {agricultor.provincia}, Distrito: {agricultor.distrito} - Tel: {agricultor.telefono}
             {' '}
             <button onClick={() => setAgricultorEditar(agricultor)}>Editar</button>
             <button onClick={() => eliminarAgricultor(agricultor.id)}>Eliminar</button>
