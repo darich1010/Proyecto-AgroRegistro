@@ -46,40 +46,47 @@ const OfertaForm = ({ token, onOfertaGuardada, ofertaEditar, setOfertaEditar }) 
     }
   }, [ofertaEditar]);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+const handleSubmit = async (e) => {
+  e.preventDefault();
 
-    const url = ofertaEditar
-      ? `https://web-production-2486a.up.railway.app/api/ofertas/${ofertaEditar.id}/`
-      : 'https://web-production-2486a.up.railway.app/api/ofertas/';
-    const method = ofertaEditar ? 'PUT' : 'POST';
+  if (!agricultorId || !productoId || !precio || !stock) {
+    alert('Completa todos los campos antes de guardar la oferta.');
+    return;
+  }
 
-    const response = await fetch(url, {
-      method,
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`
-      },
-      body: JSON.stringify({
-        agricultor_id: parseInt(agricultorId),
-        producto_id: parseInt(productoId),
-        precio: parseFloat(precio),
-        stock: parseInt(stock)
-      })
-    });
+  const url = ofertaEditar
+    ? `https://web-production-2486a.up.railway.app/api/ofertas/${ofertaEditar.id}/`
+    : 'https://web-production-2486a.up.railway.app/api/ofertas/';
+  const method = ofertaEditar ? 'PUT' : 'POST';
 
-    if (response.ok) {
-      onOfertaGuardada();
-      setOfertaEditar(null);
-      // ✅ Mejora: limpiar campos
-      setAgricultorId('');
-      setProductoId('');
-      setPrecio('');
-      setStock('');
-    } else {
-      alert('Error al guardar la oferta');
-    }
-  };
+  const response = await fetch(url, {
+    method,
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`
+    },
+    body: JSON.stringify({
+      agricultor_id: parseInt(agricultorId),
+      producto_id: parseInt(productoId),
+      precio: parseFloat(precio),
+      stock: parseInt(stock)
+    })
+  });
+
+  if (response.ok) {
+    onOfertaGuardada();
+    setOfertaEditar(null);
+    setAgricultorId('');
+    setProductoId('');
+    setPrecio('');
+    setStock('');
+  } else {
+    const errorData = await response.json();
+    console.error('Detalles del error:', errorData);
+    alert('Error al guardar la oferta. Verifica los datos.');
+  }
+};
+
 
   return (
     <form onSubmit={handleSubmit}>
