@@ -21,18 +21,36 @@ function App() {
   const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
-    const storedToken = localStorage.getItem('token');
-    const storedRol = localStorage.getItem('rol');
-    const storedUser = localStorage.getItem('user');
+  const storedToken = localStorage.getItem('token');
+  const storedRol = localStorage.getItem('rol');
+  const storedUser = localStorage.getItem('user');
 
-    if (storedToken && storedRol && storedUser) {
+  // ✅ Verificar si el token ha expirado
+  const isTokenExpired = (token) => {
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      return payload.exp < Math.floor(Date.now() / 1000); // true si expiró
+    } catch (e) {
+      return true; // si falla el parseo, tratamos como expirado
+    }
+  };
+
+  if (storedToken && storedRol && storedUser) {
+    if (isTokenExpired(storedToken)) {
+      localStorage.removeItem('token');
+      localStorage.removeItem('rol');
+      localStorage.removeItem('user');
+      window.location.reload(); // 🔄 fuerza logout limpio
+    } else {
       setToken(storedToken);
       setRol(storedRol);
       setUser(JSON.parse(storedUser));
     }
+  }
 
-    setIsReady(true);
-  }, []);
+  setIsReady(true);
+}, []);
+
 
   const fetchProductos = async () => {
     try {

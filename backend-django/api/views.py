@@ -21,8 +21,9 @@ class RegisterView(APIView):
     def post(self, request):
         serializer = RegisterSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save()
-            return Response({"message": "Usuario creado exitosamente"}, status=status.HTTP_201_CREATED)
+            user = serializer.save()
+            user_data = UserSerializer(user).data  # 👈 Aquí devolvemos el objeto con id, username, etc.
+            return Response(user_data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 # Ver información del usuario autenticado
