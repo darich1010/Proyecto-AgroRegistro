@@ -71,6 +71,11 @@ const OfertaForm = ({ token, onOfertaGuardada, ofertaEditar, setOfertaEditar }) 
     if (response.ok) {
       onOfertaGuardada();
       setOfertaEditar(null);
+      // ✅ Mejora: limpiar campos
+      setAgricultorId('');
+      setProductoId('');
+      setPrecio('');
+      setStock('');
     } else {
       alert('Error al guardar la oferta');
     }

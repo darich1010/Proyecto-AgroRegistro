@@ -1,3 +1,4 @@
+// frontend-react/src/components/OfertaList.js
 import React, { useEffect, useState } from 'react';
 import OfertaForm from './OfertaForm';
 
@@ -49,9 +50,11 @@ const OfertaList = ({ token }) => {
       <h2>Lista de Ofertas</h2>
       <ul>
         {ofertas.map(oferta => (
-          <li key={oferta.id}>
-            Agricultor: {oferta.agricultor.nombre} - Producto: {oferta.producto.nombre} - S/ {oferta.precio} - Stock: {oferta.stock}
-            {' '}
+          <li key={oferta.id} style={{ marginBottom: '1rem' }}>
+            <strong>Agricultor:</strong> {oferta.agricultor.nombre} <br />
+            <strong>Producto:</strong> {oferta.producto.nombre} <br />
+            <strong>Precio:</strong> S/ {oferta.precio} <br />
+            <strong>Stock:</strong> {oferta.stock} <br />
             <button onClick={() => setOfertaEditar(oferta)}>Editar</button>
             <button onClick={() => eliminarOferta(oferta.id)}>Eliminar</button>
           </li>
