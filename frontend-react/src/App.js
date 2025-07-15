@@ -36,6 +36,7 @@ function App() {
     setRol(localStorage.getItem('rol')); // Ya se setea desde LoginForm
   };
 
+  // ✅ Redirigir a login si no hay token, user o rol
   if (!token || !rol || !user) {
     return <LoginForm onLoginSuccess={handleLoginSuccess} />;
   }
