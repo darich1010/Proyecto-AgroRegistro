@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import ProductosList from './components/ProductosList';
+import AgricultorList from './components/AgricultorList'; // 👈 nuevo import
 
 function App() {
   const [token, setToken] = useState('');
@@ -35,7 +36,12 @@ function App() {
   return (
     <div>
       <h1>AgroRegistro</h1>
+      
+      {/* Vista de productos */}
       <ProductosList token={token} productos={productos} fetchProductos={fetchProductos} />
+      
+      {/* Vista de agricultores */}
+      <AgricultorList token={token} />
     </div>
   );
 }
