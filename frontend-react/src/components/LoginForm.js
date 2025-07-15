@@ -24,17 +24,21 @@ const LoginForm = ({ onLoginSuccess }) => {
       });
 
       if (!tokenRes.ok) {
-        logout(); // ✅ Limpia si hay credenciales inválidas o token viejo
+        logout(); // 🔐 limpia si el token no es válido
         throw new Error('Credenciales inválidas');
       }
 
       const tokenData = await tokenRes.json();
       const accessToken = tokenData.access;
 
+      if (!accessToken || accessToken.trim() === '') {
+        logout(); // ⚠️ protección adicional
+        throw new Error('Token inválido');
+      }
+
       const userRes = await fetch('https://web-production-2486a.up.railway.app/api/user/', {
         headers: { Authorization: `Bearer ${accessToken}` }
       });
-
       const userData = await userRes.json();
 
       const clienteRes = await fetch('https://web-production-2486a.up.railway.app/api/clientes/', {
@@ -56,7 +60,6 @@ const LoginForm = ({ onLoginSuccess }) => {
       localStorage.setItem('rol', rol);
 
       onLoginSuccess(accessToken, userData, rol);
-
     } catch (err) {
       setError(err.message || 'Error al iniciar sesión');
     }
