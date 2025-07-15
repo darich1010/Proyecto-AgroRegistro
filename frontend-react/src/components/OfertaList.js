@@ -53,17 +53,18 @@ const OfertaList = ({ token }) => {
       {error && <p style={{ color: 'red' }}>{error}</p>}
 
       <ul>
-        {ofertas.map(oferta => (
-          <li key={oferta.id} style={{ marginBottom: '1rem' }}>
-            <strong>Agricultor:</strong> {oferta.agricultor?.nombre || 'Sin nombre'} <br />
-            <strong>Producto:</strong> {oferta.producto?.nombre || 'Sin producto'} <br />
-            <strong>Precio:</strong> S/ {oferta.precio} <br />
-            <strong>Stock:</strong> {oferta.stock} <br />
-            <button onClick={() => setOfertaEditar(oferta)}>Editar</button>
-            <button onClick={() => eliminarOferta(oferta.id)}>Eliminar</button>
-          </li>
-        ))}
-      </ul>
+  {ofertas.map(oferta => (
+    <li key={oferta.id} style={{ marginBottom: '1rem' }}>
+      <strong>Agricultor:</strong> {oferta.agricultor.nombre} <br />
+      <strong>Producto:</strong> {oferta.producto.nombre} <br />
+      <strong>Descripción:</strong> {oferta.descripcion} <br />
+      <strong>Precio:</strong> S/ {oferta.precio} <br />
+      <strong>Stock:</strong> {oferta.stock} <br />
+      <button onClick={() => setOfertaEditar(oferta)}>Editar</button>
+      <button onClick={() => eliminarOferta(oferta.id)}>Eliminar</button>
+    </li>
+  ))}
+</ul>
 
       <OfertaForm
         token={token}
