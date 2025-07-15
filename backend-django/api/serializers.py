@@ -76,4 +76,4 @@ class ClienteSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Cliente
-        fields = ['id', 'user', 'user_id', 'direccion', 'telefono']
+        fields = ['id', 'nombre', 'direccion', 'telefono', 'user', 'user_id']  # Asegúrate de incluir 'nombre'
