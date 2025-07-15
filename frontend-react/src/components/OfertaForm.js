@@ -74,17 +74,18 @@ const handleSubmit = async (e) => {
   });
 
   if (response.ok) {
-    onOfertaGuardada();
-    setOfertaEditar(null);
-    setAgricultorId('');
-    setProductoId('');
-    setPrecio('');
-    setStock('');
-  } else {
-    const errorData = await response.json();
-    console.error('Detalles del error:', errorData);
-    alert('Error al guardar la oferta. Verifica los datos.');
-  }
+  onOfertaGuardada();
+  setOfertaEditar(null);
+  setAgricultorId('');
+  setProductoId('');
+  setPrecio('');
+  setStock('');
+} else {
+  const errorData = await response.json();
+  console.error('Detalles del error:', JSON.stringify(errorData, null, 2));
+  alert('Error al guardar la oferta. Revisa consola para más detalles.');
+}
+
 };
 
 
