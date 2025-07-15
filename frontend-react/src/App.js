@@ -3,16 +3,29 @@ import LoginForm from './components/LoginForm';
 import ProductosList from './components/ProductosList';
 import AgricultorList from './components/AgricultorList';
 import ClienteList from './components/ClienteList';
-import OfertaList from './components/OfertaList'; // ✅ NUEVO
+import OfertaList from './components/OfertaList';
 
 function App() {
-  const [token, setToken] = useState(localStorage.getItem('token') || '');
-  const [rol, setRol] = useState(localStorage.getItem('rol') || '');
-  const [user, setUser] = useState(() => {
-    const stored = localStorage.getItem('user');
-    return stored ? JSON.parse(stored) : null;
-  });
+  const [token, setToken] = useState('');
+  const [rol, setRol] = useState('');
+  const [user, setUser] = useState(null);
   const [productos, setProductos] = useState([]);
+  const [isReady, setIsReady] = useState(false); // ✅
+
+  useEffect(() => {
+    // ✅ Cargar desde localStorage una sola vez al iniciar
+    const storedToken = localStorage.getItem('token');
+    const storedRol = localStorage.getItem('rol');
+    const storedUser = localStorage.getItem('user');
+
+    if (storedToken && storedRol && storedUser) {
+      setToken(storedToken);
+      setRol(storedRol);
+      setUser(JSON.parse(storedUser));
+    }
+
+    setIsReady(true); // ✅ Ya está listo para mostrar login o contenido
+  }, []);
 
   const fetchProductos = async () => {
     try {
@@ -33,10 +46,13 @@ function App() {
   const handleLoginSuccess = (accessToken, userData) => {
     setToken(accessToken);
     setUser(userData);
-    setRol(localStorage.getItem('rol')); // Ya se setea desde LoginForm
+    setRol(localStorage.getItem('rol'));
   };
 
-  // ✅ Redirigir a login si no hay token, user o rol
+  // ✅ Esperar hasta cargar token y datos de sesión
+  if (!isReady) return <p>Cargando...</p>;
+
+  // ✅ Redireccionar si no está autenticado
   if (!token || !rol || !user) {
     return <LoginForm onLoginSuccess={handleLoginSuccess} />;
   }
@@ -46,11 +62,7 @@ function App() {
       <h1>AgroRegistro</h1>
       <p>Bienvenido, {user.username} ({rol})</p>
 
-      {rol === 'cliente' && (
-        <>
-          <ClienteList token={token} />
-        </>
-      )}
+      {rol === 'cliente' && <ClienteList token={token} />}
 
       {rol === 'agricultor' && (
         <>
@@ -64,7 +76,7 @@ function App() {
           <ProductosList token={token} productos={productos} fetchProductos={fetchProductos} />
           <AgricultorList token={token} />
           <ClienteList token={token} />
-          <OfertaList token={token} /> {/* ✅ Sección de Ofertas solo para admin */}
+          <OfertaList token={token} />
         </>
       )}
     </div>
