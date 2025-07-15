@@ -4,6 +4,8 @@ import ProductosList from './components/ProductosList';
 import AgricultorList from './components/AgricultorList';
 import ClienteList from './components/ClienteList';
 import OfertaList from './components/OfertaList';
+import CategoriaList from './components/CategoriaList';
+
 
 function App() {
   const [token, setToken] = useState('');
@@ -75,6 +77,8 @@ function App() {
           <AgricultorList token={token} />
           <ClienteList token={token} />
           <OfertaList token={token} />
+          <CategoriaList token={token} />
+
         </>
       )}
     </div>
