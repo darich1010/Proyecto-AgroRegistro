@@ -3,6 +3,7 @@ import LoginForm from './components/LoginForm';
 import ProductosList from './components/ProductosList';
 import AgricultorList from './components/AgricultorList';
 import ClienteList from './components/ClienteList';
+import OfertaList from './components/OfertaList'; // ✅ NUEVO
 
 function App() {
   const [token, setToken] = useState(localStorage.getItem('token') || '');
@@ -62,6 +63,7 @@ function App() {
           <ProductosList token={token} productos={productos} fetchProductos={fetchProductos} />
           <AgricultorList token={token} />
           <ClienteList token={token} />
+          <OfertaList token={token} /> {/* ✅ Sección de Ofertas solo para admin */}
         </>
       )}
     </div>
