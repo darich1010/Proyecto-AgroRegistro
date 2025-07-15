@@ -65,7 +65,8 @@ class OfertaSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Oferta
-        fields = ['id', 'agricultor', 'agricultor_id', 'producto', 'producto_id', 'precio', 'stock', 'fecha']
+        fields = ['id', 'agricultor', 'agricultor_id', 'producto', 'producto_id', 'descripcion', 'precio', 'stock']
+
 
 # Cliente
 class ClienteSerializer(serializers.ModelSerializer):
