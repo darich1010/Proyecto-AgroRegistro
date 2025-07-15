@@ -33,7 +33,7 @@ class AgricultorSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Agricultor
-        fields = ['id', 'user', 'user_id', 'direccion', 'telefono']
+        fields = ['id', 'user', 'user_id', 'nombre', 'telefono', 'departamento', 'provincia', 'distrito']
 
 # Categoría
 class CategoriaSerializer(serializers.ModelSerializer):
