@@ -10,10 +10,9 @@ function App() {
   const [rol, setRol] = useState('');
   const [user, setUser] = useState(null);
   const [productos, setProductos] = useState([]);
-  const [isReady, setIsReady] = useState(false); // ✅
+  const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
-    // ✅ Cargar desde localStorage una sola vez al iniciar
     const storedToken = localStorage.getItem('token');
     const storedRol = localStorage.getItem('rol');
     const storedUser = localStorage.getItem('user');
@@ -24,7 +23,7 @@ function App() {
       setUser(JSON.parse(storedUser));
     }
 
-    setIsReady(true); // ✅ Ya está listo para mostrar login o contenido
+    setIsReady(true);
   }, []);
 
   const fetchProductos = async () => {
@@ -43,16 +42,15 @@ function App() {
     if (token) fetchProductos();
   }, [token]);
 
-  const handleLoginSuccess = (accessToken, userData) => {
+  // ✅ Recibe rol directamente desde LoginForm
+  const handleLoginSuccess = (accessToken, userData, userRol) => {
     setToken(accessToken);
     setUser(userData);
-    setRol(localStorage.getItem('rol'));
+    setRol(userRol);
   };
 
-  // ✅ Esperar hasta cargar token y datos de sesión
   if (!isReady) return <p>Cargando...</p>;
 
-  // ✅ Redireccionar si no está autenticado
   if (!token || !rol || !user) {
     return <LoginForm onLoginSuccess={handleLoginSuccess} />;
   }

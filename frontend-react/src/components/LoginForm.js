@@ -40,12 +40,16 @@ const LoginForm = ({ onLoginSuccess }) => {
       const agricultores = await agricultorRes.json();
       const isAgricultor = agricultores.some(ag => ag.user === userData.id);
 
+      // Determinar el rol final
+      const rol = isCliente ? 'cliente' : isAgricultor ? 'agricultor' : 'admin';
+
       // Guardar sesión
       localStorage.setItem('token', accessToken);
       localStorage.setItem('user', JSON.stringify(userData));
-      localStorage.setItem('rol', isCliente ? 'cliente' : isAgricultor ? 'agricultor' : 'admin');
+      localStorage.setItem('rol', rol);
 
-      onLoginSuccess(accessToken, userData);
+      // ✅ Pasar rol junto con userData
+      onLoginSuccess(accessToken, userData, rol);
 
     } catch (err) {
       setError(err.message || 'Error al iniciar sesión');

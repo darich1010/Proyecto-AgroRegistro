@@ -1,4 +1,3 @@
-// frontend-react/src/components/ProductosList.js
 import React, { useEffect, useState } from 'react';
 import ProductoForm from './ProductoForm';
 
