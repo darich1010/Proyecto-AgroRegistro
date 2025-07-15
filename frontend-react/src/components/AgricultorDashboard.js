@@ -1,12 +1,13 @@
 import React from 'react';
 import AgricultorList from './AgricultorList';
 import ProductosList from './ProductosList';
+import OfertaList from './OfertaList';
 
 const AgricultorDashboard = ({ token, productos, fetchProductos }) => {
   return (
     <div style={styles.container}>
-      <h2>Panel del Agricultor 🌿</h2>
-      <p>Desde aquí puedes administrar tus datos personales y tus productos disponibles.</p>
+      <h2>Bienvenido al Panel del Agricultor 🌿</h2>
+      <p>Administra tu información personal, tus productos y ofertas.</p>
 
       <section style={styles.section}>
         <h3>Mis Productos</h3>
@@ -15,6 +16,11 @@ const AgricultorDashboard = ({ token, productos, fetchProductos }) => {
           productos={productos}
           fetchProductos={fetchProductos}
         />
+      </section>
+
+      <section style={styles.section}>
+        <h3>Mis Ofertas</h3>
+        <OfertaList token={token} />
       </section>
 
       <section style={styles.section}>
