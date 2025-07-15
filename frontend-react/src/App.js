@@ -1,51 +1,69 @@
 import React, { useState, useEffect } from 'react';
+import LoginForm from './components/LoginForm';
 import ProductosList from './components/ProductosList';
 import AgricultorList from './components/AgricultorList';
-import ClienteList from './components/ClienteList'; // ✅ Nuevo import
+import ClienteList from './components/ClienteList';
 
 function App() {
-  const [token, setToken] = useState('');
+  const [token, setToken] = useState(localStorage.getItem('token') || '');
+  const [rol, setRol] = useState(localStorage.getItem('rol') || '');
+  const [user, setUser] = useState(() => {
+    const stored = localStorage.getItem('user');
+    return stored ? JSON.parse(stored) : null;
+  });
   const [productos, setProductos] = useState([]);
 
-  const login = async () => {
-    const response = await fetch('https://web-production-2486a.up.railway.app/api/token/', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username: 'testnuevo', password: '1234' })
-    });
-
-    const data = await response.json();
-    if (data.access) setToken(data.access);
-  };
-
   const fetchProductos = async () => {
-    const response = await fetch('https://web-production-2486a.up.railway.app/api/productos/', {
-      headers: { Authorization: `Bearer ${token}` }
-    });
-    const data = await response.json();
-    setProductos(data);
+    try {
+      const response = await fetch('https://web-production-2486a.up.railway.app/api/productos/', {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      const data = await response.json();
+      setProductos(data);
+    } catch (error) {
+      console.error('Error cargando productos:', error);
+    }
   };
-
-  useEffect(() => {
-    login();
-  }, []);
 
   useEffect(() => {
     if (token) fetchProductos();
   }, [token]);
 
+  const handleLoginSuccess = (accessToken, userData) => {
+    setToken(accessToken);
+    setUser(userData);
+    setRol(localStorage.getItem('rol')); // Ya se setea desde LoginForm
+  };
+
+  if (!token || !rol || !user) {
+    return <LoginForm onLoginSuccess={handleLoginSuccess} />;
+  }
+
   return (
     <div>
       <h1>AgroRegistro</h1>
+      <p>Bienvenido, {user.username} ({rol})</p>
 
-      {/* Vista de productos */}
-      <ProductosList token={token} productos={productos} fetchProductos={fetchProductos} />
+      {rol === 'cliente' && (
+        <>
+          <ClienteList token={token} />
+        </>
+      )}
 
-      {/* Vista de agricultores */}
-      <AgricultorList token={token} />
+      {rol === 'agricultor' && (
+        <>
+          <ProductosList token={token} productos={productos} fetchProductos={fetchProductos} />
+          <AgricultorList token={token} />
+        </>
+      )}
 
-      {/* Vista de clientes */}
-      <ClienteList token={token} />
+      {rol === 'admin' && (
+        <>
+          <ProductosList token={token} productos={productos} fetchProductos={fetchProductos} />
+          <AgricultorList token={token} />
+          <ClienteList token={token} />
+        </>
+      )}
     </div>
   );
 }
