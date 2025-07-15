@@ -3,8 +3,8 @@ import ClienteForm from './ClienteForm';
 
 const ClienteList = ({ token }) => {
   const [clientes, setClientes] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(true); // ✅ nuevo
   const [clienteEditar, setClienteEditar] = useState(null);
 
   const fetchClientes = async () => {
@@ -14,28 +14,12 @@ const ClienteList = ({ token }) => {
       });
 
       if (!response.ok) throw new Error('Error al obtener clientes');
-
       const data = await response.json();
       setClientes(data);
     } catch (err) {
       setError('Error al cargar clientes: ' + err.message);
     } finally {
-      setLoading(false);
-    }
-  };
-
-  const eliminarCliente = async (id) => {
-    if (!window.confirm('¿Estás seguro de eliminar este cliente?')) return;
-
-    const response = await fetch(`https://web-production-2486a.up.railway.app/api/clientes/${id}/`, {
-      method: 'DELETE',
-      headers: { Authorization: `Bearer ${token}` }
-    });
-
-    if (response.ok) {
-      fetchClientes();
-    } else {
-      alert('Error al eliminar cliente');
+      setLoading(false); // ✅ marca como terminado
     }
   };
 
@@ -43,12 +27,14 @@ const ClienteList = ({ token }) => {
     if (token) fetchClientes();
   }, [token]);
 
-  if (loading) return <p>Cargando clientes...</p>;
-  if (error) return <p style={{ color: 'red' }}>{error}</p>;
+  if (!token) return null; // ✅ evita renderizar si no hay token
+  if (loading) return <p>Cargando clientes...</p>; // ✅ evita errores visuales
 
   return (
     <div>
       <h2>Lista de Clientes</h2>
+      {error && <p style={{ color: 'red' }}>{error}</p>}
+
       <ul>
         {clientes.map((cliente) => (
           <li key={cliente.id}>

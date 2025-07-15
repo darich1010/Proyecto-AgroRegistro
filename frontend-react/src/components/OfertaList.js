@@ -13,6 +13,7 @@ const OfertaList = ({ token }) => {
       const res = await fetch('https://web-production-2486a.up.railway.app/api/ofertas/', {
         headers: { Authorization: `Bearer ${token}` }
       });
+
       if (!res.ok) throw new Error('Error al obtener ofertas');
       const data = await res.json();
       setOfertas(data);
@@ -42,17 +43,20 @@ const OfertaList = ({ token }) => {
     if (token) fetchOfertas();
   }, [token]);
 
-  if (loading) return <p>Cargando ofertas...</p>;
-  if (error) return <p style={{ color: 'red' }}>{error}</p>;
+  if (!token) return null; // ✅ Previene errores por falta de token
+  if (loading) return <p>Cargando ofertas...</p>; // ✅ Indicador de carga
 
   return (
     <div>
       <h2>Lista de Ofertas</h2>
+
+      {error && <p style={{ color: 'red' }}>{error}</p>}
+
       <ul>
         {ofertas.map(oferta => (
           <li key={oferta.id} style={{ marginBottom: '1rem' }}>
-            <strong>Agricultor:</strong> {oferta.agricultor.nombre} <br />
-            <strong>Producto:</strong> {oferta.producto.nombre} <br />
+            <strong>Agricultor:</strong> {oferta.agricultor?.nombre || 'Sin nombre'} <br />
+            <strong>Producto:</strong> {oferta.producto?.nombre || 'Sin producto'} <br />
             <strong>Precio:</strong> S/ {oferta.precio} <br />
             <strong>Stock:</strong> {oferta.stock} <br />
             <button onClick={() => setOfertaEditar(oferta)}>Editar</button>
