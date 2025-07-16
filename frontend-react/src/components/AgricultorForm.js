@@ -52,7 +52,6 @@ const AgricultorForm = ({ token, onAgricultorGuardado, agricultorEditar, setAgri
       : 'https://web-production-2486a.up.railway.app/api/agricultores/';
     const method = agricultorEditar ? 'PUT' : 'POST';
 
-    // ⚠️ Construir el body
     const data = {
       nombre,
       telefono,

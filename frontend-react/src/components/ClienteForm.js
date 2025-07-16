@@ -46,12 +46,7 @@ const ClienteForm = ({ token, onClienteGuardado, clienteEditar, setClienteEditar
       : 'https://web-production-2486a.up.railway.app/api/clientes/';
     const method = clienteEditar ? 'PUT' : 'POST';
 
-    // ⚠️ Solo agregar user_id si estamos creando
-    const data = {
-      nombre,
-      direccion,
-      telefono
-    };
+    const data = { nombre, direccion, telefono };
 
     if (!clienteEditar) {
       const userId = JSON.parse(localStorage.getItem('user'))?.id;
@@ -83,27 +78,9 @@ const ClienteForm = ({ token, onClienteGuardado, clienteEditar, setClienteEditar
   return (
     <form onSubmit={handleSubmit}>
       <h3>{clienteEditar ? 'Editar Cliente' : 'Registrar Cliente'}</h3>
-      <input
-        type="text"
-        placeholder="Nombre"
-        value={nombre}
-        onChange={(e) => setNombre(e.target.value)}
-        required
-      />
-      <input
-        type="text"
-        placeholder="Dirección"
-        value={direccion}
-        onChange={(e) => setDireccion(e.target.value)}
-        required
-      />
-      <input
-        type="text"
-        placeholder="Teléfono"
-        value={telefono}
-        onChange={(e) => setTelefono(e.target.value)}
-        required
-      />
+      <input type="text" placeholder="Nombre" value={nombre} onChange={(e) => setNombre(e.target.value)} required />
+      <input type="text" placeholder="Dirección" value={direccion} onChange={(e) => setDireccion(e.target.value)} required />
+      <input type="text" placeholder="Teléfono" value={telefono} onChange={(e) => setTelefono(e.target.value)} required />
       <button type="submit">{clienteEditar ? 'Guardar Cambios' : 'Crear'}</button>
       {clienteEditar && (
         <button type="button" onClick={() => setClienteEditar(null)}>Cancelar</button>
