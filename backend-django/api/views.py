@@ -40,13 +40,20 @@ class AgricultorViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
 
     def create(self, request, *args, **kwargs):
-        user_id = request.data.get('user_id')
-        if Agricultor.objects.filter(user_id=user_id).exists():
-            return Response(
-                {"user_id": ["Este usuario ya tiene un perfil de agricultor."]},
-                status=status.HTTP_400_BAD_REQUEST
-            )
-        return super().create(request, *args, **kwargs)
+       user_id = request.data.get('user_id')
+       if Agricultor.objects.filter(user_id=user_id).exists():
+        return Response(
+            {"user_id": ["Este usuario ya tiene un perfil de agricultor."]},
+            status=status.HTTP_400_BAD_REQUEST
+        )
+
+       mutable_data = request.data.copy()
+       mutable_data['user'] = user_id
+       serializer = self.get_serializer(data=mutable_data)
+       serializer.is_valid(raise_exception=True)
+       self.perform_create(serializer)
+       return Response(serializer.data, status=status.HTTP_201_CREATED)
+
 
 # CRUD Cliente con validación personalizada
 class ClienteViewSet(viewsets.ModelViewSet):
@@ -55,13 +62,20 @@ class ClienteViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
 
     def create(self, request, *args, **kwargs):
-        user_id = request.data.get('user_id')
-        if Cliente.objects.filter(user_id=user_id).exists():
-            return Response(
-                {"user_id": ["Este usuario ya tiene un perfil de cliente."]},
-                status=status.HTTP_400_BAD_REQUEST
-            )
-        return super().create(request, *args, **kwargs)
+       user_id = request.data.get('user_id')
+       if Cliente.objects.filter(user_id=user_id).exists():
+        return Response(
+            {"user_id": ["Este usuario ya tiene un perfil de cliente."]},
+            status=status.HTTP_400_BAD_REQUEST
+        )
+
+       mutable_data = request.data.copy()
+       mutable_data['user'] = user_id
+       serializer = self.get_serializer(data=mutable_data)
+       serializer.is_valid(raise_exception=True)
+       self.perform_create(serializer)
+       return Response(serializer.data, status=status.HTTP_201_CREATED)
+
 
 # CRUD restantes
 class CategoriaViewSet(viewsets.ModelViewSet):
