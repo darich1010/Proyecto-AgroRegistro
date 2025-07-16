@@ -21,9 +21,8 @@ class RegisterView(APIView):
     def post(self, request):
         serializer = RegisterSerializer(data=request.data)
         if serializer.is_valid():
-            user = serializer.save()
-            user_data = UserSerializer(user).data  # 👈 Aquí devolvemos el objeto con id, username, etc.
-            return Response(user_data, status=status.HTTP_201_CREATED)
+            serializer.save()
+            return Response({"message": "Usuario creado exitosamente"}, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 # Ver información del usuario autenticado
@@ -34,12 +33,37 @@ class UserView(APIView):
         serializer = UserSerializer(request.user)
         return Response(serializer.data)
 
-# CRUDs protegidos por autenticación
+# CRUD Agricultor con validación personalizada
 class AgricultorViewSet(viewsets.ModelViewSet):
     queryset = Agricultor.objects.all()
     serializer_class = AgricultorSerializer
     permission_classes = [IsAuthenticated]
 
+    def create(self, request, *args, **kwargs):
+        user_id = request.data.get('user_id')
+        if Agricultor.objects.filter(user_id=user_id).exists():
+            return Response(
+                {"user_id": ["Este usuario ya tiene un perfil de agricultor."]},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        return super().create(request, *args, **kwargs)
+
+# CRUD Cliente con validación personalizada
+class ClienteViewSet(viewsets.ModelViewSet):
+    queryset = Cliente.objects.all()
+    serializer_class = ClienteSerializer
+    permission_classes = [IsAuthenticated]
+
+    def create(self, request, *args, **kwargs):
+        user_id = request.data.get('user_id')
+        if Cliente.objects.filter(user_id=user_id).exists():
+            return Response(
+                {"user_id": ["Este usuario ya tiene un perfil de cliente."]},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        return super().create(request, *args, **kwargs)
+
+# CRUD restantes
 class CategoriaViewSet(viewsets.ModelViewSet):
     queryset = Categoria.objects.all()
     serializer_class = CategoriaSerializer
@@ -53,9 +77,4 @@ class ProductoViewSet(viewsets.ModelViewSet):
 class OfertaViewSet(viewsets.ModelViewSet):
     queryset = Oferta.objects.all()
     serializer_class = OfertaSerializer
-    permission_classes = [IsAuthenticated]
-
-class ClienteViewSet(viewsets.ModelViewSet):
-    queryset = Cliente.objects.all()
-    serializer_class = ClienteSerializer
     permission_classes = [IsAuthenticated]
