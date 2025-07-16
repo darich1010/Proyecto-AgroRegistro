@@ -51,7 +51,7 @@ const RegistroAgricultor = () => {
           departamento,
           provincia,
           distrito,
-          user: newUser.id
+          user_id: newUser.id
         })
       });
 

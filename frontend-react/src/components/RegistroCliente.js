@@ -52,7 +52,7 @@ const RegistroCliente = () => {
           nombre,
           direccion,
           telefono,
-          user: newUser.id
+          user_id: newUser.id
         })
       });
 
