@@ -1,12 +1,11 @@
-// frontend-react/src/components/LoginForm.js
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // ✅ importante
+import { useNavigate } from 'react-router-dom';
 
 const LoginForm = ({ onLoginSuccess }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const navigate = useNavigate(); // ✅ para redirigir
+  const navigate = useNavigate();
 
   const logout = () => {
     localStorage.removeItem('token');
@@ -44,27 +43,37 @@ const LoginForm = ({ onLoginSuccess }) => {
       });
       const userData = await userRes.json();
 
-      const clienteRes = await fetch('https://web-production-2486a.up.railway.app/api/clientes/', {
-        headers: { Authorization: `Bearer ${accessToken}` }
-      });
-      const clientes = await clienteRes.json();
-      const isCliente = clientes.some(cli => cli.user === userData.id);
+      // Obtener listas
+      const [clienteRes, agricultorRes] = await Promise.all([
+        fetch('https://web-production-2486a.up.railway.app/api/clientes/', {
+          headers: { Authorization: `Bearer ${accessToken}` }
+        }),
+        fetch('https://web-production-2486a.up.railway.app/api/agricultores/', {
+          headers: { Authorization: `Bearer ${accessToken}` }
+        })
+      ]);
 
-      const agricultorRes = await fetch('https://web-production-2486a.up.railway.app/api/agricultores/', {
-        headers: { Authorization: `Bearer ${accessToken}` }
-      });
+      const clientes = await clienteRes.json();
       const agricultores = await agricultorRes.json();
+
+      const isCliente = clientes.some(cli => cli.user === userData.id);
       const isAgricultor = agricultores.some(ag => ag.user === userData.id);
 
-      const rol = isCliente ? 'cliente' : isAgricultor ? 'agricultor' : 'admin';
+      console.log('userData.id:', userData.id);
+      console.log('Clientes:', clientes.map(c => c.user));
+      console.log('Agricultores:', agricultores.map(a => a.user));
+      console.log('isCliente:', isCliente, 'isAgricultor:', isAgricultor);
+
+      let rol = 'admin';
+      if (isCliente) rol = 'cliente';
+      else if (isAgricultor) rol = 'agricultor';
 
       localStorage.setItem('token', accessToken);
       localStorage.setItem('user', JSON.stringify(userData));
       localStorage.setItem('rol', rol);
 
-      onLoginSuccess(accessToken, userData, rol); // primero setea estados
+      onLoginSuccess(accessToken, userData, rol);
 
-      // luego redirige
       if (rol === 'cliente') navigate('/cliente/dashboard');
       else if (rol === 'agricultor') navigate('/agricultor/dashboard');
       else navigate('/admin/dashboard');
