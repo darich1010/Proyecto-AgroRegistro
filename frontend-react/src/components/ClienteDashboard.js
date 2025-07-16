@@ -1,22 +1,14 @@
+// frontend-react/src/components/ClienteDashboard.js
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import LogoutButton from './LogoutButton';
 import ClienteList from './ClienteList';
 import OfertaList from './OfertaList';
 
 const ClienteDashboard = ({ token }) => {
-  const navigate = useNavigate();
-
-  const handleLogout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('rol');
-    localStorage.removeItem('user');
-    navigate('/');
-  };
-
   return (
     <div style={styles.container}>
       <h2>Bienvenido al Panel del Cliente 👤</h2>
-      <button onClick={handleLogout} style={styles.logout}>Cerrar Sesión</button>
+      <LogoutButton />
       <p>Desde aquí puedes ver tus datos personales y explorar las ofertas disponibles.</p>
 
       <section style={styles.section}>
@@ -42,15 +34,6 @@ const styles = {
   },
   section: {
     marginTop: '2rem'
-  },
-  logout: {
-    float: 'right',
-    backgroundColor: '#c62828',
-    color: 'white',
-    border: 'none',
-    padding: '0.5rem 1rem',
-    borderRadius: '5px',
-    cursor: 'pointer'
   }
 };
 
