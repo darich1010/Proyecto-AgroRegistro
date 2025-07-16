@@ -17,7 +17,6 @@ const ClienteForm = ({ token, onClienteGuardado, clienteEditar, setClienteEditar
     }
   }, [clienteEditar]);
 
-  // ✅ Función para cerrar sesión si token ya no es válido
   const logout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('rol');
@@ -25,7 +24,6 @@ const ClienteForm = ({ token, onClienteGuardado, clienteEditar, setClienteEditar
     window.location.reload();
   };
 
-  // ✅ Wrapper para fetch con manejo de 401
   const authFetch = async (url, options = {}) => {
     const res = await fetch(url, {
       ...options,
@@ -48,14 +46,25 @@ const ClienteForm = ({ token, onClienteGuardado, clienteEditar, setClienteEditar
       : 'https://web-production-2486a.up.railway.app/api/clientes/';
     const method = clienteEditar ? 'PUT' : 'POST';
 
+    // ⚠️ Solo agregar user_id si estamos creando
+    const data = {
+      nombre,
+      direccion,
+      telefono
+    };
+
+    if (!clienteEditar) {
+      const userId = JSON.parse(localStorage.getItem('user'))?.id;
+      if (!userId) {
+        alert('No se encontró el ID del usuario autenticado');
+        return;
+      }
+      data.user_id = userId;
+    }
+
     const response = await authFetch(url, {
       method,
-      body: JSON.stringify({
-        nombre,
-        direccion,
-        telefono,
-        user_id: JSON.parse(localStorage.getItem('user'))?.id
-      })
+      body: JSON.stringify(data)
     });
 
     if (response.ok) {
@@ -65,6 +74,8 @@ const ClienteForm = ({ token, onClienteGuardado, clienteEditar, setClienteEditar
       setDireccion('');
       setTelefono('');
     } else {
+      const errorData = await response.json();
+      console.error("❌ Error backend:", errorData);
       alert('Error al guardar cliente');
     }
   };

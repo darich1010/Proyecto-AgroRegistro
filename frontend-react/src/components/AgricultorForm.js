@@ -6,7 +6,6 @@ const AgricultorForm = ({ token, onAgricultorGuardado, agricultorEditar, setAgri
   const [departamento, setDepartamento] = useState('');
   const [provincia, setProvincia] = useState('');
   const [distrito, setDistrito] = useState('');
-  const [userId, setUserId] = useState(1); // fijo por ahora
 
   useEffect(() => {
     if (agricultorEditar) {
@@ -24,7 +23,6 @@ const AgricultorForm = ({ token, onAgricultorGuardado, agricultorEditar, setAgri
     }
   }, [agricultorEditar]);
 
-  // ✅ Cierre de sesión automático si el token expiró
   const logout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('rol');
@@ -48,21 +46,33 @@ const AgricultorForm = ({ token, onAgricultorGuardado, agricultorEditar, setAgri
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     const url = agricultorEditar
       ? `https://web-production-2486a.up.railway.app/api/agricultores/${agricultorEditar.id}/`
       : 'https://web-production-2486a.up.railway.app/api/agricultores/';
     const method = agricultorEditar ? 'PUT' : 'POST';
 
+    // ⚠️ Construir el body
+    const data = {
+      nombre,
+      telefono,
+      departamento,
+      provincia,
+      distrito
+    };
+
+    if (!agricultorEditar) {
+      const userId = JSON.parse(localStorage.getItem('user'))?.id;
+      if (!userId) {
+        alert('No se encontró el ID del usuario autenticado');
+        return;
+      }
+      data.user_id = userId;
+    }
+
     const response = await authFetch(url, {
       method,
-      body: JSON.stringify({
-        nombre,
-        telefono,
-        departamento,
-        provincia,
-        distrito,
-        user_id: userId
-      })
+      body: JSON.stringify(data)
     });
 
     if (response.ok) {
@@ -74,6 +84,8 @@ const AgricultorForm = ({ token, onAgricultorGuardado, agricultorEditar, setAgri
       setProvincia('');
       setDistrito('');
     } else {
+      const errorData = await response.json();
+      console.error("❌ Error backend:", errorData);
       alert('Error al guardar agricultor');
     }
   };
