@@ -62,12 +62,12 @@ const LoginForm = ({ onLoginSuccess }) => {
       localStorage.setItem('user', JSON.stringify(userData));
       localStorage.setItem('rol', rol);
 
-      // ✅ redireccionamos directamente al dashboard correcto
+      onLoginSuccess(accessToken, userData, rol); // primero setea estados
+
+      // luego redirige
       if (rol === 'cliente') navigate('/cliente/dashboard');
       else if (rol === 'agricultor') navigate('/agricultor/dashboard');
       else navigate('/admin/dashboard');
-
-      onLoginSuccess(accessToken, userData, rol);
 
     } catch (err) {
       setError(err.message || 'Error al iniciar sesión');
