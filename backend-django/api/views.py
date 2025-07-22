@@ -1,48 +1,40 @@
-from rest_framework import viewsets, permissions, generics, status
+import logging
+from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework.permissions import IsAuthenticated, AllowAny
-import traceback 
-
-# Desactivar CSRF para la vista de registro
+from rest_framework.permissions import AllowAny
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
+from .serializers import RegisterSerializer
 
-# Modelos
-from .models import Usuario, Agricultor, Categoria, Producto, Oferta, Cliente
+logger = logging.getLogger(__name__)
 
-# Serializadores
-from .serializers import (
-    UserSerializer,
-    RegisterSerializer,
-    AgricultorSerializer,
-    CategoriaSerializer,
-    ProductoSerializer,
-    OfertaSerializer,
-    ClienteSerializer
-)
-
-# ✅ Registro de nuevo usuario (sin CSRF)
 @method_decorator(csrf_exempt, name='dispatch')
 class RegisterView(APIView):
     permission_classes = [AllowAny]
 
     def post(self, request):
+        logger.error("📥 Petición recibida en /api/register/")
+        logger.error(f"📦 Datos recibidos: {request.data}")
+
         serializer = RegisterSerializer(data=request.data)
         if serializer.is_valid():
             try:
                 usuario = serializer.save()
+                logger.error(f"✅ Usuario creado exitosamente: {usuario.username}")
                 return Response({"message": "Usuario creado exitosamente", "id": usuario.id}, status=status.HTTP_201_CREATED)
             except Exception as e:
                 import traceback
-                print("❌ Error al guardar usuario:")
-                print(traceback.format_exc())  # 👈 Esta línea es la que imprime el error en los logs Railway
+                logger.error("❌ Error al guardar usuario:")
+                logger.error(traceback.format_exc())
                 return Response({
                     "error": "Error al guardar usuario",
                     "detalle": str(e),
                     "trace": traceback.format_exc()
                 }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        logger.error(f"❌ Errores en datos recibidos: {serializer.errors}")
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 # ✅ Ver información del usuario autenticado
 class UserView(APIView):
