@@ -26,6 +26,9 @@ class RegisterSerializer(serializers.ModelSerializer):
                   'nombre', 'telefono', 'direccion', 'ruc', 'empresa']
 
     def create(self, validated_data):
+        # ✅ Copiar datos antes de modificarlos
+        extra_fields = validated_data.copy()
+
         tipo = validated_data.pop('tipo_usuario')
         password = validated_data.pop('password')
 
@@ -34,19 +37,19 @@ class RegisterSerializer(serializers.ModelSerializer):
         usuario.tipo_usuario = tipo
         usuario.save()
 
-        # Crear perfil según tipo de usuario
+        # ✅ Usar los campos copiados para crear perfil
         if tipo == 'cliente':
             Cliente.objects.create(
                 usuario=usuario,
-                nombre=validated_data.get('nombre', ''),
-                direccion=validated_data.get('direccion', ''),
-                telefono=validated_data.get('telefono', '')
+                nombre=extra_fields.get('nombre', ''),
+                direccion=extra_fields.get('direccion', ''),
+                telefono=extra_fields.get('telefono', '')
             )
         elif tipo == 'agricultor':
             Agricultor.objects.create(
                 usuario=usuario,
-                nombre=validated_data.get('nombre', ''),
-                telefono=validated_data.get('telefono', ''),
+                nombre=extra_fields.get('nombre', ''),
+                telefono=extra_fields.get('telefono', ''),
                 departamento='',
                 provincia='',
                 distrito='',
