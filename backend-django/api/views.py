@@ -3,9 +3,14 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated, AllowAny
 
-# Usamos el modelo de usuario personalizado
+# Desactivar CSRF para la vista de registro
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
+
+# Modelos
 from .models import Usuario, Agricultor, Categoria, Producto, Oferta, Cliente
 
+# Serializadores
 from .serializers import (
     UserSerializer,
     RegisterSerializer,
@@ -16,7 +21,8 @@ from .serializers import (
     ClienteSerializer
 )
 
-# Registro de nuevo usuario
+# ✅ Registro de nuevo usuario (sin CSRF)
+@method_decorator(csrf_exempt, name='dispatch')
 class RegisterView(APIView):
     permission_classes = [AllowAny]
 
@@ -27,7 +33,7 @@ class RegisterView(APIView):
             return Response({"message": "Usuario creado exitosamente"}, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-# Ver información del usuario autenticado
+# ✅ Ver información del usuario autenticado
 class UserView(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -35,7 +41,7 @@ class UserView(APIView):
         serializer = UserSerializer(request.user)
         return Response(serializer.data)
 
-# CRUD Agricultor con validación personalizada
+# ✅ CRUD Agricultor con validación personalizada
 class AgricultorViewSet(viewsets.ModelViewSet):
     queryset = Agricultor.objects.all()
     serializer_class = AgricultorSerializer
@@ -56,7 +62,7 @@ class AgricultorViewSet(viewsets.ModelViewSet):
         self.perform_create(serializer)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
-# CRUD Cliente con validación personalizada
+# ✅ CRUD Cliente con validación personalizada
 class ClienteViewSet(viewsets.ModelViewSet):
     queryset = Cliente.objects.all()
     serializer_class = ClienteSerializer
@@ -77,7 +83,7 @@ class ClienteViewSet(viewsets.ModelViewSet):
         self.perform_create(serializer)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
-# CRUD restantes
+# ✅ CRUD restantes
 class CategoriaViewSet(viewsets.ModelViewSet):
     queryset = Categoria.objects.all()
     serializer_class = CategoriaSerializer

@@ -3,6 +3,8 @@ import sys
 from pathlib import Path
 from decouple import config
 import dj_database_url
+from corsheaders.defaults import default_headers
+
 
 # BASE_DIR sirve para rutas relativas dentro del proyecto
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -112,8 +114,15 @@ REST_FRAMEWORK = {
 # Configuración CORS
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
-    "https://agroregistro-frontend.vercel.app",
+    "https://agroregistro-frontend.vercel.app"
 ]
+
+CORS_ALLOW_HEADERS = list(default_headers) + [
+    'access-control-allow-origin',
+    'authorization',
+    'content-type',
+]
+
 
 
 CSRF_TRUSTED_ORIGINS = ['https://agroregistro-frontend.vercel.app']
