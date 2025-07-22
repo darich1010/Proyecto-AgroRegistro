@@ -140,4 +140,15 @@ LOGGING = {
     },
 }
 
+# 🔧 Métodos permitidos explícitamente
+CORS_ALLOW_METHODS = [
+    "DELETE",
+    "GET",
+    "OPTIONS",
+    "PATCH",
+    "POST",
+    "PUT",
+]
+
+
 # dummy change to force redeploy
