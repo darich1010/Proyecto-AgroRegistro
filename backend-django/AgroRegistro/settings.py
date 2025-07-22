@@ -30,6 +30,9 @@ INSTALLED_APPS = [
     'api',
 ]
 
+# MODELO DE USUARIO PERSONALIZADO 👇✅
+AUTH_USER_MODEL = 'api.Usuario'  # <- ESTA LÍNEA ES CRUCIAL
+
 # Middleware
 MIDDLEWARE = [       
     'corsheaders.middleware.CorsMiddleware',  # debe ir primero
@@ -61,7 +64,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'AgroRegistro.wsgi.application'
 
-# Base de datos (SQLite por defecto, cambiará a Supabase con solo modificar el .env)
+# Base de datos (Supabase configurado vía .env)
 DATABASES = {
     'default': dj_database_url.config(
         default=config('DATABASE_URL'),
@@ -69,7 +72,6 @@ DATABASES = {
         ssl_require=True
     )
 }
-
 
 # Validación de contraseñas
 AUTH_PASSWORD_VALIDATORS = [
@@ -103,13 +105,15 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
-        'rest_framework.authentication.SessionAuthentication',  # útil en admin y navegador local
+        'rest_framework.authentication.SessionAuthentication',
     ),
 }
 
+# Configuración CORS
 CORS_ALLOW_ALL_ORIGINS = True
 CSRF_TRUSTED_ORIGINS = ['https://agroregistro-frontend.vercel.app']
 
+# Logging para desarrollo
 LOGGING = {
     'version': 1,
     'handlers': {

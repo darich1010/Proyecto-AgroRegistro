@@ -1,0 +1,291 @@
+[
+  {
+    "model": "api.usuario",
+    "pk": 1,
+    "fields": {
+      "username": "agri1",
+      "password": "pbkdf2_sha256$600000$eNwW3uQotEZ1k0AbI3EnSt$g3iCHvw6ngvdyS/6QFwAfq6L9zQUFczWyAPjH9AIg3I=",
+      "is_active": true,
+      "is_staff": false,
+      "is_superuser": false,
+      "tipo_usuario": "agricultor"
+    }
+  },
+  {
+    "model": "api.usuario",
+    "pk": 2,
+    "fields": {
+      "username": "agri2",
+      "password": "pbkdf2_sha256$600000$eNwW3uQotEZ1k0AbI3EnSt$g3iCHvw6ngvdyS/6QFwAfq6L9zQUFczWyAPjH9AIg3I=",
+      "is_active": true,
+      "is_staff": false,
+      "is_superuser": false,
+      "tipo_usuario": "agricultor"
+    }
+  },
+  {
+    "model": "api.usuario",
+    "pk": 3,
+    "fields": {
+      "username": "agri3",
+      "password": "pbkdf2_sha256$600000$eNwW3uQotEZ1k0AbI3EnSt$g3iCHvw6ngvdyS/6QFwAfq6L9zQUFczWyAPjH9AIg3I=",
+      "is_active": true,
+      "is_staff": false,
+      "is_superuser": false,
+      "tipo_usuario": "agricultor"
+    }
+  },
+  {
+    "model": "api.usuario",
+    "pk": 4,
+    "fields": {
+      "username": "agri4",
+      "password": "pbkdf2_sha256$600000$eNwW3uQotEZ1k0AbI3EnSt$g3iCHvw6ngvdyS/6QFwAfq6L9zQUFczWyAPjH9AIg3I=",
+      "is_active": true,
+      "is_staff": false,
+      "is_superuser": false,
+      "tipo_usuario": "agricultor"
+    }
+  },
+  {
+    "model": "api.usuario",
+    "pk": 5,
+    "fields": {
+      "username": "agri5",
+      "password": "pbkdf2_sha256$600000$eNwW3uQotEZ1k0AbI3EnSt$g3iCHvw6ngvdyS/6QFwAfq6L9zQUFczWyAPjH9AIg3I=",
+      "is_active": true,
+      "is_staff": false,
+      "is_superuser": false,
+      "tipo_usuario": "agricultor"
+    }
+  },
+  {
+    "model": "api.usuario",
+    "pk": 6,
+    "fields": {
+      "username": "agri6",
+      "password": "pbkdf2_sha256$600000$eNwW3uQotEZ1k0AbI3EnSt$g3iCHvw6ngvdyS/6QFwAfq6L9zQUFczWyAPjH9AIg3I=",
+      "is_active": true,
+      "is_staff": false,
+      "is_superuser": false,
+      "tipo_usuario": "agricultor"
+    }
+  },
+  {
+    "model": "api.usuario",
+    "pk": 7,
+    "fields": {
+      "username": "agri7",
+      "password": "pbkdf2_sha256$600000$eNwW3uQotEZ1k0AbI3EnSt$g3iCHvw6ngvdyS/6QFwAfq6L9zQUFczWyAPjH9AIg3I=",
+      "is_active": true,
+      "is_staff": false,
+      "is_superuser": false,
+      "tipo_usuario": "agricultor"
+    }
+  },
+  {
+    "model": "api.usuario",
+    "pk": 8,
+    "fields": {
+      "username": "agri8",
+      "password": "pbkdf2_sha256$600000$eNwW3uQotEZ1k0AbI3EnSt$g3iCHvw6ngvdyS/6QFwAfq6L9zQUFczWyAPjH9AIg3I=",
+      "is_active": true,
+      "is_staff": false,
+      "is_superuser": false,
+      "tipo_usuario": "agricultor"
+    }
+  },
+  {
+    "model": "api.usuario",
+    "pk": 9,
+    "fields": {
+      "username": "agri9",
+      "password": "pbkdf2_sha256$600000$eNwW3uQotEZ1k0AbI3EnSt$g3iCHvw6ngvdyS/6QFwAfq6L9zQUFczWyAPjH9AIg3I=",
+      "is_active": true,
+      "is_staff": false,
+      "is_superuser": false,
+      "tipo_usuario": "agricultor"
+    }
+  },
+  {
+    "model": "api.usuario",
+    "pk": 10,
+    "fields": {
+      "username": "agri10",
+      "password": "pbkdf2_sha256$600000$eNwW3uQotEZ1k0AbI3EnSt$g3iCHvw6ngvdyS/6QFwAfq6L9zQUFczWyAPjH9AIg3I=",
+      "is_active": true,
+      "is_staff": false,
+      "is_superuser": false,
+      "tipo_usuario": "agricultor"
+    }
+  },
+  {
+    "model": "api.usuario",
+    "pk": 11,
+    "fields": {
+      "username": "agri11",
+      "password": "pbkdf2_sha256$600000$eNwW3uQotEZ1k0AbI3EnSt$g3iCHvw6ngvdyS/6QFwAfq6L9zQUFczWyAPjH9AIg3I=",
+      "is_active": true,
+      "is_staff": false,
+      "is_superuser": false,
+      "tipo_usuario": "agricultor"
+    }
+  },
+  {
+    "model": "api.usuario",
+    "pk": 12,
+    "fields": {
+      "username": "agri12",
+      "password": "pbkdf2_sha256$600000$eNwW3uQotEZ1k0AbI3EnSt$g3iCHvw6ngvdyS/6QFwAfq6L9zQUFczWyAPjH9AIg3I=",
+      "is_active": true,
+      "is_staff": false,
+      "is_superuser": false,
+      "tipo_usuario": "agricultor"
+    }
+  },
+  {
+    "model": "api.usuario",
+    "pk": 13,
+    "fields": {
+      "username": "agri13",
+      "password": "pbkdf2_sha256$600000$eNwW3uQotEZ1k0AbI3EnSt$g3iCHvw6ngvdyS/6QFwAfq6L9zQUFczWyAPjH9AIg3I=",
+      "is_active": true,
+      "is_staff": false,
+      "is_superuser": false,
+      "tipo_usuario": "agricultor"
+    }
+  },
+  {
+    "model": "api.usuario",
+    "pk": 14,
+    "fields": {
+      "username": "agri14",
+      "password": "pbkdf2_sha256$600000$eNwW3uQotEZ1k0AbI3EnSt$g3iCHvw6ngvdyS/6QFwAfq6L9zQUFczWyAPjH9AIg3I=",
+      "is_active": true,
+      "is_staff": false,
+      "is_superuser": false,
+      "tipo_usuario": "agricultor"
+    }
+  },
+  {
+    "model": "api.usuario",
+    "pk": 15,
+    "fields": {
+      "username": "agri15",
+      "password": "pbkdf2_sha256$600000$eNwW3uQotEZ1k0AbI3EnSt$g3iCHvw6ngvdyS/6QFwAfq6L9zQUFczWyAPjH9AIg3I=",
+      "is_active": true,
+      "is_staff": false,
+      "is_superuser": false,
+      "tipo_usuario": "agricultor"
+    }
+  },
+  {
+    "model": "api.usuario",
+    "pk": 16,
+    "fields": {
+      "username": "agri16",
+      "password": "pbkdf2_sha256$600000$eNwW3uQotEZ1k0AbI3EnSt$g3iCHvw6ngvdyS/6QFwAfq6L9zQUFczWyAPjH9AIg3I=",
+      "is_active": true,
+      "is_staff": false,
+      "is_superuser": false,
+      "tipo_usuario": "agricultor"
+    }
+  },
+  {
+    "model": "api.usuario",
+    "pk": 17,
+    "fields": {
+      "username": "agri17",
+      "password": "pbkdf2_sha256$600000$eNwW3uQotEZ1k0AbI3EnSt$g3iCHvw6ngvdyS/6QFwAfq6L9zQUFczWyAPjH9AIg3I=",
+      "is_active": true,
+      "is_staff": false,
+      "is_superuser": false,
+      "tipo_usuario": "agricultor"
+    }
+  },
+  {
+    "model": "api.usuario",
+    "pk": 18,
+    "fields": {
+      "username": "agri18",
+      "password": "pbkdf2_sha256$600000$eNwW3uQotEZ1k0AbI3EnSt$g3iCHvw6ngvdyS/6QFwAfq6L9zQUFczWyAPjH9AIg3I=",
+      "is_active": true,
+      "is_staff": false,
+      "is_superuser": false,
+      "tipo_usuario": "agricultor"
+    }
+  },
+  {
+    "model": "api.usuario",
+    "pk": 19,
+    "fields": {
+      "username": "agri19",
+      "password": "pbkdf2_sha256$600000$eNwW3uQotEZ1k0AbI3EnSt$g3iCHvw6ngvdyS/6QFwAfq6L9zQUFczWyAPjH9AIg3I=",
+      "is_active": true,
+      "is_staff": false,
+      "is_superuser": false,
+      "tipo_usuario": "agricultor"
+    }
+  },
+  {
+    "model": "api.usuario",
+    "pk": 20,
+    "fields": {
+      "username": "agri20",
+      "password": "pbkdf2_sha256$600000$eNwW3uQotEZ1k0AbI3EnSt$g3iCHvw6ngvdyS/6QFwAfq6L9zQUFczWyAPjH9AIg3I=",
+      "is_active": true,
+      "is_staff": false,
+      "is_superuser": false,
+      "tipo_usuario": "agricultor"
+    }
+  },
+  {
+  "model": "api.usuario",
+  "pk": 21,
+  "fields": {
+    "username": "cliente1",
+    "password": "pbkdf2_sha256$600000$eNwW3uQotEZ1k0AbI3EnSt$g3iCHvw6ngvdyS/6QFwAfq6L9zQUFczWyAPjH9AIg3I=",
+    "is_active": true,
+    "is_staff": false,
+    "is_superuser": false,
+    "tipo_usuario": "cliente"
+  }
+},
+{
+  "model": "api.usuario",
+  "pk": 22,
+  "fields": {
+    "username": "cliente2",
+    "password": "pbkdf2_sha256$600000$eNwW3uQotEZ1k0AbI3EnSt$g3iCHvw6ngvdyS/6QFwAfq6L9zQUFczWyAPjH9AIg3I=",
+    "is_active": true,
+    "is_staff": false,
+    "is_superuser": false,
+    "tipo_usuario": "cliente"
+  }
+},
+{
+  "model": "api.usuario",
+  "pk": 23,
+  "fields": {
+    "username": "cliente3",
+    "password": "pbkdf2_sha256$600000$eNwW3uQotEZ1k0AbI3EnSt$g3iCHvw6ngvdyS/6QFwAfq6L9zQUFczWyAPjH9AIg3I=",
+    "is_active": true,
+    "is_staff": false,
+    "is_superuser": false,
+    "tipo_usuario": "cliente"
+  }
+},
+{
+  "model": "api.usuario",
+  "pk": 24,
+  "fields": {
+    "username": "cliente4",
+    "password": "pbkdf2_sha256$600000$eNwW3uQotEZ1k0AbI3EnSt$g3iCHvw6ngvdyS/6QFwAfq6L9zQUFczWyAPjH9AIg3I=",
+    "is_active": true,
+    "is_staff": false,
+    "is_superuser": false,
+    "tipo_usuario": "cliente"
+  }
+}
+  
+]

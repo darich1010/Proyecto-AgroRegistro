@@ -8,7 +8,7 @@
             "departamento": "Cusco",
             "provincia": "Urubamba",
             "distrito": "Yucay",
-            "user": 1
+            "usuario": 1
         }
     },
     {
@@ -20,7 +20,7 @@
             "departamento": "Ayacucho",
             "provincia": "Huamanga",
             "distrito": "Carmen Alto",
-            "user": 1
+            "usuario": 2
         }
     },
     {
@@ -32,7 +32,7 @@
             "departamento": "Puno",
             "provincia": "San Román",
             "distrito": "Juliaca",
-            "user": 1
+            "usuario": 3
         }
     },
     {
@@ -44,7 +44,7 @@
             "departamento": "Arequipa",
             "provincia": "Arequipa",
             "distrito": "Cayma",
-            "user": 1
+            "usuario": 4
         }
     },
     {
@@ -56,7 +56,7 @@
             "departamento": "Junín",
             "provincia": "Huancayo",
             "distrito": "El Tambo",
-            "user": 1
+            "usuario": 5
         }
     },
     {
@@ -68,7 +68,7 @@
             "departamento": "La Libertad",
             "provincia": "Trujillo",
             "distrito": "Florencia de Mora",
-            "user": 1
+            "usuario": 6
         }
     },
     {
@@ -80,7 +80,7 @@
             "departamento": "Lambayeque",
             "provincia": "Chiclayo",
             "distrito": "José Leonardo Ortiz",
-            "user": 1
+            "usuario": 7
         }
     },
     {
@@ -92,7 +92,7 @@
             "departamento": "Cusco",
             "provincia": "Calca",
             "distrito": "Pisac",
-            "user": 1
+            "usuario": 8
         }
     },
     {
@@ -104,7 +104,7 @@
             "departamento": "Huancavelica",
             "provincia": "Tayacaja",
             "distrito": "Pampas",
-            "user": 1
+            "usuario": 9
         }
     },
     {
@@ -116,7 +116,7 @@
             "departamento": "Pasco",
             "provincia": "Daniel Alcides Carrión",
             "distrito": "Yanahuanca",
-            "user": 1
+            "usuario": 10
         }
     },    
     {
@@ -128,7 +128,7 @@
             "departamento": "Tacna",
             "provincia": "Tacna",
             "distrito": "Alto de la Alianza",
-            "user": 1
+            "usuario": 11
         }
     },
     {
@@ -140,7 +140,7 @@
             "departamento": "Moquegua",
             "provincia": "Mariscal Nieto",
             "distrito": "Samegua",
-            "user": 1
+            "usuario": 12
         }
     },
     {
@@ -152,7 +152,7 @@
             "departamento": "Apurímac",
             "provincia": "Abancay",
             "distrito": "Tamburco",
-            "user": 1
+            "usuario": 13
         }
     },
     {
@@ -164,7 +164,7 @@
             "departamento": "Amazonas",
             "provincia": "Chachapoyas",
             "distrito": "Molinopampa",
-            "user": 1
+            "usuario": 14
         }
     },
     {
@@ -176,7 +176,7 @@
             "departamento": "Piura",
             "provincia": "Piura",
             "distrito": "Castilla",
-            "user": 1
+            "usuario": 15
         }
     },
     {
@@ -188,7 +188,7 @@
             "departamento": "Ica",
             "provincia": "Ica",
             "distrito": "Pueblo Nuevo",
-            "user": 1
+            "usuario": 16
         }
     },
     {
@@ -200,7 +200,7 @@
             "departamento": "San Martín",
             "provincia": "Moyobamba",
             "distrito": "Calzada",
-            "user": 1
+            "usuario": 17
         }
     },
     {
@@ -212,7 +212,7 @@
             "departamento": "Madre de Dios",
             "provincia": "Tambopata",
             "distrito": "Las Piedras",
-            "user": 1
+            "usuario": 18
         }
     },
     {
@@ -224,7 +224,7 @@
             "departamento": "Ucayali",
             "provincia": "Coronel Portillo",
             "distrito": "Manantay",
-            "user": 1
+            "usuario": 19
         }
     },
     {
@@ -236,7 +236,7 @@
             "departamento": "Loreto",
             "provincia": "Maynas",
             "distrito": "Punchana",
-            "user": 1
+            "usuario": 20
         }
     }
 ]

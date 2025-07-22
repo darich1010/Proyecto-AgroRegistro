@@ -3,13 +3,13 @@ from .models import Agricultor, Categoria, Producto, Oferta, Cliente
 
 @admin.register(Cliente)
 class ClienteAdmin(admin.ModelAdmin):
-    list_display = ('id', 'user', 'nombre', 'telefono', 'direccion')
-    search_fields = ('nombre', 'user__username')
+    list_display = ('id', 'usuario', 'nombre', 'telefono', 'direccion')  # ← corregido
+    search_fields = ('nombre', 'usuario__username')                      # ← corregido
 
 
 @admin.register(Agricultor)
 class AgricultorAdmin(admin.ModelAdmin):
-    list_display = ('id', 'nombre', 'telefono', 'departamento', 'provincia', 'user')
+    list_display = ('id', 'nombre', 'telefono', 'departamento', 'provincia', 'usuario')  # ← corregido
     list_filter = ('departamento', 'provincia')
 
 @admin.register(Categoria)
@@ -25,8 +25,6 @@ class ProductoAdmin(admin.ModelAdmin):
 
 @admin.register(Oferta)
 class OfertaAdmin(admin.ModelAdmin):
-    list_display = ('producto', 'agricultor', 'precio', 'stock') 
-    search_fields = ('producto__nombre', 'agricultor__user__username')
-    list_filter = ('producto__categoria',)  
-
-    
+    list_display = ('producto', 'agricultor', 'precio', 'stock')
+    search_fields = ('producto__nombre', 'agricultor__usuario__username')  # ← corregido
+    list_filter = ('producto__categoria',)

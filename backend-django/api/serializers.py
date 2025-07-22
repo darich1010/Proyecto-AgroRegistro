@@ -1,47 +1,81 @@
 from rest_framework import serializers
-from django.contrib.auth.models import User
+from .models.usuario import Usuario
 from .models import Agricultor, Categoria, Producto, Oferta, Cliente
 
-# Serializador de usuario
+
+
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
-        model = User
+        model = Usuario  # ← Usamos el modelo personalizado
         fields = ['id', 'username', 'email']
 
-# Registro de nuevo usuario (con contraseña oculta)
+
+
 class RegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
+    tipo_usuario = serializers.ChoiceField(choices=[('cliente', 'Cliente'), ('agricultor', 'Agricultor')])
+    # Campos adicionales para Cliente/Agricultor
+    direccion = serializers.CharField(required=False)
+    telefono = serializers.CharField(required=False)
+    nombre = serializers.CharField(required=False)
+    ruc = serializers.CharField(required=False)
+    empresa = serializers.CharField(required=False)
 
     class Meta:
-        model = User
-        fields = ['username', 'email', 'password']
+        model = Usuario
+        fields = ['username', 'email', 'password', 'tipo_usuario',
+                  'direccion', 'telefono', 'nombre', 'ruc', 'empresa']
 
     def create(self, validated_data):
-        user = User.objects.create_user(
-            username=validated_data['username'],
-            email=validated_data.get('email'),
-            password=validated_data['password']
-        )
-        return user
+        tipo = validated_data.pop('tipo_usuario')
+        password = validated_data.pop('password')
 
-# Agricultor
+        usuario = Usuario(**validated_data)
+        usuario.set_password(password)
+        usuario.tipo_usuario = tipo
+        usuario.save()
+
+        if tipo == 'cliente':
+            Cliente.objects.create(
+                usuario=usuario,
+                nombre=validated_data.get('nombre', ''),
+                direccion=validated_data.get('direccion', ''),
+                telefono=validated_data.get('telefono', '')
+            )
+        elif tipo == 'agricultor':
+            Agricultor.objects.create(
+                usuario=usuario,
+                nombre=validated_data.get('nombre', ''),
+                telefono=validated_data.get('telefono', ''),
+                departamento='',
+                provincia='',
+                distrito='',
+                ruc=validated_data.get('ruc', ''),
+                empresa=validated_data.get('empresa', '')
+            )
+
+        return usuario
+
+
+
 class AgricultorSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=True)
     user_id = serializers.PrimaryKeyRelatedField(
-        queryset=User.objects.all(), source='user', write_only=True
+        queryset=Usuario.objects.all(), source='usuario', write_only=True
     )
 
     class Meta:
         model = Agricultor
         fields = ['id', 'user', 'user_id', 'nombre', 'telefono', 'departamento', 'provincia', 'distrito']
 
-# Categoría
+
+
 class CategoriaSerializer(serializers.ModelSerializer):
     class Meta:
         model = Categoria
         fields = '__all__'
 
-# Producto
+
 class ProductoSerializer(serializers.ModelSerializer):
     categoria = CategoriaSerializer(read_only=True)
     categoria_id = serializers.PrimaryKeyRelatedField(
@@ -52,7 +86,8 @@ class ProductoSerializer(serializers.ModelSerializer):
         model = Producto
         fields = ['id', 'nombre', 'categoria', 'categoria_id']
 
-# Oferta
+
+
 class OfertaSerializer(serializers.ModelSerializer):
     agricultor = AgricultorSerializer(read_only=True)
     agricultor_id = serializers.PrimaryKeyRelatedField(
@@ -68,13 +103,13 @@ class OfertaSerializer(serializers.ModelSerializer):
         fields = ['id', 'agricultor', 'agricultor_id', 'producto', 'producto_id', 'descripcion', 'precio', 'stock']
 
 
-# Cliente
+
 class ClienteSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=True)
     user_id = serializers.PrimaryKeyRelatedField(
-        queryset=User.objects.all(), source='user', write_only=True
+        queryset=Usuario.objects.all(), source='usuario', write_only=True
     )
 
     class Meta:
         model = Cliente
-        fields = ['id', 'nombre', 'direccion', 'telefono', 'user', 'user_id']  # Asegúrate de incluir 'nombre'
+        fields = ['id', 'nombre', 'direccion', 'telefono', 'user', 'user_id']

@@ -3,7 +3,7 @@
     "model": "api.cliente",
     "pk": 1,
     "fields": {
-      "user": 2,
+      "usuario": 21,
       "nombre": "Carlos García",
       "direccion": "Av. Lima 123",
       "telefono": "987654321"
@@ -13,7 +13,7 @@
     "model": "api.cliente",
     "pk": 2,
     "fields": {
-      "user": 3,
+      "usuario": 22,
       "nombre": "Lucía Fernández",
       "direccion": "Calle Los Robles 456",
       "telefono": "912345678"
@@ -23,7 +23,7 @@
     "model": "api.cliente",
     "pk": 3,
     "fields": {
-      "user": 4,
+      "usuario": 23,
       "nombre": "Pedro Torres",
       "direccion": "Jr. San Martín 789",
       "telefono": "998877665"
@@ -33,7 +33,7 @@
     "model": "api.cliente",
     "pk": 4,
     "fields": {
-      "user": 5,
+      "usuario": 24,
       "nombre": "Ana López",
       "direccion": "Av. El Sol 321",
       "telefono": "900112233"

@@ -1,9 +1,9 @@
 from django.db import models
-from django.contrib.auth.models import User
+from .usuario import Usuario  # Cambio necesario
 
 class Cliente(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    nombre = models.CharField(max_length=100)  # <- Añadir este campo
+    usuario = models.OneToOneField(Usuario, on_delete=models.CASCADE)  # Cambio aquí
+    nombre = models.CharField(max_length=100)
     direccion = models.CharField(max_length=255)
     telefono = models.CharField(max_length=20)
 
