@@ -17,11 +17,18 @@ const RegistroCliente = () => {
     try {
       console.log("➡️ Registrando:", { username, password, nombre, direccion, telefono });
 
-      // 1. Crear usuario
+      // ✅ 1. Crear usuario (con tipo_usuario y datos de cliente)
       const userRes = await fetch('https://web-production-2486a.up.railway.app/api/register/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, password })
+        body: JSON.stringify({
+          username,
+          password,
+          tipo_usuario: "cliente",  // ✅ agregado
+          nombre,
+          direccion,
+          telefono
+        })
       });
 
       if (!userRes.ok) {
@@ -87,4 +94,3 @@ const RegistroCliente = () => {
 };
 
 export default RegistroCliente;
-
