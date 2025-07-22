@@ -34,9 +34,12 @@ class RegisterView(APIView):
                 usuario = serializer.save()
                 return Response({"message": "Usuario creado exitosamente", "id": usuario.id}, status=status.HTTP_201_CREATED)
             except Exception as e:
-                print("❌ Error al guardar usuario:")
-                traceback.print_exc()  # 👈 Esto mostrará el traceback en Railway logs
-                return Response({"error": f"Error al guardar usuario: {str(e)}"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+               import traceback
+               return Response({
+                   "error": "Error al guardar usuario",
+                   "detalle": str(e),
+                   "trace": traceback.format_exc()
+                   }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 # ✅ Ver información del usuario autenticado
