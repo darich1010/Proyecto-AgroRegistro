@@ -12,7 +12,7 @@ class UserSerializer(serializers.ModelSerializer):
 class RegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
     tipo_usuario = serializers.ChoiceField(choices=Usuario.TIPO_USUARIO_CHOICES)
-    
+
     # Campos opcionales para cliente o agricultor
     direccion = serializers.CharField(required=False)
     telefono = serializers.CharField(required=False)
@@ -26,52 +26,39 @@ class RegisterSerializer(serializers.ModelSerializer):
                   'nombre', 'telefono', 'direccion', 'ruc', 'empresa']
 
     def create(self, validated_data):
-    # Copiar datos antes de modificarlos
-    extra_fields = validated_data.copy()
+        tipo = validated_data.pop('tipo_usuario')
+        password = validated_data.pop('password')
 
-    tipo = validated_data.pop('tipo_usuario')
-    password = validated_data.pop('password')
+        # Extrae campos adicionales (no son parte de Usuario)
+        nombre = validated_data.pop('nombre', '')
+        telefono = validated_data.pop('telefono', '')
+        direccion = validated_data.pop('direccion', '')
+        ruc = validated_data.pop('ruc', '')
+        empresa = validated_data.pop('empresa', '')
 
-    # ⚠️ Eliminar claves no pertenecientes al modelo Usuario
-    for campo in ['nombre', 'telefono', 'direccion', 'ruc', 'empresa']:
-        validated_data.pop(campo, None)
-
-    try:
-        print("✅ Datos para crear usuario:", validated_data)
         usuario = Usuario(**validated_data)
         usuario.set_password(password)
         usuario.tipo_usuario = tipo
         usuario.save()
-        print("✅ Usuario creado con ID:", usuario.id)
-    except Exception as e:
-        print("❌ Error al crear Usuario:", str(e))
-        raise
 
-    # Crear perfil según tipo de usuario
-    try:
         if tipo == 'cliente':
             Cliente.objects.create(
                 usuario=usuario,
-                nombre=extra_fields.get('nombre', ''),
-                direccion=extra_fields.get('direccion', ''),
-                telefono=extra_fields.get('telefono', '')
+                nombre=nombre,
+                direccion=direccion,
+                telefono=telefono
             )
-            print("✅ Perfil cliente creado")
         elif tipo == 'agricultor':
             Agricultor.objects.create(
                 usuario=usuario,
-                nombre=extra_fields.get('nombre', ''),
-                telefono=extra_fields.get('telefono', ''),
+                nombre=nombre,
+                telefono=telefono,
                 departamento='',
                 provincia='',
                 distrito='',
             )
-            print("✅ Perfil agricultor creado")
-    except Exception as e:
-        print("❌ Error al crear perfil:", str(e))
-        raise
 
-    return usuario
+        return usuario
 
 
 class AgricultorSerializer(serializers.ModelSerializer):
