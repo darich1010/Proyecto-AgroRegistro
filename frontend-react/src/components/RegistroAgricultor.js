@@ -17,50 +17,31 @@ const RegistroAgricultor = () => {
     setError('');
 
     try {
-      // 1. Crear usuario
       const userRes = await fetch('https://web-production-2486a.up.railway.app/api/register/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, password })
-      });
-
-      if (!userRes.ok) throw new Error('Error al registrar usuario');
-      const newUser = await userRes.json();
-
-      // 2. Obtener token para autorizar creación del agricultor
-      const tokenRes = await fetch('https://web-production-2486a.up.railway.app/api/token/', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, password })
-      });
-
-      if (!tokenRes.ok) throw new Error('No se pudo obtener token');
-      const tokenData = await tokenRes.json();
-      const accessToken = tokenData.access;
-
-      // 3. Crear agricultor autenticado
-      const agriRes = await fetch('https://web-production-2486a.up.railway.app/api/agricultores/', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${accessToken}`
-        },
         body: JSON.stringify({
+          username,
+          password,
+          tipo_usuario: "agricultor",
           nombre,
           telefono,
           departamento,
           provincia,
-          distrito,
-          usuario_id: newUser.id
+          distrito
         })
       });
 
-      if (!agriRes.ok) throw new Error('Error al registrar agricultor');
+      if (!userRes.ok) {
+        const errText = await userRes.text();
+        throw new Error(`Registro falló: ${errText}`);
+      }
 
       alert('Agricultor registrado correctamente');
       navigate('/login-agricultor');
 
     } catch (err) {
+      console.error("🛑 Error completo:", err);
       setError(err.message || 'Error en el registro');
     }
   };
