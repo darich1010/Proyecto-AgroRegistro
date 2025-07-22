@@ -7,6 +7,7 @@ from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from .serializers import RegisterSerializer
 from rest_framework.permissions import IsAuthenticated
+from rest_framework import viewsets
 
 
 logger = logging.getLogger(__name__)
