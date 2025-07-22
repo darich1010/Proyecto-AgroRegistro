@@ -26,18 +26,29 @@ class RegisterSerializer(serializers.ModelSerializer):
                   'nombre', 'telefono', 'direccion', 'ruc', 'empresa']
 
     def create(self, validated_data):
-        # ✅ Copiar datos antes de modificarlos
-        extra_fields = validated_data.copy()
+    # Copiar datos antes de modificarlos
+    extra_fields = validated_data.copy()
 
-        tipo = validated_data.pop('tipo_usuario')
-        password = validated_data.pop('password')
+    tipo = validated_data.pop('tipo_usuario')
+    password = validated_data.pop('password')
 
+    # ⚠️ Eliminar claves no pertenecientes al modelo Usuario
+    for campo in ['nombre', 'telefono', 'direccion', 'ruc', 'empresa']:
+        validated_data.pop(campo, None)
+
+    try:
+        print("✅ Datos para crear usuario:", validated_data)
         usuario = Usuario(**validated_data)
         usuario.set_password(password)
         usuario.tipo_usuario = tipo
         usuario.save()
+        print("✅ Usuario creado con ID:", usuario.id)
+    except Exception as e:
+        print("❌ Error al crear Usuario:", str(e))
+        raise
 
-        # ✅ Usar los campos copiados para crear perfil
+    # Crear perfil según tipo de usuario
+    try:
         if tipo == 'cliente':
             Cliente.objects.create(
                 usuario=usuario,
@@ -45,6 +56,7 @@ class RegisterSerializer(serializers.ModelSerializer):
                 direccion=extra_fields.get('direccion', ''),
                 telefono=extra_fields.get('telefono', '')
             )
+            print("✅ Perfil cliente creado")
         elif tipo == 'agricultor':
             Agricultor.objects.create(
                 usuario=usuario,
@@ -54,8 +66,12 @@ class RegisterSerializer(serializers.ModelSerializer):
                 provincia='',
                 distrito='',
             )
+            print("✅ Perfil agricultor creado")
+    except Exception as e:
+        print("❌ Error al crear perfil:", str(e))
+        raise
 
-        return usuario
+    return usuario
 
 
 class AgricultorSerializer(serializers.ModelSerializer):
