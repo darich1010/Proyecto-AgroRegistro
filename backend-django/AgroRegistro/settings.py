@@ -120,6 +120,7 @@ CORS_EXPOSE_HEADERS = ['Content-Disposition']  # 👈 Útil para descargas, opci
 # 🔐 CSRF desde el frontend de Vercel
 CSRF_TRUSTED_ORIGINS = [
     'https://agroregistro-frontend.vercel.app',
+    'https://web-production-2486a.up.railway.app',
 ]
 
 # Logging
