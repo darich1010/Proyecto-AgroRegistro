@@ -3,18 +3,17 @@ from .models.usuario import Usuario
 from .models import Agricultor, Categoria, Producto, Oferta, Cliente
 
 
-
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Usuario  # ← Usamos el modelo personalizado
-        fields = ['id', 'username', 'email']
-
+        model = Usuario
+        fields = ['id', 'username', 'email', 'tipo_usuario']
 
 
 class RegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
-    tipo_usuario = serializers.ChoiceField(choices=[('cliente', 'Cliente'), ('agricultor', 'Agricultor')])
-    # Campos adicionales para Cliente/Agricultor
+    tipo_usuario = serializers.ChoiceField(choices=Usuario.TIPO_USUARIO_CHOICES)
+    
+    # Campos opcionales para cliente o agricultor
     direccion = serializers.CharField(required=False)
     telefono = serializers.CharField(required=False)
     nombre = serializers.CharField(required=False)
@@ -24,7 +23,7 @@ class RegisterSerializer(serializers.ModelSerializer):
     class Meta:
         model = Usuario
         fields = ['username', 'email', 'password', 'tipo_usuario',
-                  'direccion', 'telefono', 'nombre', 'ruc', 'empresa']
+                  'nombre', 'telefono', 'direccion', 'ruc', 'empresa']
 
     def create(self, validated_data):
         tipo = validated_data.pop('tipo_usuario')
@@ -35,6 +34,7 @@ class RegisterSerializer(serializers.ModelSerializer):
         usuario.tipo_usuario = tipo
         usuario.save()
 
+        # Crear perfil según tipo de usuario
         if tipo == 'cliente':
             Cliente.objects.create(
                 usuario=usuario,
@@ -50,12 +50,9 @@ class RegisterSerializer(serializers.ModelSerializer):
                 departamento='',
                 provincia='',
                 distrito='',
-                ruc=validated_data.get('ruc', ''),
-                empresa=validated_data.get('empresa', '')
             )
 
         return usuario
-
 
 
 class AgricultorSerializer(serializers.ModelSerializer):
@@ -68,6 +65,16 @@ class AgricultorSerializer(serializers.ModelSerializer):
         model = Agricultor
         fields = ['id', 'user', 'user_id', 'nombre', 'telefono', 'departamento', 'provincia', 'distrito']
 
+
+class ClienteSerializer(serializers.ModelSerializer):
+    user = UserSerializer(read_only=True)
+    user_id = serializers.PrimaryKeyRelatedField(
+        queryset=Usuario.objects.all(), source='usuario', write_only=True
+    )
+
+    class Meta:
+        model = Cliente
+        fields = ['id', 'nombre', 'direccion', 'telefono', 'user', 'user_id']
 
 
 class CategoriaSerializer(serializers.ModelSerializer):
@@ -87,7 +94,6 @@ class ProductoSerializer(serializers.ModelSerializer):
         fields = ['id', 'nombre', 'categoria', 'categoria_id']
 
 
-
 class OfertaSerializer(serializers.ModelSerializer):
     agricultor = AgricultorSerializer(read_only=True)
     agricultor_id = serializers.PrimaryKeyRelatedField(
@@ -101,15 +107,3 @@ class OfertaSerializer(serializers.ModelSerializer):
     class Meta:
         model = Oferta
         fields = ['id', 'agricultor', 'agricultor_id', 'producto', 'producto_id', 'descripcion', 'precio', 'stock']
-
-
-
-class ClienteSerializer(serializers.ModelSerializer):
-    user = UserSerializer(read_only=True)
-    user_id = serializers.PrimaryKeyRelatedField(
-        queryset=Usuario.objects.all(), source='usuario', write_only=True
-    )
-
-    class Meta:
-        model = Cliente
-        fields = ['id', 'nombre', 'direccion', 'telefono', 'user', 'user_id']
