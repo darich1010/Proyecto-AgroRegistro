@@ -6,7 +6,8 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from .models import Agricultor, Cliente, Oferta, Categoria, Producto
-from .serializers import RegisterSerializer, AgricultorSerializer
+from .serializers import RegisterSerializer, AgricultorSerializer, ClienteSerializer
+
 
 
 logger = logging.getLogger(__name__)
