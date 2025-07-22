@@ -5,14 +5,13 @@ from decouple import config
 import dj_database_url
 from corsheaders.defaults import default_headers
 
-
 # BASE_DIR sirve para rutas relativas dentro del proyecto
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Seguridad y entorno
 SECRET_KEY = config('SECRET_KEY', default='fallback-key')
 DEBUG = config('DEBUG', default=False, cast=bool)
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['*']  # Railway acepta esto
 
 # Aplicaciones instaladas
 INSTALLED_APPS = [
@@ -26,18 +25,18 @@ INSTALLED_APPS = [
     # Terceros
     'rest_framework',
     'rest_framework_simplejwt',
-    'corsheaders',
+    'corsheaders',  # 👈 necesario para permitir CORS
 
     # Tu app
     'api',
 ]
 
-# MODELO DE USUARIO PERSONALIZADO 👇✅
-AUTH_USER_MODEL = 'api.Usuario'  # <- ESTA LÍNEA ES CRUCIAL
+# MODELO DE USUARIO PERSONALIZADO
+AUTH_USER_MODEL = 'api.Usuario'
 
 # Middleware
-MIDDLEWARE = [       
-    'corsheaders.middleware.CorsMiddleware',  # debe ir primero
+MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',  # 👈 DEBE ir primero
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -66,7 +65,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'AgroRegistro.wsgi.application'
 
-# Base de datos (Supabase configurado vía .env)
+# Base de datos
 DATABASES = {
     'default': dj_database_url.config(
         default=config('DATABASE_URL'),
@@ -77,18 +76,10 @@ DATABASES = {
 
 # Validación de contraseñas
 AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
+    {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
 ]
 
 # Internacionalización
@@ -100,10 +91,9 @@ USE_TZ = True
 # Archivos estáticos
 STATIC_URL = 'static/'
 
-# ID automático para modelos
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# Configuración de REST Framework con JWT
+# 🔐 AUTENTICACIÓN REST
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
@@ -111,23 +101,28 @@ REST_FRAMEWORK = {
     ),
 }
 
-# Configuración CORS
+# ✅ CONFIGURACIÓN CORS CORRECTA Y COMPLETA
 CORS_ALLOWED_ORIGINS = [
+    "https://agroregistro-frontend.vercel.app",
     "http://localhost:3000",
-    "https://agroregistro-frontend.vercel.app"
 ]
+
+CORS_ALLOW_CREDENTIALS = True  # 👈 Permite cookies/tokens si es necesario
 
 CORS_ALLOW_HEADERS = list(default_headers) + [
-    'access-control-allow-origin',
     'authorization',
     'content-type',
+    'access-control-allow-origin',
 ]
 
+CORS_EXPOSE_HEADERS = ['Content-Disposition']  # 👈 Útil para descargas, opcional
 
+# 🔐 CSRF desde el frontend de Vercel
+CSRF_TRUSTED_ORIGINS = [
+    'https://agroregistro-frontend.vercel.app',
+]
 
-CSRF_TRUSTED_ORIGINS = ['https://agroregistro-frontend.vercel.app']
-
-# Logging para desarrollo
+# Logging
 LOGGING = {
     'version': 1,
     'handlers': {
