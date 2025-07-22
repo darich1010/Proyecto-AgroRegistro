@@ -8,6 +8,8 @@ from django.views.decorators.csrf import csrf_exempt
 from .serializers import RegisterSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import viewsets
+from .models import Agricultor, Cliente, Oferta, Categoria, Producto
+
 
 
 logger = logging.getLogger(__name__)
