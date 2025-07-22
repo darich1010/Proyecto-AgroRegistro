@@ -13,6 +13,7 @@ from .serializers import (
     CategoriaSerializer,
     ProductoSerializer,
     OfertaSerializer,
+    UserSerializer,
 )
 
 
