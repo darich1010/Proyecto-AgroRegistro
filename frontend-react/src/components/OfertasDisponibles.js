@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-const OfertasDisponibles = ({ token }) => {
+const OfertasDisponibles = ({ token, añadirAlCarrito }) => {
   const [ofertas, setOfertas] = useState([]);
   const [error, setError] = useState('');
 
@@ -43,8 +43,9 @@ const OfertasDisponibles = ({ token }) => {
               <span>💬 Descripción: {oferta.descripcion}</span><br />
               <span>💰 Precio: S/ {oferta.precio}</span><br />
               <span>👨‍🌾 Agricultor: {oferta.agricultor.nombre}</span><br />
-              {/* Botón futuro para añadir al carrito */}
-              <button disabled>Añadir al carrito (pendiente)</button>
+              <button onClick={() => añadirAlCarrito(oferta)}>
+                Añadir al carrito
+              </button>
             </li>
           ))}
         </ul>
