@@ -60,10 +60,17 @@ const LoginForm = ({ onLoginSuccess }) => {
       const isCliente = clientes.some(cli => cli.usuario?.id === userData.id);
       const isAgricultor = agricultores.some(ag => ag.usuario?.id === userData.id);
 
-      console.log('userData.id:', userData.id);
-      console.log('Clientes:', clientes.map(c => c.usuario));
-      console.log('Agricultores:', agricultores.map(a => a.usuario));
-      console.log('isCliente:', isCliente, 'isAgricultor:', isAgricultor);
+      console.log('🔐 userData:', userData);
+      console.log('🧑‍💼 Lista completa de clientes:', clientes);
+      console.log('🧑‍🌾 Lista completa de agricultores:', agricultores);
+
+      // Inspeccionar estructura interna
+      clientes.forEach(cli => {
+        console.log('📋 Cliente.usuario:', cli.usuario, '| Comparando con userData.id:', userData.id);
+      });
+      agricultores.forEach(ag => {
+        console.log('📋 Agricultor.usuario:', ag.usuario, '| Comparando con userData.id:', userData.id);  
+      });
 
       // Determinar rol
       let rol = null;
