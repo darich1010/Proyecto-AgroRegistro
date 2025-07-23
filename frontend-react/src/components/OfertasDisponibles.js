@@ -57,8 +57,8 @@ const OfertasDisponibles = ({ token }) => {
         },
         body: JSON.stringify({
           descripcion: oferta.descripcion,
-          producto: oferta.producto.id,
-          agricultor: oferta.agricultor.id,
+          producto_id: oferta.producto.id,
+          agricultor_id: oferta.agricultor.id,
           precio: oferta.precio,
           stock: nuevaCantidad
         }),
