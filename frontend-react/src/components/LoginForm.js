@@ -33,17 +33,18 @@ const LoginForm = ({ onLoginSuccess }) => {
       const tokenData = await tokenRes.json();
       const accessToken = tokenData.access;
 
-      if (!accessToken || accessToken.trim() === '') {
+      if (!accessToken) {
         logout();
         throw new Error('Token inválido');
       }
 
+      // Obtener datos del usuario autenticado
       const userRes = await fetch('https://web-production-2486a.up.railway.app/api/user/', {
         headers: { Authorization: `Bearer ${accessToken}` }
       });
       const userData = await userRes.json();
 
-      // Obtener listas
+      // Verificar si es cliente o agricultor
       const [clienteRes, agricultorRes] = await Promise.all([
         fetch('https://web-production-2486a.up.railway.app/api/clientes/', {
           headers: { Authorization: `Bearer ${accessToken}` }
@@ -56,17 +57,23 @@ const LoginForm = ({ onLoginSuccess }) => {
       const clientes = await clienteRes.json();
       const agricultores = await agricultorRes.json();
 
-      const isCliente = clientes.some(cli => cli.user === userData.id);
-      const isAgricultor = agricultores.some(ag => ag.user === userData.id);
+      const isCliente = clientes.some(cli => cli.usuario === userData.id);
+      const isAgricultor = agricultores.some(ag => ag.usuario === userData.id);
 
       console.log('userData.id:', userData.id);
-      console.log('Clientes:', clientes.map(c => c.user));
-      console.log('Agricultores:', agricultores.map(a => a.user));
+      console.log('Clientes:', clientes.map(c => c.usuario));
+      console.log('Agricultores:', agricultores.map(a => a.usuario));
       console.log('isCliente:', isCliente, 'isAgricultor:', isAgricultor);
 
-      let rol = 'admin';
+      // Determinar rol
+      let rol = null;
       if (isCliente) rol = 'cliente';
       else if (isAgricultor) rol = 'agricultor';
+
+      if (!rol) {
+        logout();
+        throw new Error('Este usuario no tiene rol asignado.');
+      }
 
       localStorage.setItem('token', accessToken);
       localStorage.setItem('user', JSON.stringify(userData));
@@ -74,11 +81,12 @@ const LoginForm = ({ onLoginSuccess }) => {
 
       onLoginSuccess(accessToken, userData, rol);
 
+      // Redirección
       if (rol === 'cliente') navigate('/cliente/dashboard');
       else if (rol === 'agricultor') navigate('/agricultor/dashboard');
-      else navigate('/admin/dashboard');
 
     } catch (err) {
+      console.error("🛑 Error de login:", err);
       setError(err.message || 'Error al iniciar sesión');
     }
   };
