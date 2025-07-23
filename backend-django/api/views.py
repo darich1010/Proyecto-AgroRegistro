@@ -3,6 +3,7 @@ from rest_framework import status, viewsets
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework import serializers
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from .models import Agricultor, Cliente, Oferta, Categoria, Producto, CarritoItem
@@ -130,6 +131,20 @@ class CarritoItemViewSet(viewsets.ModelViewSet):
         return CarritoItem.objects.none()
 
     def perform_create(self, serializer):
-        usuario = self.request.user
-        cliente = Cliente.objects.get(usuario=usuario)
-        serializer.save(cliente=cliente)
+        try:
+            usuario = self.request.user
+            print(f"👤 Usuario autenticado: {usuario} (ID: {usuario.id})")
+
+            cliente = Cliente.objects.get(usuario=usuario)
+            print(f"👥 Cliente encontrado: {cliente} (ID: {cliente.id})")
+
+            carrito_item = serializer.save(cliente=cliente)
+            print(f"✅ CarritoItem creado con ID: {carrito_item.id}")
+
+        except Cliente.DoesNotExist:
+            print(f"❌ Cliente no encontrado para el usuario ID: {usuario.id}")
+            raise serializers.ValidationError("Cliente no encontrado para el usuario.")
+
+        except Exception as e:
+            print(f"🔥 Error interno en perform_create: {str(e)}")
+            raise
