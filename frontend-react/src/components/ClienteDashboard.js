@@ -2,7 +2,7 @@
 import React from 'react';
 import LogoutButton from './LogoutButton';
 import ClienteList from './ClienteList';
-import OfertaList from './OfertaList';
+import OfertasDisponibles from './OfertasDisponibles';
 
 const ClienteDashboard = ({ token }) => {
   return (
@@ -18,7 +18,7 @@ const ClienteDashboard = ({ token }) => {
 
       <section style={styles.section}>
         <h3>Ofertas Disponibles 🛒</h3>
-        <OfertaList token={token} />
+        <OfertasDisponibles token={token} />
       </section>
     </div>
   );
