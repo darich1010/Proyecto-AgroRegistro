@@ -1,5 +1,6 @@
 import logging
 from rest_framework import status, viewsets
+from django.db import IntegrityError
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny, IsAuthenticated
@@ -17,8 +18,6 @@ from .serializers import (
     UserSerializer,
     CarritoItemSerializer,
 )
-
-
 
 logger = logging.getLogger(__name__)
 
@@ -49,7 +48,6 @@ class RegisterView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-# ✅ Ver información del usuario autenticado
 class UserView(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -57,14 +55,14 @@ class UserView(APIView):
         serializer = UserSerializer(request.user)
         return Response(serializer.data)
 
-# ✅ CRUD Agricultor con validación personalizada
+
 class AgricultorViewSet(viewsets.ModelViewSet):
     queryset = Agricultor.objects.all()
     serializer_class = AgricultorSerializer
     permission_classes = [IsAuthenticated]
 
     def create(self, request, *args, **kwargs):
-        user_id = request.data.get('usuario_id')  # Cambiado a 'usuario_id'
+        user_id = request.data.get('usuario_id')
         if Agricultor.objects.filter(usuario_id=user_id).exists():
             return Response(
                 {"usuario_id": ["Este usuario ya tiene un perfil de agricultor."]},
@@ -72,20 +70,20 @@ class AgricultorViewSet(viewsets.ModelViewSet):
             )
 
         mutable_data = request.data.copy()
-        mutable_data['usuario'] = user_id  # Asignación correcta del campo
+        mutable_data['usuario'] = user_id
         serializer = self.get_serializer(data=mutable_data)
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
-# ✅ CRUD Cliente con validación personalizada
+
 class ClienteViewSet(viewsets.ModelViewSet):
     queryset = Cliente.objects.all()
     serializer_class = ClienteSerializer
     permission_classes = [IsAuthenticated]
 
     def create(self, request, *args, **kwargs):
-        user_id = request.data.get('usuario_id')  # Cambiado a 'usuario_id'
+        user_id = request.data.get('usuario_id')
         if Cliente.objects.filter(usuario_id=user_id).exists():
             return Response(
                 {"usuario_id": ["Este usuario ya tiene un perfil de cliente."]},
@@ -93,27 +91,30 @@ class ClienteViewSet(viewsets.ModelViewSet):
             )
 
         mutable_data = request.data.copy()
-        mutable_data['usuario'] = user_id  # Asignación correcta del campo
+        mutable_data['usuario'] = user_id
         serializer = self.get_serializer(data=mutable_data)
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
-# ✅ CRUD restantes
+
 class CategoriaViewSet(viewsets.ModelViewSet):
     queryset = Categoria.objects.all()
     serializer_class = CategoriaSerializer
     permission_classes = [IsAuthenticated]
+
 
 class ProductoViewSet(viewsets.ModelViewSet):
     queryset = Producto.objects.all()
     serializer_class = ProductoSerializer
     permission_classes = [IsAuthenticated]
 
+
 class OfertaViewSet(viewsets.ModelViewSet):
     queryset = Oferta.objects.all()
     serializer_class = OfertaSerializer
     permission_classes = [IsAuthenticated]
+
 
 class CarritoItemViewSet(viewsets.ModelViewSet):
     queryset = CarritoItem.objects.all()
@@ -138,12 +139,24 @@ class CarritoItemViewSet(viewsets.ModelViewSet):
             cliente = Cliente.objects.get(usuario=usuario)
             print(f"👥 Cliente encontrado: {cliente} (ID: {cliente.id})")
 
-            carrito_item = serializer.save(cliente=cliente)
-            print(f"✅ CarritoItem creado con ID: {carrito_item.id}")
+            oferta = serializer.validated_data['oferta']
+
+            existente = CarritoItem.objects.filter(cliente=cliente, oferta=oferta).first()
+            if existente:
+                existente.cantidad += serializer.validated_data.get('cantidad', 1)
+                existente.save()
+                print(f"🟡 Ya existía: se actualizó la cantidad a {existente.cantidad}")
+            else:
+                carrito_item = serializer.save(cliente=cliente)
+                print(f"✅ CarritoItem creado con ID: {carrito_item.id}")
 
         except Cliente.DoesNotExist:
             print(f"❌ Cliente no encontrado para el usuario ID: {usuario.id}")
             raise serializers.ValidationError("Cliente no encontrado para el usuario.")
+
+        except IntegrityError as e:
+            print(f"💥 Error de integridad: {str(e)}")
+            raise serializers.ValidationError("Este producto ya está en tu carrito.")
 
         except Exception as e:
             print(f"🔥 Error interno en perform_create: {str(e)}")
