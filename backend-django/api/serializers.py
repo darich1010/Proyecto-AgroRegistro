@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from .models.usuario import Usuario
-from .models import Agricultor, Categoria, Producto, Oferta, Cliente
+from .models import Agricultor, Categoria, Producto, Oferta, Cliente, CarritoItem
+
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -113,3 +114,8 @@ class OfertaSerializer(serializers.ModelSerializer):
     class Meta:
         model = Oferta
         fields = ['id', 'agricultor', 'agricultor_id', 'producto', 'producto_id', 'descripcion', 'precio', 'stock']
+
+class CarritoItemSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CarritoItem
+        fields = '__all__'

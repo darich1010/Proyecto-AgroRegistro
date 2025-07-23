@@ -5,7 +5,7 @@ from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
-from .models import Agricultor, Cliente, Oferta, Categoria, Producto
+from .models import Agricultor, Cliente, Oferta, Categoria, Producto, CarritoItem
 from .serializers import (
     RegisterSerializer,
     AgricultorSerializer,
@@ -14,6 +14,7 @@ from .serializers import (
     ProductoSerializer,
     OfertaSerializer,
     UserSerializer,
+    CarritoItemSerializer,
 )
 
 
@@ -112,3 +113,23 @@ class OfertaViewSet(viewsets.ModelViewSet):
     queryset = Oferta.objects.all()
     serializer_class = OfertaSerializer
     permission_classes = [IsAuthenticated]
+
+class CarritoItemViewSet(viewsets.ModelViewSet):
+    queryset = CarritoItem.objects.all()
+    serializer_class = CarritoItemSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        usuario = self.request.user
+        if usuario.tipo_usuario == 'cliente':
+            try:
+                cliente = Cliente.objects.get(usuario=usuario)
+                return CarritoItem.objects.filter(cliente=cliente).select_related('oferta__producto', 'oferta__agricultor')
+            except Cliente.DoesNotExist:
+                return CarritoItem.objects.none()
+        return CarritoItem.objects.none()
+
+    def perform_create(self, serializer):
+        usuario = self.request.user
+        cliente = Cliente.objects.get(usuario=usuario)
+        serializer.save(cliente=cliente)
