@@ -22,6 +22,7 @@ const OfertasDisponibles = ({ token }) => {
   };
 
   useEffect(() => {
+    console.log('✅ Componente OfertasDisponibles cargado');
     if (token) fetchOfertas();
   }, [token]);
 
