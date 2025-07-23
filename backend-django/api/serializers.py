@@ -62,25 +62,25 @@ class RegisterSerializer(serializers.ModelSerializer):
 
 
 class AgricultorSerializer(serializers.ModelSerializer):
-    user = UserSerializer(read_only=True)
+    usuario = UserSerializer(read_only=True)
     user_id = serializers.PrimaryKeyRelatedField(
         queryset=Usuario.objects.all(), source='usuario', write_only=True
     )
 
     class Meta:
         model = Agricultor
-        fields = ['id', 'user', 'user_id', 'nombre', 'telefono', 'departamento', 'provincia', 'distrito']
+        fields = ['id', 'usuario', 'user_id', 'nombre', 'telefono', 'departamento', 'provincia', 'distrito']
 
 
 class ClienteSerializer(serializers.ModelSerializer):
-    user = UserSerializer(read_only=True)
+    usuario = UserSerializer(read_only=True)
     user_id = serializers.PrimaryKeyRelatedField(
         queryset=Usuario.objects.all(), source='usuario', write_only=True
     )
 
     class Meta:
         model = Cliente
-        fields = ['id', 'nombre', 'direccion', 'telefono', 'user', 'user_id']
+        fields = ['id', 'nombre', 'direccion', 'telefono', 'usuario', 'user_id']
 
 
 class CategoriaSerializer(serializers.ModelSerializer):
