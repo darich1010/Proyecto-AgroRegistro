@@ -57,8 +57,8 @@ const LoginForm = ({ onLoginSuccess }) => {
       const clientes = await clienteRes.json();
       const agricultores = await agricultorRes.json();
 
-      const isCliente = clientes.some(cli => cli.usuario === userData.id);
-      const isAgricultor = agricultores.some(ag => ag.usuario === userData.id);
+      const isCliente = clientes.some(cli => cli.usuario?.id === userData.id);
+      const isAgricultor = agricultores.some(ag => ag.usuario?.id === userData.id);
 
       console.log('userData.id:', userData.id);
       console.log('Clientes:', clientes.map(c => c.usuario));
