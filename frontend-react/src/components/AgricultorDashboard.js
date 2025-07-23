@@ -3,7 +3,8 @@ import React from 'react';
 import LogoutButton from './LogoutButton';
 import AgricultorList from './AgricultorList';
 import ProductosList from './ProductosList';
-import OfertaList from './OfertaList';
+import OfertaGestion from './OfertaGestion';
+
 
 const AgricultorDashboard = ({ token, productos, fetchProductos }) => {
   return (
@@ -19,7 +20,7 @@ const AgricultorDashboard = ({ token, productos, fetchProductos }) => {
 
       <section style={styles.section}>
         <h3>Mis Ofertas</h3>
-        <OfertaList token={token} />
+        <OfertaGestion token={token} />
       </section>
 
       <section style={styles.section}>

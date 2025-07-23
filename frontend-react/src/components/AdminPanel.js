@@ -4,7 +4,7 @@ import LogoutButton from './LogoutButton';
 import ProductosList from './ProductosList';
 import AgricultorList from './AgricultorList';
 import ClienteList from './ClienteList';
-import OfertaList from './OfertaList';
+import OfertaGestion from './OfertaGestion';
 import CategoriaList from './CategoriaList';
 
 const AdminPanel = ({ token, productos, fetchProductos }) => {
@@ -26,7 +26,7 @@ const AdminPanel = ({ token, productos, fetchProductos }) => {
 
       <section style={styles.section}>
         <h3>Gestión de Ofertas</h3>
-        <OfertaList token={token} />
+        <OfertaGestion token={token} />
       </section>
 
       <section style={styles.section}>
