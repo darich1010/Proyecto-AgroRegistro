@@ -1,5 +1,3 @@
-// src/components/SolicitudForm.js
-
 import React, { useEffect, useState } from 'react';
 
 const SolicitudForm = ({ token }) => {
@@ -33,26 +31,41 @@ const SolicitudForm = ({ token }) => {
         }
       } catch (err) {
         console.error('Error al obtener cliente:', err);
+        setError('Error al obtener cliente.');
       }
     };
 
     fetchCliente();
   }, [token, userId]);
 
-  // Obtener lista de productos
+  // Obtener lista de productos con autorización ✅
   useEffect(() => {
     const fetchProductos = async () => {
       try {
-        const res = await fetch('https://web-production-2486a.up.railway.app/api/productos/');
+        const res = await fetch('https://web-production-2486a.up.railway.app/api/productos/', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          }
+        });
+
+        if (!res.ok) throw new Error('Error al obtener productos');
+
         const data = await res.json();
-        setProductos(data);
+
+        if (Array.isArray(data)) {
+          setProductos(data);
+        } else {
+          throw new Error('La respuesta no es una lista de productos');
+        }
       } catch (err) {
-        console.error('Error al obtener productos:', err);
+        console.error('❌ Error al obtener productos:', err);
+        setError('No se pudieron cargar los productos.');
       }
     };
 
     fetchProductos();
-  }, []);
+  }, [token]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -105,7 +118,7 @@ const SolicitudForm = ({ token }) => {
           Producto:
           <select value={productoId} onChange={e => setProductoId(e.target.value)}>
             <option value="">Selecciona un producto</option>
-            {productos.map(p => (
+            {Array.isArray(productos) && productos.map(p => (
               <option key={p.id} value={p.id}>{p.nombre}</option>
             ))}
           </select>
