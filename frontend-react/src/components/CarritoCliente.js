@@ -50,6 +50,12 @@ const CarritoCliente = ({ token }) => {
       if (!res.ok) throw new Error('Error al obtener carrito');
 
       const data = await res.json();
+
+      // 👉 Consolas para depurar
+      console.log("🟨 Usando token:", token);
+      console.log("🟦 Cliente ID en frontend:", clienteId);
+      console.log("📦 Datos recibidos del carrito:", data);
+
       setCarrito(data);
     } catch (err) {
       console.error('❌ Error al cargar carrito:', err);
