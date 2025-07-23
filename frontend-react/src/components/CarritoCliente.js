@@ -42,18 +42,17 @@ const CarritoCliente = ({ token }) => {
   const fetchCarrito = async () => {
     if (!clienteId) return;
 
+    console.log("🟨 Usando token:", token);
+    console.log("🟦 Cliente ID en frontend:", clienteId);
+
     try {
-      const res = await fetch(`https://web-production-2486a.up.railway.app/api/carrito/`, {
+      const res = await fetch(`https://web-production-2486a.up.railway.app/api/carrito/?cliente=${clienteId}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
 
       if (!res.ok) throw new Error('Error al obtener carrito');
 
-      const data = await res.json();
-
-      // 👉 Consolas para depurar
-      console.log("🟨 Usando token:", token);
-      console.log("🟦 Cliente ID en frontend:", clienteId);
+      const data = await res.json();   
       console.log("📦 Datos recibidos del carrito:", data);
 
       setCarrito(data);
