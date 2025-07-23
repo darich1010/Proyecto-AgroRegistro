@@ -1,7 +1,7 @@
 // frontend-react/src/components/ClienteDashboard.js
 import React from 'react';
 import LogoutButton from './LogoutButton';
-import MiPerfilCliente from './clientes/MiPerfilCliente';  // ✅ Nuevo componente
+import MiPerfilCliente from './MiPerfilCliente';
 import OfertasDisponibles from './OfertasDisponibles';
 import CarritoCliente from './CarritoCliente';
 
