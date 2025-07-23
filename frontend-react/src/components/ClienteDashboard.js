@@ -1,31 +1,11 @@
 // frontend-react/src/components/ClienteDashboard.js
-import React, { useState } from 'react';
+import React from 'react';
 import LogoutButton from './LogoutButton';
-import ClienteList from './ClienteList';
+import MiPerfilCliente from './clientes/MiPerfilCliente';  // ✅ Nuevo componente
 import OfertasDisponibles from './OfertasDisponibles';
 import CarritoCliente from './CarritoCliente';
 
 const ClienteDashboard = ({ token }) => {
-  const [carrito, setCarrito] = useState([]);
-
-  const añadirAlCarrito = (oferta) => {
-    setCarrito((prev) => {
-      const existente = prev.find((item) => item.id === oferta.id);
-      if (existente) {
-        return prev.map((item) =>
-          item.id === oferta.id
-            ? { ...item, cantidad: item.cantidad + 1 }
-            : item
-        );
-      }
-      return [...prev, { ...oferta, cantidad: 1 }];
-    });
-  };
-
-  const eliminarDelCarrito = (index) => {
-    setCarrito((prev) => prev.filter((_, i) => i !== index));
-  };
-
   return (
     <div style={styles.container}>
       <h2>Bienvenido al Panel del Cliente 👤</h2>
@@ -33,18 +13,16 @@ const ClienteDashboard = ({ token }) => {
       <p>Desde aquí puedes ver tus datos personales y explorar las ofertas disponibles.</p>
 
       <section style={styles.section}>
-        <h3>Mis Datos</h3>
-        <ClienteList token={token} />
+        <MiPerfilCliente token={token} />  {/* ✅ Mostramos SOLO el perfil */}
       </section>
 
       <section style={styles.section}>
         <h3>Ofertas Disponibles 🛒</h3>
-        <OfertasDisponibles token={token} añadirAlCarrito={añadirAlCarrito} />
+        <OfertasDisponibles token={token} />
       </section>
 
       <section style={styles.section}>
-        <h3>🛍️ Mi Carrito</h3>
-        <CarritoCliente carrito={carrito} eliminarDelCarrito={eliminarDelCarrito} />
+        <CarritoCliente token={token} />
       </section>
     </div>
   );
