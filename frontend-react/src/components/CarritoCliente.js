@@ -2,65 +2,87 @@ import React, { useEffect, useState } from 'react';
 
 const CarritoCliente = ({ token }) => {
   const [carrito, setCarrito] = useState([]);
+  const [clienteId, setClienteId] = useState(null);
   const [error, setError] = useState('');
 
   const user = JSON.parse(localStorage.getItem('user'));
   const userId = user?.id;
 
-  // Obtener ID del cliente
-  const [clienteId, setClienteId] = useState(null);
-
+  // Paso 1: obtener ID del cliente desde el backend
   useEffect(() => {
     const fetchCliente = async () => {
-      const res = await fetch(`https://web-production-2486a.up.railway.app/api/clientes/`, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
-      if (res.ok) {
+      if (!token || !userId) return;
+
+      try {
+        const res = await fetch('https://web-production-2486a.up.railway.app/api/clientes/', {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+
+        if (!res.ok) throw new Error('Token inválido o expirado al obtener cliente');
+
         const data = await res.json();
         const cliente = data.find(c => c.usuario.id === userId);
-        if (cliente) setClienteId(cliente.id);
+        if (cliente) {
+          setClienteId(cliente.id);
+        } else {
+          setError('No se encontró el cliente asociado al usuario');
+        }
+      } catch (err) {
+        console.error('❌ Error al obtener cliente:', err);
+        setError(err.message);
       }
     };
 
     fetchCliente();
   }, [token, userId]);
 
-  const fetchCarrito = async () => {
-    if (!clienteId) return;
+  // Paso 2: obtener los items del carrito
+  useEffect(() => {
+    const fetchCarrito = async () => {
+      if (!clienteId) return;
 
-    try {
-      const res = await fetch(`https://web-production-2486a.up.railway.app/api/carrito/?cliente=${clienteId}`, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+      try {
+        const res = await fetch(`https://web-production-2486a.up.railway.app/api/carrito/?cliente=${clienteId}`, {
+          headers: { Authorization: `Bearer ${token}` }
+        });
 
-      if (!res.ok) throw new Error('Error al obtener carrito');
+        if (!res.ok) throw new Error('Error al obtener carrito');
 
-      const data = await res.json();
-      setCarrito(data);
-    } catch (err) {
-      setError(err.message);
-    }
-  };
+        const data = await res.json();
+        setCarrito(data);
+      } catch (err) {
+        console.error('❌ Error al cargar carrito:', err);
+        setError(err.message);
+      }
+    };
 
+    fetchCarrito();
+  }, [clienteId, token]);
+
+  // Paso 3: eliminar del carrito
   const eliminarDelCarrito = async (id) => {
     const confirm = window.confirm('¿Eliminar este producto del carrito?');
     if (!confirm) return;
 
-    const res = await fetch(`https://web-production-2486a.up.railway.app/api/carrito/${id}/`, {
-      method: 'DELETE',
-      headers: { Authorization: `Bearer ${token}` }
-    });
+    try {
+      const res = await fetch(`https://web-production-2486a.up.railway.app/api/carrito/${id}/`, {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
 
-    if (res.ok) {
-      fetchCarrito();
-    } else {
-      alert('Error al eliminar del carrito');
+      if (res.ok) {
+        setCarrito(prev => prev.filter(item => item.id !== id));
+      } else {
+        throw new Error('No se pudo eliminar del carrito');
+      }
+    } catch (err) {
+      alert(err.message);
     }
   };
-
-  useEffect(() => {
-    if (clienteId) fetchCarrito();
-  }, [clienteId]);
 
   const total = carrito.reduce((sum, item) => sum + item.precio * item.cantidad, 0);
 

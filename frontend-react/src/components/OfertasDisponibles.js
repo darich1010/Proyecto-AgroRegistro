@@ -11,15 +11,27 @@ const OfertasDisponibles = ({ token }) => {
   // Obtener el ID del cliente
   useEffect(() => {
     const fetchCliente = async () => {
-      const res = await fetch(`https://web-production-2486a.up.railway.app/api/clientes/`, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
-      if (res.ok) {
-        const data = await res.json();
-        const cliente = data.find(c => c.usuario.id === userId);
-        if (cliente) setClienteId(cliente.id);
+      try {
+        const res = await fetch(`https://web-production-2486a.up.railway.app/api/clientes/`, {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        if (res.ok) {
+          const data = await res.json();
+          const cliente = data.find(c => c.usuario.id === userId);
+          if (cliente) {
+            setClienteId(cliente.id);
+            console.log('🆔 clienteId:', cliente.id);
+          } else {
+            console.warn('⚠️ No se encontró cliente para el usuario con ID', userId);
+          }
+        } else {
+          console.error('❌ Error al obtener clientes');
+        }
+      } catch (err) {
+        console.error('❌ Error en fetchCliente:', err);
       }
     };
+
     if (token) fetchCliente();
   }, [token, userId]);
 
@@ -51,6 +63,8 @@ const OfertasDisponibles = ({ token }) => {
     }
 
     try {
+      console.log('📦 Oferta seleccionada:', oferta);
+
       // 1. Descontar stock
       const nuevaCantidad = oferta.stock - 1;
 
@@ -68,9 +82,12 @@ const OfertasDisponibles = ({ token }) => {
         }),
       });
 
-      if (!resStock.ok) throw new Error('Error al actualizar stock');
+      if (!resStock.ok) {
+        const text = await resStock.text();
+        throw new Error('Error al actualizar stock: ' + text);
+      }
 
-      // 2. Añadir al carrito (POST a /api/carrito/)
+      // 2. Añadir al carrito (POST)
       const resCarrito = await fetch(`https://web-production-2486a.up.railway.app/api/carrito/`, {
         method: 'POST',
         headers: {
@@ -85,12 +102,13 @@ const OfertasDisponibles = ({ token }) => {
       });
 
       if (resCarrito.status === 400) {
-        // Si ya existe, actualizarlo (GET para obtener ID + PUT)
+        // Ya existe, obtener y hacer PUT
         const resItems = await fetch(`https://web-production-2486a.up.railway.app/api/carrito/?cliente=${clienteId}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         const items = await resItems.json();
         const existente = items.find(i => i.oferta.id === oferta.id);
+
         if (existente) {
           await fetch(`https://web-production-2486a.up.railway.app/api/carrito/${existente.id}/`, {
             method: 'PUT',
@@ -106,7 +124,8 @@ const OfertasDisponibles = ({ token }) => {
           });
         }
       } else if (!resCarrito.ok) {
-        throw new Error('Error al añadir al carrito');
+        const text = await resCarrito.text();
+        throw new Error('Error al añadir al carrito: ' + text);
       }
 
       await fetchOfertas(); // Refrescar ofertas
@@ -137,7 +156,9 @@ const OfertasDisponibles = ({ token }) => {
               <span>💬 Descripción: {oferta.descripcion}</span><br />
               <span>💰 Precio: S/ {oferta.precio}</span><br />
               <span>👨‍🌾 Agricultor: {oferta.agricultor.nombre}</span><br />
-              <button onClick={() => handleAñadirAlCarrito(oferta)}>Añadir al carrito</button>
+              <button onClick={() => handleAñadirAlCarrito(oferta)} disabled={!clienteId}>
+                Añadir al carrito
+              </button>
             </li>
           ))}
         </ul>
