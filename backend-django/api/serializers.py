@@ -118,4 +118,5 @@ class OfertaSerializer(serializers.ModelSerializer):
 class CarritoItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = CarritoItem
-        fields = '__all__'
+        fields = ['id', 'cliente', 'oferta', 'cantidad', 'agregado_en']
+        read_only_fields = ['agregado_en']  # 🛡️ Muy importante
