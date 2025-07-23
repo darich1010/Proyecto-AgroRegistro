@@ -8,34 +8,21 @@ const OfertasDisponibles = ({ token }) => {
   const user = JSON.parse(localStorage.getItem('user'));
   const userId = user?.id;
 
-  // Obtener el ID del cliente
   useEffect(() => {
     const fetchCliente = async () => {
-      try {
-        const res = await fetch(`https://web-production-2486a.up.railway.app/api/clientes/`, {
-          headers: { Authorization: `Bearer ${token}` }
-        });
-        if (res.ok) {
-          const data = await res.json();
-          const cliente = data.find(c => c.usuario.id === userId);
-          if (cliente) {
-            setClienteId(cliente.id);
-            console.log('🆔 clienteId:', cliente.id);
-          } else {
-            console.warn('⚠️ No se encontró cliente para el usuario con ID', userId);
-          }
-        } else {
-          console.error('❌ Error al obtener clientes');
-        }
-      } catch (err) {
-        console.error('❌ Error en fetchCliente:', err);
+      const res = await fetch(`https://web-production-2486a.up.railway.app/api/clientes/`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      if (res.ok) {
+        const data = await res.json();
+        const cliente = data.find(c => c.usuario.id === userId);
+        if (cliente) setClienteId(cliente.id);
+        console.log("🆔 clienteId:", cliente?.id);
       }
     };
-
     if (token) fetchCliente();
   }, [token, userId]);
 
-  // Obtener ofertas desde el backend
   const fetchOfertas = async () => {
     try {
       const response = await fetch('https://web-production-2486a.up.railway.app/api/ofertas/', {
@@ -50,21 +37,15 @@ const OfertasDisponibles = ({ token }) => {
     }
   };
 
-  // Añadir al carrito (backend) y descontar stock
   const handleAñadirAlCarrito = async (oferta) => {
     if (oferta.stock <= 0) {
       alert('Este producto está agotado');
       return;
     }
 
-    if (!clienteId) {
-      alert('No se pudo identificar al cliente.');
-      return;
-    }
+    console.log("📦 Oferta seleccionada:", oferta);
 
     try {
-      console.log('📦 Oferta seleccionada:', oferta);
-
       // 1. Descontar stock
       const nuevaCantidad = oferta.stock - 1;
 
@@ -72,44 +53,41 @@ const OfertasDisponibles = ({ token }) => {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
-           Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
-          producto_id: oferta.producto.id,
-          agricultor_id: oferta.agricultor.id,
-          descripcion: oferta.descripcion,
-          precio: oferta.precio,
+          ...oferta,
+          producto: oferta.producto.id,
+          agricultor: oferta.agricultor.id,
           stock: nuevaCantidad
         }),
       });
 
-      if (!resStock.ok) {
-        const text = await resStock.text();
-        throw new Error('Error al actualizar stock: ' + text);
-      }
+      if (!resStock.ok) throw new Error('Error al actualizar stock');
 
-      // 2. Añadir al carrito (POST)
+      // 2. Añadir al carrito sin el campo cliente
+      const carritoPayload = {
+        oferta: oferta.id,
+        cantidad: 1
+      };
+      console.log("🧾 Enviando al carrito:", carritoPayload);
+
       const resCarrito = await fetch(`https://web-production-2486a.up.railway.app/api/carrito/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({
-          cliente: clienteId,
-          oferta: oferta.id,
-          cantidad: 1
-        }),
+        body: JSON.stringify(carritoPayload),
       });
 
       if (resCarrito.status === 400) {
-        // Ya existe, obtener y hacer PUT
+        // Si ya existe, obtener el item y actualizar
         const resItems = await fetch(`https://web-production-2486a.up.railway.app/api/carrito/?cliente=${clienteId}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         const items = await resItems.json();
         const existente = items.find(i => i.oferta.id === oferta.id);
-
         if (existente) {
           await fetch(`https://web-production-2486a.up.railway.app/api/carrito/${existente.id}/`, {
             method: 'PUT',
@@ -118,15 +96,15 @@ const OfertasDisponibles = ({ token }) => {
               Authorization: `Bearer ${token}`,
             },
             body: JSON.stringify({
-              cliente: clienteId,
               oferta: oferta.id,
               cantidad: existente.cantidad + 1
             }),
           });
         }
       } else if (!resCarrito.ok) {
-        const text = await resCarrito.text();
-        throw new Error('Error al añadir al carrito: ' + text);
+        const errData = await resCarrito.json();
+        console.error("❌ Error al añadir al carrito:", errData);
+        throw new Error('Error al añadir al carrito');
       }
 
       await fetchOfertas(); // Refrescar ofertas
@@ -157,9 +135,7 @@ const OfertasDisponibles = ({ token }) => {
               <span>💬 Descripción: {oferta.descripcion}</span><br />
               <span>💰 Precio: S/ {oferta.precio}</span><br />
               <span>👨‍🌾 Agricultor: {oferta.agricultor.nombre}</span><br />
-              <button onClick={() => handleAñadirAlCarrito(oferta)} disabled={!clienteId}>
-                Añadir al carrito
-              </button>
+              <button onClick={() => handleAñadirAlCarrito(oferta)}>Añadir al carrito</button>
             </li>
           ))}
         </ul>
