@@ -118,5 +118,6 @@ class OfertaSerializer(serializers.ModelSerializer):
 class CarritoItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = CarritoItem
-        fields = ['id', 'cliente', 'oferta', 'cantidad', 'agregado_en']
-        read_only_fields = ['agregado_en']  # 🛡️ Muy importante
+        # Excluye el campo cliente de escritura directa
+        fields = ['id', 'oferta', 'cantidad', 'agregado_en']
+        read_only_fields = ['id', 'agregado_en', 'cliente']
