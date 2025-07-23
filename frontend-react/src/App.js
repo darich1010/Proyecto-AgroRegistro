@@ -13,7 +13,6 @@ import LoginForm from './components/LoginForm';
 import ProductosList from './components/ProductosList';
 import AgricultorList from './components/AgricultorList';
 import ClienteList from './components/ClienteList';
-import OfertaList from './components/OfertaList';
 import CategoriaList from './components/CategoriaList';
 
 import Home from './components/Home';
