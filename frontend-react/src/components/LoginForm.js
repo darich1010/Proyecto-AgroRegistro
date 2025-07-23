@@ -74,8 +74,13 @@ const LoginForm = ({ onLoginSuccess }) => {
 
       // Determinar rol
       let rol = null;
-      if (isCliente) rol = 'cliente';
-      else if (isAgricultor) rol = 'agricultor';
+      if (isCliente) {
+        rol = 'cliente';
+      } else if (isAgricultor) {
+        rol = 'agricultor';
+      } else if (userData.tipo_usuario === 'admin') {
+        rol = 'admin';
+      }
 
       if (!rol) {
         logout();
@@ -91,6 +96,7 @@ const LoginForm = ({ onLoginSuccess }) => {
       // Redirección
       if (rol === 'cliente') navigate('/cliente/dashboard');
       else if (rol === 'agricultor') navigate('/agricultor/dashboard');
+      else if (rol === 'admin') navigate('/admin/dashboard');
 
     } catch (err) {
       console.error("🛑 Error de login:", err);
