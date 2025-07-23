@@ -72,12 +72,13 @@ const OfertasDisponibles = ({ token }) => {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
+           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
-          ...oferta,
-          producto: oferta.producto.id,
-          agricultor: oferta.agricultor.id,
+          producto_id: oferta.producto.id,
+          agricultor_id: oferta.agricultor.id,
+          descripcion: oferta.descripcion,
+          precio: oferta.precio,
           stock: nuevaCantidad
         }),
       });
