@@ -7,7 +7,7 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework import serializers
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
-from .models import Agricultor, Cliente, Oferta, Categoria, Producto, CarritoItem
+from .models import Agricultor, Cliente, Oferta, Categoria, Producto, CarritoItem, SolicitudProducto
 from .serializers import (
     RegisterSerializer,
     AgricultorSerializer,
@@ -17,6 +17,7 @@ from .serializers import (
     OfertaSerializer,
     UserSerializer,
     CarritoItemSerializer,
+    SolicitudProductoSerializer,
 )
 
 logger = logging.getLogger(__name__)
@@ -161,3 +162,8 @@ class CarritoItemViewSet(viewsets.ModelViewSet):
         except Exception as e:
             print(f"🔥 Error interno en perform_create: {str(e)}")
             raise
+
+class SolicitudProductoViewSet(viewsets.ModelViewSet):
+    queryset = SolicitudProducto.objects.all()
+    serializer_class = SolicitudProductoSerializer
+    permission_classes = [IsAuthenticated]

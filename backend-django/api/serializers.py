@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from .models.usuario import Usuario
-from .models import Agricultor, Categoria, Producto, Oferta, Cliente, CarritoItem
+from .models import Agricultor, Categoria, Producto, Oferta, Cliente, CarritoItem, SolicitudProducto
 
 
 
@@ -121,3 +121,8 @@ class CarritoItemSerializer(serializers.ModelSerializer):
         # Excluye el campo cliente de escritura directa
         fields = ['id', 'oferta', 'cantidad', 'agregado_en']
         read_only_fields = ['id', 'agregado_en', 'cliente']
+
+class SolicitudProductoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SolicitudProducto
+        fields = '__all__'
