@@ -43,6 +43,8 @@ const LoginForm = ({ onLoginSuccess }) => {
         headers: { Authorization: `Bearer ${accessToken}` }
       });
       const userData = await userRes.json();
+      console.log('📦 userData:', userData);
+
 
       // Verificar si es cliente o agricultor
       const [clienteRes, agricultorRes] = await Promise.all([
