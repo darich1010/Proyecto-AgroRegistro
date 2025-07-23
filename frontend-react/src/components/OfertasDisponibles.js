@@ -43,6 +43,11 @@ const OfertasDisponibles = ({ token }) => {
       return;
     }
 
+    if (!clienteId) {
+      alert('No se ha identificado correctamente al cliente');
+      return;
+    }
+
     console.log("📦 Oferta seleccionada:", oferta);
 
     try {
@@ -53,7 +58,7 @@ const OfertasDisponibles = ({ token }) => {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
-           Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
           descripcion: oferta.descripcion,

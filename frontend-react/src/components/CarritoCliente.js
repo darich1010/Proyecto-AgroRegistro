@@ -38,30 +38,33 @@ const CarritoCliente = ({ token }) => {
     fetchCliente();
   }, [token, userId]);
 
-  // Paso 2: obtener los items del carrito
+  // Paso 2: función reutilizable para obtener el carrito
+  const fetchCarrito = async () => {
+    if (!clienteId) return;
+
+    try {
+      const res = await fetch(`https://web-production-2486a.up.railway.app/api/carrito/`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+
+      if (!res.ok) throw new Error('Error al obtener carrito');
+
+      const data = await res.json();
+      setCarrito(data);
+    } catch (err) {
+      console.error('❌ Error al cargar carrito:', err);
+      setError(err.message);
+    }
+  };
+
+  // Paso 3: usar fetchCarrito cuando el cliente esté listo
   useEffect(() => {
-    const fetchCarrito = async () => {
-      if (!clienteId) return;
+    if (clienteId) {
+      fetchCarrito();
+    }
+  }, [clienteId]);
 
-      try {
-        const res = await fetch(`https://web-production-2486a.up.railway.app/api/carrito/?cliente=${clienteId}`, {
-          headers: { Authorization: `Bearer ${token}` }
-        });
-
-        if (!res.ok) throw new Error('Error al obtener carrito');
-
-        const data = await res.json();
-        setCarrito(data);
-      } catch (err) {
-        console.error('❌ Error al cargar carrito:', err);
-        setError(err.message);
-      }
-    };
-
-    fetchCarrito();
-  }, [clienteId, token]);
-
-  // Paso 3: eliminar del carrito
+  // Paso 4: eliminar del carrito
   const eliminarDelCarrito = async (id) => {
     const confirm = window.confirm('¿Eliminar este producto del carrito?');
     if (!confirm) return;
@@ -84,7 +87,10 @@ const CarritoCliente = ({ token }) => {
     }
   };
 
-  const total = carrito.reduce((sum, item) => sum + item.precio * item.cantidad, 0);
+  const total = carrito.reduce((sum, item) => {
+    const precio = parseFloat(item.oferta?.precio || 0);
+    return sum + precio * item.cantidad;
+  }, 0);
 
   return (
     <div style={styles.carrito}>
@@ -97,9 +103,9 @@ const CarritoCliente = ({ token }) => {
           <ul>
             {carrito.map((item) => (
               <li key={item.id} style={styles.item}>
-                <strong>{item.oferta.producto.nombre}</strong> (x{item.cantidad})<br />
-                Precio unitario: S/ {item.precio}<br />
-                Total: S/ {(item.precio * item.cantidad).toFixed(2)}<br />
+                <strong>{item.oferta?.producto?.nombre || 'Producto desconocido'}</strong> (x{item.cantidad})<br />
+                Precio unitario: S/ {item.oferta?.precio}<br />
+                Total: S/ {(parseFloat(item.oferta?.precio || 0) * item.cantidad).toFixed(2)}<br />
                 <button onClick={() => eliminarDelCarrito(item.id)}>Eliminar</button>
               </li>
             ))}
