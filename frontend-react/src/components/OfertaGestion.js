@@ -7,6 +7,8 @@ const OfertaGestion = ({ token }) => {
   const [error, setError] = useState('');
   const [ofertaEditar, setOfertaEditar] = useState(null);
 
+  const user = JSON.parse(localStorage.getItem('user')); // 🧠 ID del agricultor autenticado
+
   const fetchOfertas = async () => {
     try {
       const res = await fetch('https://web-production-2486a.up.railway.app/api/ofertas/', {
@@ -15,7 +17,10 @@ const OfertaGestion = ({ token }) => {
 
       if (!res.ok) throw new Error('Error al obtener ofertas');
       const data = await res.json();
-      setOfertas(data);
+
+      // 🎯 Solo mostrar las ofertas del agricultor autenticado
+      const ofertasFiltradas = data.filter(o => o.agricultor.usuario.id === user?.id);
+      setOfertas(ofertasFiltradas);
     } catch (err) {
       setError('Error al cargar ofertas: ' + err.message);
     } finally {
