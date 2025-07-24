@@ -1,10 +1,9 @@
 // frontend-react/src/components/AgricultorDashboard.js
 import React from 'react';
 import LogoutButton from './LogoutButton';
-import AgricultorList from './AgricultorList';
 import ProductosList from './ProductosList';
 import OfertaGestion from './OfertaGestion';
-
+import MiPerfilAgricultor from './MiPerfilAgricultor';
 
 const AgricultorDashboard = ({ token, productos, fetchProductos }) => {
   return (
@@ -12,6 +11,10 @@ const AgricultorDashboard = ({ token, productos, fetchProductos }) => {
       <h2>Bienvenido al Panel del Agricultor 🌿</h2>
       <LogoutButton />
       <p>Administra tu información personal, tus productos y ofertas.</p>
+
+      <section style={styles.section}>
+        <MiPerfilAgricultor token={token} />
+      </section>
 
       <section style={styles.section}>
         <h3>Mis Productos</h3>
@@ -23,10 +26,11 @@ const AgricultorDashboard = ({ token, productos, fetchProductos }) => {
         <OfertaGestion token={token} />
       </section>
 
-      <section style={styles.section}>
+      {/* 🔒 Ya no es necesario mostrar todos los agricultores */}
+      {/* <section style={styles.section}>
         <h3>Datos Personales</h3>
         <AgricultorList token={token} />
-      </section>
+      </section> */}
     </div>
   );
 };
