@@ -21,11 +21,7 @@ const AgricultorDashboard = ({ token }) => {
         <h3>Mis Ofertas</h3>
         <OfertaGestion token={token} />
       </section>
-
-      <section style={styles.section}>
-        <h3>Datos Personales</h3>
-        <AgricultorList token={token} />
-      </section>
+      
     </div>
   );
 };
