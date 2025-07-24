@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
 const OfertaForm = ({ token, onOfertaGuardada, ofertaEditar, setOfertaEditar }) => {
-  const [agricultores, setAgricultores] = useState([]);
   const [productos, setProductos] = useState([]);
   const [agricultorId, setAgricultorId] = useState('');
   const [productoId, setProductoId] = useState('');
@@ -30,25 +29,33 @@ const OfertaForm = ({ token, onOfertaGuardada, ofertaEditar, setOfertaEditar }) 
     return res;
   };
 
+  // 🔁 Obtener productos y agricultor autenticado
   useEffect(() => {
-    const fetchAgricultores = async () => {
-      const res = await authFetch('https://web-production-2486a.up.railway.app/api/agricultores/');
-      const data = await res.json();
-      setAgricultores(data);
-    };
-
     const fetchProductos = async () => {
       const res = await authFetch('https://web-production-2486a.up.railway.app/api/productos/');
       const data = await res.json();
       setProductos(data);
     };
 
+    const fetchAgricultor = async () => {
+      const user = JSON.parse(localStorage.getItem('user'));
+      const userId = user?.id;
+
+      const res = await authFetch('https://web-production-2486a.up.railway.app/api/agricultores/');
+      const data = await res.json();
+      const agricultor = data.find(a => a.usuario.id === userId);
+      if (agricultor) {
+        setAgricultorId(agricultor.id);
+      }
+    };
+
     if (token) {
-      fetchAgricultores();
       fetchProductos();
+      fetchAgricultor();
     }
   }, [token]);
 
+  // Si editamos, precargamos datos
   useEffect(() => {
     if (ofertaEditar) {
       setAgricultorId(ofertaEditar.agricultor.id);
@@ -57,7 +64,6 @@ const OfertaForm = ({ token, onOfertaGuardada, ofertaEditar, setOfertaEditar }) 
       setStock(ofertaEditar.stock);
       setDescripcion(ofertaEditar.descripcion || '');
     } else {
-      setAgricultorId('');
       setProductoId('');
       setPrecio('');
       setStock('');
@@ -92,7 +98,6 @@ const OfertaForm = ({ token, onOfertaGuardada, ofertaEditar, setOfertaEditar }) 
     if (response.ok) {
       onOfertaGuardada();
       setOfertaEditar(null);
-      setAgricultorId('');
       setProductoId('');
       setPrecio('');
       setStock('');
@@ -108,12 +113,7 @@ const OfertaForm = ({ token, onOfertaGuardada, ofertaEditar, setOfertaEditar }) 
     <form onSubmit={handleSubmit}>
       <h3>{ofertaEditar ? 'Editar Oferta' : 'Registrar Oferta'}</h3>
 
-      <select value={agricultorId} onChange={(e) => setAgricultorId(e.target.value)} required>
-        <option value="">Selecciona un agricultor</option>
-        {agricultores.map(a => (
-          <option key={a.id} value={a.id}>{a.nombre}</option>
-        ))}
-      </select>
+      {/* ❌ Eliminado: Select de Agricultores */}
 
       <select value={productoId} onChange={(e) => setProductoId(e.target.value)} required>
         <option value="">Selecciona un producto</option>
