@@ -1,66 +1,38 @@
 // frontend-react/src/components/ProductosList.js
 import React, { useEffect, useState } from 'react';
-import ProductoForm from './ProductoForm';
 
 const ProductosList = ({ token, productos, fetchProductos }) => {
   const [error, setError] = useState('');
-  const [productoEditar, setProductoEditar] = useState(null);
+  const user = JSON.parse(localStorage.getItem('user'));
+  const userId = user?.id;
 
   useEffect(() => {
-   if (!token || typeof fetchProductos !== 'function') return;
-   fetchProductos();
+    if (!token || typeof fetchProductos !== 'function') return;
+    fetchProductos();
   }, [token]);
 
+  if (!token || !userId) return null;
 
-  const handleEliminar = async (id) => {
-    if (!window.confirm('¿Estás seguro de eliminar este producto?')) return;
-
-    try {
-      const response = await fetch(`https://web-production-2486a.up.railway.app/api/productos/${id}/`, {
-        method: 'DELETE',
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      });
-
-      if (response.ok) {
-        fetchProductos();
-      } else {
-        const errorText = await response.text();
-        alert('Error al eliminar el producto: ' + errorText);
-      }
-    } catch (err) {
-      setError('Error al eliminar producto: ' + err.message);
-    }
-  };
-
-  if (!token) return null;
+  // Filtrar solo productos que pertenecen al agricultor autenticado
+  const productosDelAgricultor = productos.filter(
+    (producto) => producto.agricultor?.usuario?.id === userId
+  );
 
   return (
     <div>
-      <ProductoForm
-        token={token}
-        onProductoCreado={fetchProductos}
-        productoEditar={productoEditar}
-        setProductoEditar={setProductoEditar}
-      />
-
-      <h2>Lista de Productos</h2>
+      <h2>Mis Productos</h2>
 
       {error && <p style={{ color: 'red' }}>{error}</p>}
 
       <ul>
-        {Array.isArray(productos) && productos.length > 0 ? (
-          productos.map((producto) => (
+        {Array.isArray(productosDelAgricultor) && productosDelAgricultor.length > 0 ? (
+          productosDelAgricultor.map((producto) => (
             <li key={producto.id}>
               {producto.nombre} - Categoría: {producto.categoria?.nombre || 'Sin categoría'}
-              {' '}
-              <button onClick={() => setProductoEditar(producto)}>Editar</button>
-              <button onClick={() => handleEliminar(producto.id)}>Eliminar</button>
             </li>
           ))
         ) : (
-          <p>No hay productos registrados.</p>
+          <p>No tienes productos registrados.</p>
         )}
       </ul>
     </div>
