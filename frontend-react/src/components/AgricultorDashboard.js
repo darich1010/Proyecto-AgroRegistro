@@ -1,9 +1,8 @@
-// frontend-react/src/components/AgricultorDashboard.js
 import React from 'react';
 import LogoutButton from './LogoutButton';
-import AgricultorList from './AgricultorList';
 import OfertaGestion from './OfertaGestion';
 import MiPerfilAgricultor from './MiPerfilAgricultor';
+import SolicitudesClienteList from './SolicitudesClienteList'; // ✅ Nuevo componente
 
 const AgricultorDashboard = ({ token }) => {
   return (
@@ -18,10 +17,14 @@ const AgricultorDashboard = ({ token }) => {
       </section>
 
       <section style={styles.section}>
-        <h3>Mis Ofertas</h3>
+        <h3>📦 Mis Ofertas</h3>
         <OfertaGestion token={token} />
       </section>
-      
+
+      <section style={styles.section}>
+        <h3>📋 Solicitudes de Productos</h3>
+        <SolicitudesClienteList token={token} />
+      </section>
     </div>
   );
 };
