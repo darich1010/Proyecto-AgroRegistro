@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from .models.usuario import Usuario
-from .models import Agricultor, Categoria, Producto, Oferta, Cliente, CarritoItem, SolicitudProducto, RespuestaSolicitud
+from .models import Agricultor, Categoria, Producto, Oferta, Cliente, CarritoItem, SolicitudProducto, RespuestaSolicitud, NotificacionAgricultor
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -151,3 +151,29 @@ class RespuestaSolicitudSerializer(serializers.ModelSerializer):
     class Meta:
         model = RespuestaSolicitud
         fields = ['id', 'solicitud', 'solicitud_id', 'agricultor', 'agricultor_id', 'mensaje', 'fecha_respuesta']
+
+class NotificacionAgricultorSerializer(serializers.ModelSerializer):
+    agricultor = AgricultorSerializer(read_only=True)
+    agricultor_id = serializers.PrimaryKeyRelatedField(
+        queryset=Agricultor.objects.all(), source='agricultor', write_only=True
+    )
+    cliente = ClienteNombreSerializer(read_only=True)
+    cliente_id = serializers.PrimaryKeyRelatedField(
+        queryset=Cliente.objects.all(), source='cliente', write_only=True
+    )
+    oferta = OfertaSerializer(read_only=True)
+    oferta_id = serializers.PrimaryKeyRelatedField(
+        queryset=Oferta.objects.all(), source='oferta', write_only=True
+    )
+
+    class Meta:
+        model = NotificacionAgricultor
+        fields = [
+            'id',
+            'agricultor', 'agricultor_id',
+            'cliente', 'cliente_id',
+            'oferta', 'oferta_id',
+            'mensaje',
+            'leido',
+            'fecha_creacion'
+        ]

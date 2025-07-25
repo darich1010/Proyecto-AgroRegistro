@@ -6,7 +6,7 @@ from .views import (
     AgricultorViewSet, CategoriaViewSet,
     ProductoViewSet, OfertaViewSet,
     ClienteViewSet, CarritoItemViewSet,
-    SolicitudProductoViewSet, RespuestaSolicitudViewSet  
+    SolicitudProductoViewSet, RespuestaSolicitudViewSet, NotificacionAgricultorViewSet 
 )
 
 # Routers
@@ -19,6 +19,7 @@ router.register(r'clientes', ClienteViewSet)
 router.register(r'carrito', CarritoItemViewSet)
 router.register(r'solicitudes', SolicitudProductoViewSet)
 router.register(r'respuestas', RespuestaSolicitudViewSet) 
+router.register(r'notificaciones', NotificacionAgricultorViewSet) 
 
 # URL Patterns
 urlpatterns = [

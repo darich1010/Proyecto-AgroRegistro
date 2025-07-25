@@ -7,7 +7,7 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework import serializers
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
-from .models import Agricultor, Cliente, Oferta, Categoria, Producto, CarritoItem, SolicitudProducto, RespuestaSolicitud
+from .models import Agricultor, Cliente, Oferta, Categoria, Producto, CarritoItem, SolicitudProducto, RespuestaSolicitud, NotificacionAgricultor
 from .serializers import (
     RegisterSerializer,
     AgricultorSerializer,
@@ -19,6 +19,7 @@ from .serializers import (
     CarritoItemSerializer,
     SolicitudProductoSerializer,
     RespuestaSolicitudSerializer,
+    NotificacionAgricultorSerializer,
 )
 
 logger = logging.getLogger(__name__)
@@ -152,6 +153,17 @@ class CarritoItemViewSet(viewsets.ModelViewSet):
                 carrito_item = serializer.save(cliente=cliente)
                 print(f"✅ CarritoItem creado con ID: {carrito_item.id}")
 
+                # 🔔 Crear notificación para el agricultor
+                from .models import NotificacionAgricultor  # Import local para evitar ciclos
+                mensaje = f"{cliente.nombre} ha añadido tu oferta de {oferta.producto.nombre} al carrito."
+                NotificacionAgricultor.objects.create(
+                    agricultor=oferta.agricultor,
+                    cliente=cliente,
+                    oferta=oferta,
+                    mensaje=mensaje
+                )
+                print("🔔 Notificación enviada al agricultor.")
+
         except Cliente.DoesNotExist:
             print(f"❌ Cliente no encontrado para el usuario ID: {usuario.id}")
             raise serializers.ValidationError("Cliente no encontrado para el usuario.")
@@ -164,11 +176,12 @@ class CarritoItemViewSet(viewsets.ModelViewSet):
             print(f"🔥 Error interno en perform_create: {str(e)}")
             raise
 
+
 class SolicitudProductoViewSet(viewsets.ModelViewSet):
     queryset = SolicitudProducto.objects.all()
     serializer_class = SolicitudProductoSerializer
     permission_classes = [IsAuthenticated]
-    
+
 class RespuestaSolicitudViewSet(viewsets.ModelViewSet):
     queryset = RespuestaSolicitud.objects.all()
     serializer_class = RespuestaSolicitudSerializer
@@ -181,3 +194,18 @@ class RespuestaSolicitudViewSet(viewsets.ModelViewSet):
             serializer.save(agricultor=agricultor)
         except Agricultor.DoesNotExist:
             raise serializers.ValidationError("Este usuario no tiene un perfil de agricultor.")
+
+class NotificacionAgricultorViewSet(viewsets.ModelViewSet):
+    queryset = NotificacionAgricultor.objects.all()
+    serializer_class = NotificacionAgricultorSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        usuario = self.request.user
+        if usuario.tipo_usuario == 'agricultor':
+            try:
+                agricultor = Agricultor.objects.get(usuario=usuario)
+                return NotificacionAgricultor.objects.filter(agricultor=agricultor).select_related('cliente', 'oferta')
+            except Agricultor.DoesNotExist:
+                return NotificacionAgricultor.objects.none()
+        return NotificacionAgricultor.objects.none()
