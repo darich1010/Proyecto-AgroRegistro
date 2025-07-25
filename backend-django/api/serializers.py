@@ -122,7 +122,20 @@ class CarritoItemSerializer(serializers.ModelSerializer):
         fields = ['id', 'oferta', 'cantidad', 'agregado_en']
         read_only_fields = ['id', 'agregado_en', 'cliente']
 
+class ProductoNombreSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Producto
+        fields = ['id', 'nombre']
+
+class ClienteNombreSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Cliente
+        fields = ['id', 'nombre']
+
 class SolicitudProductoSerializer(serializers.ModelSerializer):
+    producto_solicitado = ProductoNombreSerializer(read_only=True)
+    cliente = ClienteNombreSerializer(read_only=True)
+
     class Meta:
         model = SolicitudProducto
         fields = '__all__'
