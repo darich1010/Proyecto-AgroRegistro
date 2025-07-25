@@ -6,6 +6,8 @@ from .models.cliente import Cliente
 from .models.usuario import Usuario
 from .models.carritoitem import CarritoItem
 from .solicitud_producto import SolicitudProducto
+from .models.respuesta_solicitud import RespuestaSolicitud
+
 
 
 

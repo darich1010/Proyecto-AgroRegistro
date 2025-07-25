@@ -6,7 +6,7 @@ from .views import (
     AgricultorViewSet, CategoriaViewSet,
     ProductoViewSet, OfertaViewSet,
     ClienteViewSet, CarritoItemViewSet,
-    SolicitudProductoViewSet  # 👈 NUEVO IMPORT
+    SolicitudProductoViewSet, RespuestaSolicitudViewSet  
 )
 
 # Routers
@@ -17,7 +17,8 @@ router.register(r'productos', ProductoViewSet)
 router.register(r'ofertas', OfertaViewSet)
 router.register(r'clientes', ClienteViewSet)
 router.register(r'carrito', CarritoItemViewSet)
-router.register(r'solicitudes', SolicitudProductoViewSet)  # 👈 NUEVO ENDPOINT
+router.register(r'solicitudes', SolicitudProductoViewSet)
+router.register(r'respuestas', RespuestaSolicitudViewSet) 
 
 # URL Patterns
 urlpatterns = [

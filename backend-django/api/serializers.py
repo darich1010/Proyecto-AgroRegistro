@@ -1,7 +1,6 @@
 from rest_framework import serializers
 from .models.usuario import Usuario
-from .models import Agricultor, Categoria, Producto, Oferta, Cliente, CarritoItem, SolicitudProducto
-
+from .models import Agricultor, Categoria, Producto, Oferta, Cliente, CarritoItem, SolicitudProducto, RespuestaSolicitud
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -139,3 +138,16 @@ class SolicitudProductoSerializer(serializers.ModelSerializer):
     class Meta:
         model = SolicitudProducto
         fields = '__all__'
+class RespuestaSolicitudSerializer(serializers.ModelSerializer):
+    solicitud = SolicitudProductoSerializer(read_only=True)
+    solicitud_id = serializers.PrimaryKeyRelatedField(
+        queryset=SolicitudProducto.objects.all(), source='solicitud', write_only=True
+    )
+    agricultor = AgricultorSerializer(read_only=True)
+    agricultor_id = serializers.PrimaryKeyRelatedField(
+        queryset=Agricultor.objects.all(), source='agricultor', write_only=True
+    )
+
+    class Meta:
+        model = RespuestaSolicitud
+        fields = ['id', 'solicitud', 'solicitud_id', 'agricultor', 'agricultor_id', 'mensaje', 'fecha_respuesta']

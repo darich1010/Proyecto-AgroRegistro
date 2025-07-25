@@ -7,7 +7,7 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework import serializers
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
-from .models import Agricultor, Cliente, Oferta, Categoria, Producto, CarritoItem, SolicitudProducto
+from .models import Agricultor, Cliente, Oferta, Categoria, Producto, CarritoItem, SolicitudProducto, RespuestaSolicitud
 from .serializers import (
     RegisterSerializer,
     AgricultorSerializer,
@@ -18,6 +18,7 @@ from .serializers import (
     UserSerializer,
     CarritoItemSerializer,
     SolicitudProductoSerializer,
+    RespuestaSolicitudSerializer,
 )
 
 logger = logging.getLogger(__name__)
@@ -167,3 +168,16 @@ class SolicitudProductoViewSet(viewsets.ModelViewSet):
     queryset = SolicitudProducto.objects.all()
     serializer_class = SolicitudProductoSerializer
     permission_classes = [IsAuthenticated]
+    
+class RespuestaSolicitudViewSet(viewsets.ModelViewSet):
+    queryset = RespuestaSolicitud.objects.all()
+    serializer_class = RespuestaSolicitudSerializer
+    permission_classes = [IsAuthenticated]
+
+    def perform_create(self, serializer):
+        usuario = self.request.user
+        try:
+            agricultor = Agricultor.objects.get(usuario=usuario)
+            serializer.save(agricultor=agricultor)
+        except Agricultor.DoesNotExist:
+            raise serializers.ValidationError("Este usuario no tiene un perfil de agricultor.")

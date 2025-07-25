@@ -3,6 +3,7 @@ import LogoutButton from './LogoutButton';
 import OfertaGestion from './OfertaGestion';
 import MiPerfilAgricultor from './MiPerfilAgricultor';
 import SolicitudesClienteList from './SolicitudesClienteList'; // ✅ Nuevo componente
+import RespuestaSolicitudForm from './RespuestaSolicitudForm';
 
 const AgricultorDashboard = ({ token }) => {
   return (
@@ -25,6 +26,11 @@ const AgricultorDashboard = ({ token }) => {
         <h3>📋 Solicitudes de Productos</h3>
         <SolicitudesClienteList token={token} />
       </section>
+
+      <section style={styles.section}>
+      <RespuestaSolicitudForm token={token} />
+      </section>
+    
     </div>
   );
 };
