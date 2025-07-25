@@ -6,6 +6,7 @@ import MiPerfilCliente from './MiPerfilCliente';
 import OfertasDisponibles from './OfertasDisponibles';
 import CarritoCliente from './CarritoCliente';
 import SolicitudForm from './SolicitudForm';
+import RespuestasClienteList from './RespuestasClienteList';
 
 const ClienteDashboard = ({ token }) => {
   return (
@@ -30,6 +31,12 @@ const ClienteDashboard = ({ token }) => {
       <section style={styles.section}>
         <SolicitudForm token={token} />
       </section>
+
+      <section style={styles.section}>
+        <h3>📬 Respuestas de Agricultores</h3>
+        <RespuestasClienteList token={token} />  {/* 👈 NUEVO COMPONENTE */}
+      </section>
+      
     </div>
   );
 };
