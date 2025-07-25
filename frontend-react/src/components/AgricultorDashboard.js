@@ -2,8 +2,9 @@ import React from 'react';
 import LogoutButton from './LogoutButton';
 import OfertaGestion from './OfertaGestion';
 import MiPerfilAgricultor from './MiPerfilAgricultor';
-import SolicitudesClienteList from './SolicitudesClienteList'; // ✅ Nuevo componente
+import SolicitudesClienteList from './SolicitudesClienteList';
 import RespuestaSolicitudForm from './RespuestaSolicitudForm';
+import NotificacionesAgricultorList from './NotificacionesAgricultorList'; // ✅ Nuevo import
 
 const AgricultorDashboard = ({ token }) => {
   return (
@@ -28,9 +29,14 @@ const AgricultorDashboard = ({ token }) => {
       </section>
 
       <section style={styles.section}>
-      <RespuestaSolicitudForm token={token} />
+        <h3>✉️ Responder Solicitudes</h3>
+        <RespuestaSolicitudForm token={token} />
       </section>
-    
+
+      <section style={styles.section}>
+        <h3>🔔 Notificaciones Recibidas</h3>
+        <NotificacionesAgricultorList token={token} /> {/* ✅ Aquí se usa el componente */}
+      </section>
     </div>
   );
 };
