@@ -25,7 +25,9 @@ AgroRegistro/
 | Componente | Enlace |
 |-----------|--------|
 | 🌍 Frontend Web | https://agroregistro-frontend.vercel.app/ |
-| 🛠️ Backend API, sin una vista general 404  | https://agroregistro-backend.up.railway.app |, pero con funcionamiento correcta tanto en admin como en api en : | https://web-production-2486a.up.railway.app/admin/ | , | https://web-production-2486a.up.railway.app/api/ |
+| 🛠️ Backend API, sin una vista general 404  | https://agroregistro-backend.up.railway.app |
+| 🛠️ Backend API, con funcionamiento correcto en admin  | https://web-production-2486a.up.railway.app/admin/ |
+| 🛠️ Backend API,  con funcionamiento correcto en api  | https://web-production-2486a.up.railway.app/api/ |
 | 📂 Repositorio GitHub | https://github.com/usuario/AgroRegistro |
 
 🔐 **Credenciales de prueba:**
