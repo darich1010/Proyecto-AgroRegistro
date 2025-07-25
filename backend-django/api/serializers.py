@@ -133,7 +133,7 @@ class ClienteNombreSerializer(serializers.ModelSerializer):
         fields = ['id', 'nombre']
 
 class SolicitudProductoSerializer(serializers.ModelSerializer):
-    producto_solicitado = ProductoNombreSerializer(read_only=True)
+    producto = ProductoNombreSerializer(read_only=True)  # ← Cambiado aquí
     cliente = ClienteNombreSerializer(read_only=True)
 
     class Meta:

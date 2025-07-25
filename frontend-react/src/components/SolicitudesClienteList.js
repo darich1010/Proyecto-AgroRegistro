@@ -41,7 +41,7 @@ const SolicitudesClienteList = ({ token }) => {
           {solicitudes.map((solicitud) => (
             <li key={solicitud.id} style={{ marginBottom: '1rem' }}>
               <strong>Cliente:</strong> {solicitud.cliente?.nombre || 'N/A'} <br />
-              <strong>Producto solicitado:</strong> {solicitud.producto_solicitado?.nombre || 'N/A'} <br />
+              <strong>Producto solicitado:</strong> {solicitud.producto?.nombre || 'N/A'} <br />
               <strong>Cantidad:</strong> {solicitud.cantidad} <br />
               <strong>Descripción:</strong> {solicitud.descripcion} <br />
             </li>
