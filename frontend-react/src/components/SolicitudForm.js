@@ -5,8 +5,38 @@ const SolicitudForm = ({ token }) => {
   const [productoId, setProductoId] = useState('');
   const [cantidad, setCantidad] = useState('');
   const [descripcion, setDescripcion] = useState('');
+  const [clienteId, setClienteId] = useState(null);
   const [mensaje, setMensaje] = useState('');
   const [error, setError] = useState('');
+
+  const user = JSON.parse(localStorage.getItem('user'));
+  const userId = user?.id;
+
+  // Obtener cliente ID
+  useEffect(() => {
+    const fetchCliente = async () => {
+      try {
+        const res = await fetch('https://web-production-2486a.up.railway.app/api/clientes/', {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+
+        const data = await res.json();
+        const cliente = data.find(c => c.usuario.id === userId);
+        if (cliente) {
+          setClienteId(cliente.id);
+        } else {
+          setError('No se encontró el cliente vinculado.');
+        }
+      } catch (err) {
+        console.error('Error al obtener cliente:', err);
+        setError('Error al obtener cliente.');
+      }
+    };
+
+    fetchCliente();
+  }, [token, userId]);
 
   // Obtener lista de productos con autorización ✅
   useEffect(() => {
@@ -50,8 +80,9 @@ const SolicitudForm = ({ token }) => {
     const payload = {
       producto: parseInt(productoId),
       cantidad: parseInt(cantidad),
-      descripcion: descripcion.trim()
-      // cliente y fecha_solicitud ya los gestiona el backend automáticamente
+      descripcion,
+      cliente: clienteId,
+      fecha_solicitud: new Date().toISOString(),
     };
 
     try {

@@ -182,13 +182,18 @@ class SolicitudProductoViewSet(viewsets.ModelViewSet):
     serializer_class = SolicitudProductoSerializer
     permission_classes = [IsAuthenticated]
 
-    def perform_create(self, serializer):
-        try:
-            cliente = Cliente.objects.get(usuario=self.request.user)
-            serializer.save(cliente=cliente)
-        except Cliente.DoesNotExist:
-            raise serializers.ValidationError("No se encontró un perfil de cliente para este usuario.")
+class RespuestaSolicitudViewSet(viewsets.ModelViewSet):
+    queryset = RespuestaSolicitud.objects.all()
+    serializer_class = RespuestaSolicitudSerializer
+    permission_classes = [IsAuthenticated]
 
+    def perform_create(self, serializer):
+        usuario = self.request.user
+        try:
+            agricultor = Agricultor.objects.get(usuario=usuario)
+            serializer.save(agricultor=agricultor)
+        except Agricultor.DoesNotExist:
+            raise serializers.ValidationError("Este usuario no tiene un perfil de agricultor.")
 
 class NotificacionAgricultorViewSet(viewsets.ModelViewSet):
     queryset = NotificacionAgricultor.objects.all()
