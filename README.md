@@ -32,7 +32,7 @@ AgroRegistro/
 
 🔐 **Credenciales de prueba:**
 
-- Usuario **Administrador**: `admin1` / `1234`
+- Usuario **Administrador**: `admin` / `1234`
 - Usuario **Cliente de prueba**: `cliente01` / `1234`
 - Usuario **Agricultor de prueba**: `agricultor01` / `1234`
 
