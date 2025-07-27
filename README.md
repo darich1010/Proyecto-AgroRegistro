@@ -7,16 +7,13 @@ Hola¡, bienvenido al repositorio de nuestro proyecto final del proyecto AgroReg
 
 ```
 AgroRegistro/
-├── backend/              # Proyecto Django (API REST)
-├── frontend-react/       # Interfaz desarrollada con React.js
-├── entregables/          # INFORME, videos, capturas, PDF y README final
-│   ├── README.md         # Este archivo│   
-│   ├── Informe_Final.pdf
-│   ├── capturas/
-│   ├── videos/
-│   └── exposicion/
-└── README.md             # (opcional en raíz del proyecto)
+├── backend-django/              # Proyecto backend con Django y Django REST Framework
+├── frontend-react/              # Interfaz de usuario desarrollada en React.js
+├── BACKUPS CSV/                 # Respaldo de tablas de la base de datos en formato CSV
+├── INFORME_FINAL_DE_PROYECTO PW2/  # Informe final en formato LaTeX (IEEE)
+├── README.md                    # Documentación principal del proyecto
 ```
+
 
 ---
 
@@ -177,7 +174,7 @@ Incluido en el informe PDF, representando entidades como:
 
 - URL del video (20 min) solicitado para teoría: https://www.youtube.com/watch?v=_n8g8Nbzea4&t=631s
 
-- URL del video (5 min - ambos integrantes) solicitado para laboratorio: 
+- URL del video (7 min - ambos integrantes) solicitado para laboratorio: https://www.youtube.com/watch?v=REN2Ui6GMBs
 
 
 ---
