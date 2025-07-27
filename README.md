@@ -12,7 +12,7 @@ AgroRegistro/
 ├── BACKUPS CSV/                 # Respaldo de tablas de la base de datos en formato CSV
 ├── INFORME_FINAL_DE_PROYECTO PW2/  # Informe final en formato LaTeX (IEEE)
 ├── README.md                    # Documentación principal del proyecto
-├── Entregables                    # Documentación principal del proyecto
+├── Entregables                    # Para teoría 
 ```
 
 
