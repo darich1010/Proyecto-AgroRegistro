@@ -1,0 +1,30 @@
+id,descripcion,precio,stock,agricultor_id,producto_id
+22,Recien cosechada y fresca.,2.00,50,24,17
+23,"Cebolla israel, no picante y agradable",2.00,52,22,14
+24,Orégano natural,2.00,2,21,56
+15,Ajo fresco para cocina,1.90,24,15,45
+2,Zanahoria orgánica recién cosechada,1.80,80,2,5
+3,Camote dulce ideal para postres,3.20,60,3,8
+4,Manzana roja jugosa,2.00,100,4,12
+5,Palta Hass de exportación,4.50,40,5,15
+6,Papa blanca para todo uso,1.30,75,6,18
+7,Cebolla roja fresca y crocante,1.90,60,7,21
+8,Lechuga romana recién cortada,1.00,30,8,24
+9,Limón sutil 100% natural,3.00,90,9,27
+10,Mango kent dulce y sabroso,5.00,55,10,30
+11,Espinaca fresca libre de pesticidas,1.70,70,11,33
+12,Betarraga grande lista para jugo,2.10,42,12,36
+14,Plátano de seda maduro,2.30,50,14,42
+16,Rabanito crocante y natural,1.10,33,16,48
+17,Apio tierno y jugoso,1.60,28,17,51
+13,Naranja dulce para mesa o jugo,1.60,66,13,39
+25,1 SOL POR CADA KILO,1.00,5,21,1
+19,Melón verde aromático,4.20,33,19,57
+20,Choclo blanco recién desgranado,2.80,57,20,60
+26,Platano de isla,5.00,4,21,2
+28,Zanahoria criolla,2.00,46,27,12
+1,Papaya fresca cosecha de verano,2.50,27,1,1
+21,Manzana directa del huerto,3.00,9,21,1
+18,Sandía grande y dulce,3.80,18,18,54
+29,Fresco y barato,2.00,48,21,18
+30,Grande y Fresca,2.00,59,21,12

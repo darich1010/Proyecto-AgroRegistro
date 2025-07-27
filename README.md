@@ -90,6 +90,52 @@ AgroRegistro/
 
 ---
 
+## Respaldo de Base de Datos
+
+### ¿Por qué realizar un respaldo?
+
+Realizar un respaldo (backup) de la base de datos es una práctica fundamental para cualquier proyecto que maneje información importante. El respaldo permite proteger los datos ante posibles fallos, pérdidas accidentales, errores humanos o problemas técnicos. Contar con copias actualizadas de la base de datos asegura que el proyecto pueda recuperarse rápidamente y continuar funcionando sin pérdida significativa de información.
+
+### Método y procedimiento utilizado
+
+Para el proyecto AgroRegistro, se decidió realizar el respaldo exportando cada tabla de la base de datos en formato CSV. Este método es sencillo, portátil y compatible con múltiples herramientas y sistemas, facilitando la restauración o análisis posterior.
+
+El procedimiento realizado fue el siguiente:
+
+1. Ingresamos a la plataforma de administración de la base de datos (Supabase).
+2. Para cada tabla principal, utilizamos la opción de exportar datos en formato Excel.
+3. Convertimos los archivos Excel a CSV para cumplir con los requisitos del curso.
+4. Se almacenaron todos los archivos CSV en una carpeta organizada llamada `BACKUPS CSV`.
+5. Finalmente, estos archivos se subieron al repositorio del proyecto para mantenerlos accesibles y versionados.
+
+### Archivos de respaldo y su contenido
+
+| Nombre del archivo               | Contenido principal                                                         |
+|---------------------------------|----------------------------------------------------------------------------|
+| `api_agricultor.csv`             | Información personal y de contacto de los agricultores registrados.         |
+| `api_carritoitem.csv`            | Detalles de los productos agregados al carrito de cada cliente.             |
+| `api_categoria.csv`              | Categorías bajo las cuales se clasifican los productos.                     |
+| `api_cliente.csv`                | Datos personales y de contacto de los clientes registrados.                 |
+| `api_notificacionagricultor.csv`| Notificaciones enviadas a los agricultores sobre solicitudes y mensajes.    |
+| `api_oferta.csv`                 | Ofertas creadas por los agricultores con precios y detalles de productos.   |
+| `api_producto.csv`               | Detalles de los productos disponibles en la plataforma.                     |
+| `api_respuestasolicitud.csv`    | Respuestas proporcionadas por los agricultores a solicitudes de clientes.   |
+| `api_solicitudproducto.csv`     | Solicitudes realizadas por los clientes para productos específicos.         |
+| `api_usuario.csv`               | Información general de los usuarios del sistema (roles, credenciales, etc). |
+| `auth_permission.csv`            | Permisos definidos para los roles de usuarios.                              |
+| `django_content_type.csv`        | Información técnica interna del framework Django para los modelos.          |
+
+### Ubicación de los archivos
+
+Todos los archivos de respaldo están organizados y almacenados en la carpeta llamada `BACKUPS CSV` dentro del repositorio principal del proyecto. Esta estructura facilita su acceso y mantenimiento, asegurando que se pueda localizar rápidamente en caso de ser necesario restaurar o analizar la base de datos.
+
+---
+
+Se recomienda realizar respaldos periódicos y mantener actualizados estos archivos para preservar la integridad y disponibilidad de la información del proyecto.
+
+
+---
+
 ## ✨ Trabajo Adicional / Proactividad
 
 Durante el desarrollo del sistema AgroRegistro, se implementaron ciertas funcionalidades y enfoques no requeridos explícitamente por los entregables, que representan aportes técnicos adicionales e innovaciones por iniciativa propia:
@@ -125,9 +171,18 @@ Incluido en el informe PDF, representando entidades como:
 - RespuestaSolicitud
 - NotificacionAgricultor
 
+--- 
+
+## Videos de funcionalidad de la WebApp
+
+- URL del video (20 min) solicitado para teoría: https://www.youtube.com/watch?v=_n8g8Nbzea4&t=631s
+
+- URL del video (5 min - ambos integrantes) solicitado para laboratorio: 
+
+
 ---
 
-### Autoevaluación (Darío Cornejo)
+### Autoevaluación (Darío Cornejo),Grupo de Teoría: A , Grupo de Laboratorio: D
 
 ## Darío Cornejo Hurtado:
 
@@ -139,9 +194,9 @@ Incluido en el informe PDF, representando entidades como:
 
 **Evaluación de compañeros:** Realicé la calificación completa a mis compañeros según lo requerido.
 
-> Nota individual considerada: **20/20** , Nota a mi compañero considerada: **20/20**
+> Nota individual considerada: **20/20** , Nota a mi compañero considerada: **20/20**,**100%**,
 
-### Diego Cervantes Apaza:
+### Diego Cervantes Apaza,Grupo de Teoría: A , Grupo de Laboratorio: D
 
 **Responsabilidad:** Cumplí con todas las tareas asignadas,principlamente en el frontend y me aseguré de que la base de datos estuviera correctamente implementada.
 
@@ -151,7 +206,7 @@ Incluido en el informe PDF, representando entidades como:
 
 **Evaluación de compañeros:** Realicé la calificación completa a mis compañeros según lo requerido.
 
-> Nota individual considerada: **20/20** , Nota a mi compañero considerada: **20/20**
+> Nota individual considerada: **20/20** , Nota a mi compañero considerada: **20/20**,**100%**,
 
 ---
 

@@ -1,0 +1,13 @@
+id,mensaje,leido,fecha_creacion,agricultor_id,cliente_id,oferta_id
+1,Julian Alvarez ha añadido tu oferta de Cebolla al carrito.,false,2025-07-25 02:31:07.244557+00,22,12,23
+2,Julian Alvarez ha añadido tu oferta de Cebada al carrito.,false,2025-07-25 21:34:12.379383+00,15,12,15
+3,Julian Alvarez ha añadido tu oferta de Trigo sarraceno al carrito.,false,2025-07-25 21:34:19.748971+00,13,12,13
+4,Javier Valdez ha añadido tu oferta de Albahaca al carrito.,false,2025-07-25 21:38:01.832757+00,19,20,19
+5,Javier Valdez ha añadido tu oferta de Wira Wira al carrito.,false,2025-07-25 21:38:16.298102+00,20,20,20
+6,Julian Alvarez ha añadido tu oferta de Zanahoria al carrito.,false,2025-07-25 22:07:40.620726+00,27,12,28
+7,Dario Cornejo Hurtado ha añadido tu oferta de Zanahoria al carrito.,false,2025-07-25 23:29:56.453955+00,27,21,28
+8,Julian Alvarez ha añadido tu oferta de Manzana al carrito.,false,2025-07-26 00:15:16.787022+00,1,12,1
+9,Julian Alvarez ha añadido tu oferta de Manzana al carrito.,false,2025-07-26 00:15:21.986853+00,21,12,21
+10,Julian Alvarez ha añadido tu oferta de Menta al carrito.,false,2025-07-26 00:15:26.253598+00,18,12,18
+11,Julian Alvarez ha añadido tu oferta de Rábano al carrito.,false,2025-07-26 00:43:13.931366+00,21,12,29
+12,Julian Alvarez ha añadido tu oferta de Zanahoria al carrito.,false,2025-07-26 02:02:43.117319+00,21,12,30

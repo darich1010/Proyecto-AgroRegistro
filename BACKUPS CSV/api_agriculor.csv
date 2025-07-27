@@ -1,0 +1,30 @@
+id,nombre,telefono,departamento,provincia,distrito,usuario_id
+1,Juan Pérez,987654321,Cusco,Urubamba,Yucay,1
+2,Ana Huamán,912345678,Ayacucho,Huamanga,Carmen Alto,2
+3,Luis Quispe,923456789,Puno,San Román,Juliaca,3
+4,Rosa Mamani,934567890,Arequipa,Arequipa,Cayma,4
+5,Carlos Apaza,945678901,Junín,Huancayo,El Tambo,5
+6,María Torres,956789012,La Libertad,Trujillo,Florencia de Mora,6
+7,Pedro Gutiérrez,967890123,Lambayeque,Chiclayo,José Leonardo Ortiz,7
+8,Lucía Ccama,978901234,Cusco,Calca,Pisac,8
+9,Hernán Flores,989012345,Huancavelica,Tayacaja,Pampas,9
+10,Patricia Quispe,900123456,Pasco,Daniel Alcides Carrión,Yanahuanca,10
+11,Fernando Churata,911234567,Tacna,Tacna,Alto de la Alianza,11
+12,Yolanda Ramos,922345678,Moquegua,Mariscal Nieto,Samegua,12
+13,Gustavo Poma,933456789,Apurímac,Abancay,Tamburco,13
+14,Carmen Huarcaya,944567890,Amazonas,Chachapoyas,Molinopampa,14
+15,Roberto Chinchay,955678901,Piura,Piura,Castilla,15
+16,Diana Paredes,966789012,Ica,Ica,Pueblo Nuevo,16
+17,Óscar Valverde,977890123,San Martín,Moyobamba,Calzada,17
+18,Nelly Quenta,988901234,Madre de Dios,Tambopata,Las Piedras,18
+19,Kevin Huayhua,999012345,Ucayali,Coronel Portillo,Manantay,19
+20,Gladys Ccanto,910123456,Loreto,Maynas,Punchana,20
+21,Angel Goat,985632563,,,,34
+22,Juancho Perez,958745123,,,,35
+23,Luis Merino,957486211,,,,38
+24,Magaly Medina,998877412,,,,41
+25,Julio Castañeda,985475123,,,,43
+26,Diago Martinez,944412399,,,,45
+27,Damian Ortiz,958556821,Arequipa,Arequipa,Majes,26
+28,Juan Madrid,985632452,,,,48
+29,Pancho Gutierrez,965874123,,,,50
