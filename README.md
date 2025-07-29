@@ -1,7 +1,29 @@
 # 📦 PRODEC - Sistema Web para Clientes y Agricultores 🌾
-Hola¡, bienvenido al repositorio de nuestro proyecto final del proyecto AgroRegistro que implmentamos para la gestión y la comunicación entre clientes y agricultores de manera directa y desde la wep, como una innovación hacia la modernización del ambito agrícola y el propósito de poder implmentarse de manera extendida en un futuro no muy lejano. Este documento explica la estructura general del proyecto, las URLs públicas para su uso y prueba, los videos, capturas y demás recursos exigidos en la rúbrica del curso.
+
+## 📄 Resumen (Abstract)
+
+El presente informe detalla el desarrollo de **PRODEC** (Proyecto de Comunicación Digital para el Agricultor), una plataforma web diseñada para optimizar la interacción entre agricultores y clientes mediante una solución tecnológica moderna, accesible y segura.
+
+**PRODEC** forma parte del proyecto final **AgroRegistro**, implementado como una aplicación distribuida que integra tecnologías como **Django**, **React**, **PostgreSQL** (vía **Supabase**) y servicios en la nube como **Railway** y **Vercel**. El sistema permite el registro y autenticación de múltiples roles de usuario, habilitando funcionalidades específicas como gestión de productos, ofertas, solicitudes y notificaciones.
+
+A lo largo del documento se describe la arquitectura técnica, las herramientas utilizadas, la lógica de negocio, el despliegue, y los beneficios del sistema en términos de transformación digital del sector agrícola peruano.
 
 ---
+
+## 🧭 Introducción
+
+El proyecto denominado **PRODEC** consiste en una aplicación web diseñada para facilitar la comunicación directa entre agricultores y clientes, permitiendo que ambos puedan registrarse y acceder al sistema según su rol correspondiente. Esta iniciativa surge como respuesta a la necesidad de modernizar el sector agrícola peruano, promoviendo una interacción eficiente, segura y directa entre los actores principales del mercado agrícola.
+
+**PRODEC** se integra como una solución tecnológica dentro del proyecto final **AgroRegistro**, desarrollado como parte del curso de **Programación Web 2**. Su objetivo fundamental es ofrecer una plataforma digital de fácil acceso que permita a los agricultores gestionar sus productos y ofertas, mientras que los clientes pueden visualizar, solicitar e interactuar con dichas ofertas de forma personalizada. Asimismo, el sistema incluye la figura del administrador, quien supervisa y controla los distintos aspectos operativos de la plataforma.
+
+Desde su concepción, **PRODEC** fue diseñado con una arquitectura robusta, utilizando herramientas modernas como **Django** y **Django REST Framework** para el backend, **React JS** para el frontend y **PostgreSQL** como motor de base de datos, desplegado a través de **Supabase**. El despliegue completo se realizó utilizando plataformas como **Railway** (para el backend) y **Vercel** (para el frontend), garantizando disponibilidad en la nube, acceso remoto y escalabilidad.
+
+El presente documento está estructurado para brindar una visión detallada del proceso de desarrollo del sistema. Incluye la descripción técnica de la base de datos, la configuración de las rutas API, la lógica de autenticación basada en JWT, el manejo de roles y permisos, el diseño de componentes en React, así como la documentación de las herramientas y servicios utilizados durante el ciclo de desarrollo.
+
+Además, se presentan enlaces públicos de acceso, credenciales de prueba, capturas de pantalla y otros recursos que permiten validar el cumplimiento de los criterios definidos en la rúbrica del curso. Con esta iniciativa, se busca aportar una solución funcional y replicable que promueva el desarrollo sostenible del agro a través de la transformación digital.
+
+---
+
 
 ## 📁 Estructura General del Proyecto
 
