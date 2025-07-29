@@ -11,8 +11,7 @@ AgroRegistro/
 ├── frontend-react/              # Interfaz de usuario desarrollada en React.js
 ├── BACKUPS CSV/                 # Respaldo de tablas de la base de datos en formato CSV
 ├── INFORME_FINAL_DE_PROYECTO PW2/  # Informe final en formato LaTeX (IEEE)
-├── README.md                    # Documentación principal del proyecto
-├── Entregables                    # Para teoría 
+├── README.md                    # Documentación principal del proyecto 
 ```
 
 
@@ -46,16 +45,6 @@ AgroRegistro/
 
 ---
 
-## 📄 Contenido de la Carpeta `entregables/`
-
-| Archivo | Descripción |
-|--------|-------------|
-| `README.md` | Este documento explicativo del proyecto y entregables |
-| `README.pdf` | Versión PDF con formato para entrega final |
-| `Informe_Final.pdf` | Documento completo con evidencias, análisis, pantallazos |
-| `capturas/` | Carpeta con capturas de las interfaces web y funcionalidades |
-| `videos/` | Demostraciones funcionales (core business, frontend/backend) |
-| `exposicion/` | Video de exposición del grupo, con presentación de diapositivas |
 
 ---
 
