@@ -184,9 +184,13 @@ Incluido en el informe PDF, representando entidades como:
 
 ## Videos de funcionalidad de la WebApp
 
-- URL del video (20 min) solicitado para teoría: https://www.youtube.com/watch?v=_n8g8Nbzea4&t=631s
+- URL de exposición de diapositivas para teoría (20 min - ambos integrantes) solicitado para laboratorio: https://www.youtube.com/watch?v=PIenblHjS3Q
+
+- URL del video (20 min) de funcionalidad solicitado para teoría: https://www.youtube.com/watch?v=_n8g8Nbzea4&t=631s
 
 - URL del video (7 min - ambos integrantes) solicitado para laboratorio: https://www.youtube.com/watch?v=REN2Ui6GMBs
+
+
 
 
 ---
